@@ -32,3 +32,9 @@ enum direction {
 	DOWN,
 	RIGHT
 };
+
+struct  bodyPiece
+{
+	int posX;
+	int posY;
+};

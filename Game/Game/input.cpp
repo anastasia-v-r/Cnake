@@ -5,12 +5,12 @@
 
 direction userInput(std::vector<std::vector<char>>& instance, char ch) {
 	if (ch == 119) {
-		return 1;
+		return UP;
 	} else if (ch == 97) {
-		return 2;
+		return LEFT;
 	} else if (ch == 115) {
-		return 3;
+		return DOWN;
 	} else if (ch == 100) {
-		return 4;
+		return RIGHT;
 	}
 }

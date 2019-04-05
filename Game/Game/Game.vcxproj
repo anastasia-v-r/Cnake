@@ -21,12 +21,14 @@
   <ItemGroup>
     <ClCompile Include="drawScreen.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="logic.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="drawScreen.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="instance.h" />
+    <ClInclude Include="logic.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

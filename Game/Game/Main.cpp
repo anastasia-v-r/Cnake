@@ -5,6 +5,7 @@ using std::cout; using std::cin;
 #include "instance.h"
 #include "input.h"
 #include "drawScreen.h"
+#include "logic.h"
 #include <chrono>
 #include <thread>
 // Entry Point
@@ -14,6 +15,7 @@ int main() {
 	char ch;
 	bool playing = true;
 	direction dir;
+	std::vector<bodyPiece> snake(1);
 	// Game Loop
 	while (playing) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(wait));
@@ -26,12 +28,11 @@ int main() {
 			if (ch == 27) {
 				playing = false;
 			}
-			else
+			else if (ch == 119 || ch == 97 || ch == 115 || ch == 100)
 			{
 				dir = userInput(instance, ch);
+				playing = gameLogic(snake, dir);
 			}
 		}
 	}
 }
-
-
