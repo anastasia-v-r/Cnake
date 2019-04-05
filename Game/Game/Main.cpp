@@ -1,18 +1,27 @@
 // Includes and Usings
-#include <iostream>
+#include <iostream> // I/O
 using std::cout; using std::cin;
 #include <conio.h>
+#include "instance.h"
+#include "drawScreen.h"
 #include <chrono>
 #include <thread>
 // Entry Point
 int main() {
-	int time = 0;
+	// Variables
+	int time = 0, wait = 100;
 	char ch;
 	bool playing = true;
+	// Game Loop
 	while (playing) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-		time += 100;
-		cout << "Waited : " << time << "ms \n";
+		std::this_thread::sleep_for(std::chrono::milliseconds(wait));
+		//time += wait;
+		//cout << "Waited : " << time << "ms \n";
+
+		drawScreen(instance);
+
+
+
 		if (_kbhit()) {
 			ch = _getch();
 			if (ch == 27) {
@@ -23,6 +32,3 @@ int main() {
 }
 
 
-void drawScreen() {
-
-}
