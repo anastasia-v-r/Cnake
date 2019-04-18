@@ -1,2 +1,2 @@
 # Snake2D
-A snake Clone using SFM
+A snake Clone
