@@ -18,18 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="drawScreen.cpp" />
-    <ClCompile Include="input.cpp" />
-    <ClCompile Include="logic.cpp" />
-    <ClCompile Include="Main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="drawScreen.h" />
-    <ClInclude Include="input.h" />
-    <ClInclude Include="instance.h" />
-    <ClInclude Include="logic.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{C6264C34-F4C4-45CE-880F-88F48A3BC8E5}</ProjectGuid>
