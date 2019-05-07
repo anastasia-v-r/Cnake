@@ -1,5 +1,21 @@
+# Enable C++
 language: cpp
 
-compiler:
-  - clang
-  - gcc
+# Breakdown
+matrix:
+  include:
+  
+  - name: "Windows(MSVC)"
+    os: windows
+    # MSVC already exists on TCI but for backup
+    #install:
+    #- choco install visualstudio2017-workload-vctools -y --package-parameters "--no-includeRecommended --add Microsoft.VisualStudio.Component.VC.x86.amd64 --add Microsoft.VisualStudio.Component.Windows10SDK"
+
+  - name: "Windows(G++)"
+    os: windows
+    env:
+    - CC="/c/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin/x86_64-w64-mingw32-gcc"
+    - CXX="/c/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin/x86_64-w64-mingw32-g++"
+    install:
+    - choco upgrade mingw -y
+    - ${CC} --version
