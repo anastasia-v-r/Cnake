@@ -1,20 +1,16 @@
 // Proprocessor
 #include <SFML/Graphics.hpp> // SFML Graphics
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <experimental/filesystem>
-namespace filesystem = std::experimental::filesystem::v1;
-
+#include <iostream> // IO
+#include <string> // String
+#include <experimental/filesystem> // FilePath
+namespace filesystem = std::experimental::filesystem::v1; // FilePath
+#include "player.h" // Player Class
 // Entry Point
 int main() {
 	// Window Setup
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Cnake", sf::Style::Close | sf::Style::Titlebar); // Create Window
-
+	player player;
 	
-	sf::Texture playertexture;
-	playertexture.loadFromFile("textures/snakebody.png");
-	player.setTexture(&playertexture);
 
 	while (window.isOpen()) { // Game Loop
 
