@@ -5,26 +5,24 @@
 #include <string>
 #include <experimental/filesystem>
 namespace filesystem = std::experimental::filesystem::v1;
+
 // Entry Point
 int main() {
+	// Window Setup
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "Cnake", sf::Style::Close | sf::Style::Titlebar); // Create Window
 
-	// std::cout << filesystem::current_path().string() << std::endl; // Path Debug
-
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "Cnake", sf::Style::Close | sf::Style::Resize); // Create Window
-	sf::RectangleShape player(sf::Vector2f(100.0f, 100.0f));
-	player.setOrigin(50.0f, 50.0f);
 	
 	sf::Texture playertexture;
-	playertexture.loadFromFile("textures/snakebody2.png");
+	playertexture.loadFromFile("textures/snakebody.png");
 	player.setTexture(&playertexture);
 
 	while (window.isOpen()) { // Game Loop
 
 		sf::Event evnt;
 		while (window.pollEvent(evnt)) { // Check all events since last iteration
-			switch (evnt.type) {
+			switch (evnt.type) { 
 			
-			case sf::Event::Closed:
+			case sf::Event::Closed: 
 				window.close();
 				break;
 			case sf::Event::Resized:
@@ -33,6 +31,7 @@ int main() {
 				if (evnt.text.unicode < 128) {
 					std::cout << static_cast<char>(evnt.text.unicode) << '\n';
 				}
+				case sf::Event::
 			}
 		}
 		

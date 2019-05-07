@@ -24,8 +24,8 @@ SFML v2.5.1
 - All includes
 
 ## Contributions
-If you wish to contribute to my little project here for some odd reason, you are  
-welcome to do so but just follow a few things. 
+If you wish to contribute to my little project here for some odd reason,  
+you are welcome to do so but just follow a few things. 
 
   1. Format your code like mine. If my code is against standard, let me know and I'll change it. 
   2. Try not to add any additional dependencies to the project.
