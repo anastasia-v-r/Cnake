@@ -7,9 +7,13 @@ else()
     cmake_policy(VERSION 3.14)
 endif()
 
+# Project Creation
 project (Cnake)
 
-add_executable( 
-	snake
-	src/main.cpp
-)
+# Conan
+include(${CMAKE_SOURCE_DIR}/conan/conanbuildinfo.cmake)
+conan_basic_setup()
+
+# .exe
+add_executable(Cnake src/main.cpp src/player.h src/player.cpp)
+target_link_libraries(Cnake ${CONAN_LIBS})

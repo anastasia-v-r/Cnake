@@ -27,11 +27,10 @@ int main() {
 				if (evnt.text.unicode < 128) {
 					std::cout << static_cast<char>(evnt.text.unicode) << '\n';
 				}
-				case sf::Event::
 			}
 		}
 		
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
+		/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
 			player.move(0.0f, -0.25f);
 		} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
 			player.move(-0.25f, 0.0f);
@@ -44,10 +43,9 @@ int main() {
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 			sf::Vector2i mosPos = sf::Mouse::getPosition(window);
 			player.setPosition((float)mosPos.x, (float)mosPos.y);
-		}
+		}*/
 
 		window.clear();
-		window.draw(player);
 		window.display();
 
 	}
