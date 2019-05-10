@@ -2,16 +2,29 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-class player
+class Player
 {
 // Data
 private:
-	int score;
-	std::vector<sf::RectangleShape> snake;
+	int score; // Points
+	std::vector<sf::RectangleShape> snake; // Body
 // Methods
 public:
+	
+	void setColor(sf::Color, sf::Color);
 
-	player();
-	~player();
+	void setOrigin();
+
+	void move();
+
+	void access(sf::RectangleShape **);
+
+	Player() 
+		: score(0)
+		, snake(3, sf::RectangleShape(sf::Vector2f(100.0f, 100.0f)))
+	{
+	}
+	~Player()
+	{
+	}
 };
-
