@@ -9,8 +9,16 @@ namespace filesystem = std::experimental::filesystem::v1; // FilePath
 int main() {
 	// Window Setup
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Cnake", sf::Style::Close | sf::Style::Titlebar); // Create Window
-	player player;
-	
+	Player player; // Create player object
+	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
+	player.setOrigin(); // Center Snake
+
+	sf::RectangleShape *snakePtr = nullptr;
+	player.access(&snakePtr);
+
+	//sf::Texture playertexture; // Create a texture for player
+	//playertexture.loadFromFile("../textures/snakeblock.png"); // Grab texture
+	//player.(&playertexture); // Load texture into Player
 
 	while (window.isOpen()) { // Game Loop
 
@@ -46,6 +54,9 @@ int main() {
 		}*/
 
 		window.clear();
+		window.draw(snakePtr[0]);
+		window.draw(snakePtr[1]);
+		window.draw(snakePtr[2]);
 		window.display();
 
 	}
