@@ -13,8 +13,7 @@ int main() {
 	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
 	player.setOrigin(); // Center Snake
 
-	sf::RectangleShape *snakePtr = nullptr;
-	player.access(&snakePtr);
+	sf::RectangleShape * snake = player.access();
 
 	//sf::Texture playertexture; // Create a texture for player
 	//playertexture.loadFromFile("../textures/snakeblock.png"); // Grab texture
@@ -31,10 +30,12 @@ int main() {
 				break;
 			case sf::Event::Resized:
 				std::cout << "New window size (" << evnt.size.width << ", " << evnt.size.height << ")" << std::endl;
+				break;
 			case sf::Event::TextEntered:
 				if (evnt.text.unicode < 128) {
 					std::cout << static_cast<char>(evnt.text.unicode) << '\n';
 				}
+				break;
 			}
 		}
 		
@@ -54,9 +55,9 @@ int main() {
 		}*/
 
 		window.clear();
-		window.draw(snakePtr[0]);
-		window.draw(snakePtr[1]);
-		window.draw(snakePtr[2]);
+		window.draw(snake[0]);
+		window.draw(snake[1]);
+		window.draw(snake[2]);
 		window.display();
 
 	}

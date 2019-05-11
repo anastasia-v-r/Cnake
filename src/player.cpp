@@ -13,10 +13,16 @@ void Player::setOrigin() {
 	}
 }
 
+void Player::drawSnake(sf::RenderWindow window) {
+	for (int i = 0; i < snake.size(); i++) {
+		window.draw(snake[i]);
+	}
+}
+
 void Player::move() {
 
 }
 
-void Player::access(sf::RectangleShape **a) {
-	*a = (sf::RectangleShape*)&snake;
+sf::RectangleShape* Player::access() {
+	return &snake[0];
 }
