@@ -1,4 +1,5 @@
 #include "player.h"
+#include <iostream>
 
 void Player::setColor(sf::Color colorH, sf::Color colorB) {
 	snake[0].setFillColor(colorH);
@@ -8,8 +9,9 @@ void Player::setColor(sf::Color colorH, sf::Color colorB) {
 }
 
 void Player::setPosition() {
+	sf::Vector2f temp = snake[0].getSize();
 	for (int i = 0; i < snake.size(); ++i) {
-		
+		snake[i].setPosition(100.0f, (100.0f + (i * temp.x)));
 	}
 }
 
@@ -20,20 +22,25 @@ void Player::drawSnake(sf::RenderWindow window) {
 }
 
 void Player::move(sf::Keyboard::Key dasKey) {
-	float x = 0; float y = 0;
+	float x = 0; float y = 0; float increment = 5.0f;
 	switch (dasKey)
 	{
 	case(sf::Keyboard::W):
-		y = -0.1f;
+		y = -(increment);
+		break;
 	case(sf::Keyboard::A):
-		x = -0.1f;
+		x = -(increment);
+		break;
 	case(sf::Keyboard::S):
-		y = 0.1f;
+		y = increment;
+		break;
 	case(sf::Keyboard::D):
-		x = 0.1f;
+		x = increment;
+		break;
 	default:
 		break;
 	}
+	std::cout << "X[" << x << "] Y[" << y << "]" << std::endl;
 	for (int i = 0; i < snake.size(); ++i) {
 		snake[i].move(x, y);
 	}
