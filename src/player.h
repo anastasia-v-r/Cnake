@@ -13,9 +13,9 @@ public:
 	
 	void setColor(sf::Color, sf::Color);
 
-	void setOrigin();
+	void setPosition();
 
-	void move();
+	void move(sf::Keyboard::Key);
 
 	void drawSnake(sf::RenderWindow);
 

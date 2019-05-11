@@ -11,9 +11,9 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Cnake", sf::Style::Close | sf::Style::Titlebar); // Create Window
 	Player player; // Create player object
 	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
-	player.setOrigin(); // Center Snake
-
-	sf::RectangleShape * snake = player.access();
+	player.setPosition(); // Center Snake
+	sf::RectangleShape * snake = player.access(); // Ptr to snake of player
+	sf::Vector2f tempV2F;
 
 	//sf::Texture playertexture; // Create a texture for player
 	//playertexture.loadFromFile("../textures/snakeblock.png"); // Grab texture
@@ -36,23 +36,13 @@ int main() {
 					std::cout << static_cast<char>(evnt.text.unicode) << '\n';
 				}
 				break;
+			case sf::Event::KeyPressed:
+				player.move(evnt.key.code);
+				tempV2F = snake[0].getPosition();
+				float v2fX = tempV2F.x; float v2fY = tempV2F.y;
+				std::cout << v2fX << ", " << v2fY << std::endl;
 			}
 		}
-		
-		/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-			player.move(0.0f, -0.25f);
-		} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-			player.move(-0.25f, 0.0f);
-		} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-			player.move(0.0f, 0.25f);
-		}else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-			player.move(0.25f, 0.0f);
-		}
-
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-			sf::Vector2i mosPos = sf::Mouse::getPosition(window);
-			player.setPosition((float)mosPos.x, (float)mosPos.y);
-		}*/
 
 		window.clear();
 		window.draw(snake[0]);
