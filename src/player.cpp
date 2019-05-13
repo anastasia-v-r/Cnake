@@ -15,9 +15,9 @@ void Player::setPosition() {
 	}
 }
 
-void Player::drawSnake(sf::RenderWindow window) {
-	for (int i = 0; i < snake.size(); i++) {
-		window.draw(snake[i]);
+void Player::drawSnake(sf::RenderWindow& window) {
+	for (auto& i : snake) {
+		window.draw(i);
 	}
 }
 
@@ -64,10 +64,6 @@ void Player::move() {
 		snake[i].setPosition(temPos);
 		temPos = temPos2;
 	}
-}
-
-sf::RectangleShape* Player::access() {
-	return &snake[0];
 }
 
 direction Player::getDir() {

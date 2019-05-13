@@ -15,7 +15,6 @@ int main() {
 	Player player; // Create player object
 	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
 	player.setPosition(); // Center Snake
-	sf::RectangleShape * snake = player.access(); // Ptr to snake of player
 
 	//************
 	// Game Loop *
@@ -67,9 +66,7 @@ int main() {
 		}
 
 		window.clear();
-		window.draw(snake[0]);
-		window.draw(snake[1]);
-		window.draw(snake[2]);
+		player.drawSnake(window);
 		window.display();
 
 	}

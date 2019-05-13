@@ -30,9 +30,7 @@ public:
 
 	void move();
 
-	void drawSnake(sf::RenderWindow);
-
-	sf::RectangleShape* access();
+	void drawSnake(sf::RenderWindow&);
 
 	Player() 
 		: score(0)
