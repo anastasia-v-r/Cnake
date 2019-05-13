@@ -7,19 +7,19 @@ namespace filesystem = std::experimental::filesystem::v1; // FilePath
 #include "player.h" // Player Class
 // Entry Point
 int main() {
-	// Window Setup
+	//***************
+	// Window Setup *
+	//***************
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Cnake", sf::Style::Close | sf::Style::Titlebar); // Create Window
 	Player player; // Create player object
 	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
 	player.setPosition(); // Center Snake
 	sf::RectangleShape * snake = player.access(); // Ptr to snake of player
-	sf::Vector2f tempV2F;
 
-	//sf::Texture playertexture; // Create a texture for player
-	//playertexture.loadFromFile("../textures/snakeblock.png"); // Grab texture
-	//player.(&playertexture); // Load texture into Player
-
-	while (window.isOpen()) { // Game Loop
+	//************
+	// Game Loop *
+	//************
+	while (window.isOpen()) { 
 
 		sf::Event evnt;
 		while (window.pollEvent(evnt)) { // Check all events since last iteration
@@ -38,9 +38,11 @@ int main() {
 				break;
 			case sf::Event::KeyPressed:
 				player.move(evnt.key.code);
-				tempV2F = snake[0].getPosition();
-				float v2fX = tempV2F.x; float v2fY = tempV2F.y;
+				sf::Vector2f* tempV2F = new sf::Vector2f;
+				*tempV2F = snake[0].getPosition();
+				float v2fX = tempV2F->x; float v2fY = tempV2F->y;
 				std::cout << v2fX << ", " << v2fY << std::endl;
+				delete tempV2F;
 			}
 		}
 
