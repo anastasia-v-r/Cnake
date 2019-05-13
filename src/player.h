@@ -19,12 +19,16 @@ private:
 	std::vector<sf::RectangleShape> snake; // Body
 // Methods
 public:
-	
+	// Getters
+	direction getDir();
+	// Setters
 	void setColor(sf::Color, sf::Color);
 
 	void setPosition();
 
-	void move(sf::Keyboard::Key);
+	void setDir(sf::Keyboard::Key);
+
+	void move();
 
 	void drawSnake(sf::RenderWindow);
 
@@ -32,8 +36,8 @@ public:
 
 	Player() 
 		: score(0)
-		, dir(STOP)
-		, snake(3, sf::RectangleShape(sf::Vector2f(100.0f, 100.0f)))
+		, dir(UP)
+		, snake(3, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
 	{
 	}
 	~Player()
