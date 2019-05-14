@@ -15,6 +15,14 @@ int main() {
 	Player player; // Create player object
 	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
 	player.setPosition(); // Center Snake
+	
+	sf::RectangleShape background(sf::Vector2f(1000.0f, 1000.f)); // Create Background
+	background.setFillColor(sf::Color::Color(255, 255, 255, 50)); // Make it dark grey
+
+	sf::RectangleShape playArea(sf::Vector2f(player.getSize())); // Create overlay
+	playArea.setFillColor(sf::Color::Transparent); // Make it hollow
+	playArea.setOutlineThickness(2.0f); // Add border
+	playArea.setOutlineColor(sf::Color::Color(255, 255, 255, 130)); // Make border light grey
 
 	//************
 	// Game Loop *
@@ -50,6 +58,7 @@ int main() {
 				case sf::Keyboard::S:
 				
 				case sf::Keyboard::D:
+					if ()
 					player.setDir(evnt.key.code); // Change Direction of snake
 					break;
 				case sf::Keyboard::Escape: // ESC Pressed
@@ -66,6 +75,8 @@ int main() {
 		}
 
 		window.clear();
+		window.draw(background);
+		window.draw(playArea);
 		player.drawSnake(window);
 		window.display();
 
