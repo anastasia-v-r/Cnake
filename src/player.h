@@ -21,6 +21,8 @@ private:
 public:
 	// Getters
 	direction getDir();
+
+	sf::Vector2f getSize();
 	// Setters
 	void setColor(sf::Color, sf::Color);
 

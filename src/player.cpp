@@ -69,3 +69,7 @@ void Player::move() {
 direction Player::getDir() {
 	return dir;
 }
+
+sf::Vector2f Player::getSize() {
+	return snake[0].getSize();
+}
