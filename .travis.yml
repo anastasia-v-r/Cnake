@@ -24,9 +24,9 @@ install:
 # Setup Build
 before_script:
   - conan user
-  - conan inspect sfml/2.5.1@bincrafters/stable
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-
+  - conan inspect sfml/2.5.1@bincrafters/stable
+  
 # Build and Test
 script:
   - mkdir conan && cd conan
