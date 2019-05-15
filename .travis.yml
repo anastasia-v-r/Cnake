@@ -20,6 +20,7 @@ install:
   - mkdir conan
   - cd conan
   - conan install ..
+  - refreshenv
 
 # Setup Build
 before_script:
