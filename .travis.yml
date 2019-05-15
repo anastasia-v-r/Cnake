@@ -20,19 +20,18 @@ install:
   - choco install conan
   - export PATH="/c/Program Files/Conan/conan:$PATH"
   - echo $PATH
-  - conan inspect sfml/2.5.1@bincrafters/stable
-  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+  
 
 # Setup Build
 before_script:
-  - mkdir conan
-  - cd conan
-  - conan install .. --build outdated
-  - cd ..
-  - mkdir build
-  - cd build
-  - cmake ..
-  
+  - conan inspect sfml/2.5.1@bincrafters/stable
+  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+
 # Build and Test
 script:
+  - mkdir conan && cd conan
+  - conan install -b missing ..
+  - cd ..
+  - mkdir build && cd build
+  - cmake ..
   - make && make test
