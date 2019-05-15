@@ -23,6 +23,8 @@ public:
 	direction getDir();
 
 	sf::Vector2f getSize();
+
+	int getScore();
 	// Setters
 	void setColor(sf::Color, sf::Color);
 
