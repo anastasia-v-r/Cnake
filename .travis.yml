@@ -15,7 +15,7 @@ before_install:
   - choco install conan
   
 # Setup Build
-before_script:
+script:
   - mkdir conan
   - cd conan
   - conan install ..
@@ -23,6 +23,4 @@ before_script:
   - mkdir build
   - cd build
   - cmake ..
-  
-# Build and Test
-script: make && make test
+  - make && make test
