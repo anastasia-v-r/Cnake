@@ -6,26 +6,25 @@ language: cpp
 
 # Enable Compilers
 compiler:
+  - MSVC
   - gcc
   - clang
 
 # Pre-Install
 before_install:
-  - echo $PATH
-  - choco install conan
-  - $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).path)\..\.."
-  - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 
 # Install
 install:
-  - refreshenv
   - echo $PATH
-  - mkdir conan
-  - cd conan
-  - conan install ..
+  - choco upgrade chocolatey
+  - choco install conan
+  - echo $PATH
 
 # Setup Build
 before_script:
+  - mkdir conan
+  - cd conan
+  - conan install ..
   - cd ..
   - mkdir build
   - cd build
