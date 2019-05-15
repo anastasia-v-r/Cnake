@@ -31,7 +31,6 @@ matrix:
 			- CMAKE_GENERATOR="Unix Makefiles"
 			- BUILD_CONFIG=Release
 
-
 # The pre-install script. On windows it will install conan via chocolatey
 install:
   - |
