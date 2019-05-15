@@ -1,4 +1,7 @@
-# Enable C++
+# Enable OS
+os: windows
+
+# Enable Lang
 language: cpp
 
 # Enable Compilers
@@ -7,7 +10,8 @@ compiler:
   - clang
 
 # Install
-  - choco install conan
+  - pip install conan
+  
 # Setup Build
 before_script:
   - mkdir conan
