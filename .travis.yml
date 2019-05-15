@@ -13,6 +13,8 @@ compiler:
 before_install:
   - echo $PATH
   - choco install conan
+  - $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).path)\..\.."
+  - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 
 # Install
 install:
