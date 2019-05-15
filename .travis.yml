@@ -7,8 +7,6 @@ language: cpp
 # Enable Compilers
 compiler:
   - msvc
-  - gcc
-  - clang
 
 # Pre-Install
 before_install:
@@ -30,7 +28,7 @@ before_script:
 # Build and Test
 script:
   - mkdir conan && cd conan
-  - conan install -b missing ..
+  - conan install -g cmake -s arch=x86_64 -s build_type=Release -b missing ..
   - cd ..
   - mkdir build && cd build
   - cmake ..
