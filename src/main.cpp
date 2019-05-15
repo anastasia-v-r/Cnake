@@ -3,8 +3,7 @@
 #include <iostream> // IO
 #include <iomanip> // IO Manipulation
 #include <string> // String
-#include <experimental/filesystem> // FilePath
-namespace filesystem = std::experimental::filesystem::v1; // FilePath
+#include <filesystem> // FilePath
 #include "player.h" // Player Class
 // Entry Point
 int main() {
@@ -16,7 +15,7 @@ int main() {
 	//  std::cout << "Error loading font BAUHS93" << std::endl; // Output if error
 	//}
 
-    unsigned int sHeight = 900, sWidth = 1600; // Create reusable values of window width and height
+  unsigned int sHeight = 900, sWidth = 1600; // Create reusable values of window width and height
 	sf::RenderWindow window(sf::VideoMode(sWidth, sHeight), "Cnake", sf::Style::Close | sf::Style::Titlebar); // Create Window
 	Player player; // Create player object
 	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
