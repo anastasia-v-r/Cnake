@@ -10,6 +10,7 @@ compiler:
   - clang
 
 # Install
+install:
   - pip install conan
   
 # Setup Build
