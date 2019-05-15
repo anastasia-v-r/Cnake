@@ -5,7 +5,7 @@
     <hr />
 </div>
 <br>
-[![Build Status](https://travis-ci.org/Faunsce/Cnake.svg?branch=master)](https://travis-ci.org/Faunsce/Cnake)  
+[![Build Status](https://travis-ci.org/Faunsce/Cnake.svg?branch=master)] 
 ## What is this?
 This is a clone of the famous "Snake" game coded in [C++](http://cplusplus.com) with the aid of [SFML](http://sfml-dev.org).  
 
