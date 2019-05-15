@@ -73,3 +73,7 @@ direction Player::getDir() {
 sf::Vector2f Player::getSize() {
 	return snake[0].getSize();
 }
+
+int Player::getScore() {
+  return score;
+}
