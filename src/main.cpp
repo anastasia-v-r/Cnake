@@ -58,7 +58,6 @@ int main() {
 				case sf::Keyboard::S:
 				
 				case sf::Keyboard::D:
-					if ()
 					player.setDir(evnt.key.code); // Change Direction of snake
 					break;
 				case sf::Keyboard::Escape: // ESC Pressed
