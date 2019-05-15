@@ -28,8 +28,8 @@ before_script:
 # Build and Test
 script:
   - mkdir conan && cd conan
-  - conan install -g cmake -s arch=x86_64 -s build_type=Release -b missing ..
+  - conan install -s compiler="Visual Studio" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing ..
   - cd ..
   - mkdir build && cd build
-  - cmake -G "Visual Studio 16 2019" ..
+  - cmake -G "Visual Studio 15 2017" ..
   - msbuild Cnake.sln
