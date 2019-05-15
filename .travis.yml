@@ -20,6 +20,7 @@ install:
   - choco install conan
   - export PATH="/c/Program Files/Conan/conan:$PATH"
   - echo $PATH
+  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 # Setup Build
 before_script:
