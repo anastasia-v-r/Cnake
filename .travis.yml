@@ -18,9 +18,9 @@ install:
   - echo $PATH
   - choco upgrade chocolatey
   - choco install conan
-  - choco upgrade conan
   - export PATH="/c/Program Files/Conan/conan:$PATH"
   - echo $PATH
+  - conan inspect sfml/2.5.1@bincrafters/stable
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 # Setup Build
