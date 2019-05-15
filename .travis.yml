@@ -26,7 +26,7 @@ install:
 before_script:
   - mkdir conan
   - cd conan
-  - conan install ..
+  - conan install .. --build missing
   - cd ..
   - mkdir build
   - cd build
