@@ -13,8 +13,7 @@ compiler:
 before_install:
   - echo $PATH
   - choco install conan
-  - refreshenv
-  - echo %PATH%
+  - echo $PATH
 
 # Install
 install:
