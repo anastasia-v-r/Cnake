@@ -12,7 +12,7 @@ matrix:
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017 Win64\"
       - BUILD_CONFIG=Release
   # MacOS clang
-  - os: os
+  - os: osx
     osx_image: xcode10
     compiler: clang
     env:
