@@ -11,18 +11,36 @@ int main() {
 	//***************
 	// Window Setup *
 	//***************
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "Cnake", sf::Style::Close | sf::Style::Titlebar); // Create Window
+	//sf::Font bauh; // Create bauh local font
+	//if (!bauh.loadFromFile("../fonts/BAUHS93.TTF")) { // Load bauh from file
+	//  std::cout << "Error loading font BAUHS93" << std::endl; // Output if error
+	//}
+
+    unsigned int sHeight = 900, sWidth = 1600; // Create reusable values of window width and height
+	sf::RenderWindow window(sf::VideoMode(sWidth, sHeight), "Cnake", sf::Style::Close | sf::Style::Titlebar); // Create Window
 	Player player; // Create player object
 	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
 	player.setPosition(); // Center Snake
 	
-	sf::RectangleShape background(sf::Vector2f(1000.0f, 1000.f)); // Create Background
+	sf::RectangleShape background(sf::Vector2f(sWidth, sHeight)); // Create Background
 	background.setFillColor(sf::Color(255, 255, 255, 50)); // Make it dark grey
+	background.setOrigin(background.getSize().x / 2, background.getSize().y / 2); // Center the Origin
+	background.setPosition(sWidth / 2, sHeight / 2); // Center the Position
 
-	sf::RectangleShape playArea(sf::Vector2f(player.getSize())); // Create overlay
+	sf::RectangleShape playArea(sf::Vector2f(sWidth - 10, sHeight - 10)); // Create overlay
 	playArea.setFillColor(sf::Color::Transparent); // Make it hollow
-	playArea.setOutlineThickness(2.0f); // Add border
+	playArea.setOutlineThickness(10.0f); // Add border
 	playArea.setOutlineColor(sf::Color(255, 255, 255, 130)); // Make border light grey
+	playArea.setOrigin(playArea.getSize().x / 2, playArea.getSize().y / 2); // Center the Origin
+	playArea.setPosition(sWidth / 2, sHeight / 2); // Center the Position
+
+	/*std::string scoreString = "Score :" + player.getScore();
+	std::cout << scoreString << std::endl;
+	sf::Text scoreText(scoreString, sf::Font(bauh), 30);
+	scoreText.setPosition((sWidth / 10), (sHeight / 10));
+	scoreText.setColor(sf::Color::Black);
+	scoreText.setOutlineColor(sf::Color::White);
+	scoreText.setOutlineThickness(2);*/
 
 	//************
 	// Game Loop *
@@ -77,6 +95,7 @@ int main() {
 		window.draw(background);
 		window.draw(playArea);
 		player.drawSnake(window);
+		/*window.draw(scoreText);*/
 		window.display();
 
 	}
