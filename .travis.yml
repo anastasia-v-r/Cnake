@@ -5,7 +5,9 @@ language: cpp
 compiler:
   - gcc
   - clang
-  
+
+# Install
+  - choco install conan
 # Setup Build
 before_script:
   - mkdir conan
