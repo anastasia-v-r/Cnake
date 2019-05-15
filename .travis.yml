@@ -1,21 +1,35 @@
-# Enable C++
+# Enable OS
+os: windows
+
+# Enable Lang
 language: cpp
 
-# Breakdown
-matrix:
-  include:
-  
-  - name: "Windows(MSVC)"
-    os: windows
-    # MSVC already exists on TCI but for backup
-    #install:
-    #- choco install visualstudio2017-workload-vctools -y --package-parameters "--no-includeRecommended --add Microsoft.VisualStudio.Component.VC.x86.amd64 --add Microsoft.VisualStudio.Component.Windows10SDK"
+# Enable Compilers
+compiler:
+  - msvc
 
-  - name: "Windows(G++)"
-    os: windows
-    env:
-    - CC="/c/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin/x86_64-w64-mingw32-gcc"
-    - CXX="/c/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin/x86_64-w64-mingw32-g++"
-    install:
-    - choco upgrade mingw -y
-    - ${CC} --version
+# Pre-Install
+before_install:
+
+# Install
+install:
+  - echo $PATH
+  - choco upgrade chocolatey
+  - choco install conan
+  - export PATH="/c/Program Files/Conan/conan:$PATH"
+  - echo $PATH
+
+# Setup Build
+before_script:
+  - conan user
+  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+  - conan inspect sfml/2.5.1@bincrafters/stable
+  
+# Build and Test
+script:
+  - mkdir conan && cd conan
+  - conan install -s compiler="Visual Studio" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing ..
+  - cd ..
+  - mkdir build && cd build
+  - cmake -G "Visual Studio 15 2017 Win64" ..
+  - cmake --build .

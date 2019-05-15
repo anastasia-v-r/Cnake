@@ -18,10 +18,11 @@ This is a clone of the famous "Snake" game coded in [C++](http://cplusplus.com) 
 
 2. 
 
-## Dependencies
+## Dependencies && Resource
 SFML v2.5.1
 - All the static libraries
 - All includes
+[Travis.yml](https://github.com/GavinNL/cpp_boilerplate/blob/fc9d5e77d7629d87420c721d232a16f8a553cc08/.travis.yml)
 
 ## Contributions
 If you wish to contribute to my little project here for some odd reason,  
