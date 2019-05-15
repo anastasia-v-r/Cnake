@@ -16,11 +16,11 @@ before_install:
 
 # Install
 install:
+  - refreshenv
   - echo $PATH
   - mkdir conan
   - cd conan
   - conan install ..
-  - refreshenv
 
 # Setup Build
 before_script:
