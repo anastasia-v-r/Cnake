@@ -13,13 +13,13 @@ compiler:
 before_install:
   - echo $PATH
   - choco install conan
-  - mkdir conan
-  - cd conan
-  - conan install ..
 
 # Install
 install:
   - echo $PATH
+  - mkdir conan
+  - cd conan
+  - conan install ..
 
 # Setup Build
 before_script:
