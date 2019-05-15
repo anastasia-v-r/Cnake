@@ -61,4 +61,4 @@ script:
   # Cmake Build
   - mkdir build && cd build
   - eval cmake .. ${CMAKE_GENERATOR_FLAG}
-  - eval cmake --build . --config "${BUILD_CONFIG}"
+  - eval cmake --build . -A x64 --config "${BUILD_CONFIG}"
