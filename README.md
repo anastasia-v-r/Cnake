@@ -5,6 +5,7 @@
     <hr />
 </div>
 <br>
+
 [![Build Status](https://travis-ci.org/Faunsce/Cnake.svg?branch=master)](https://travis-ci.org/Faunsce/Cnake)
 
 ## What is this?
