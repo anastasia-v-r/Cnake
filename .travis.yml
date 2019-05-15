@@ -3,33 +3,33 @@ language: cpp
 
 # Matrix
 matrix:
-	include:
-		# windows
-		- name: "Windows MSVC"
-		  os: windows
-		  compiler: msvc
-		  env:
-			- CONAN_SETTINGS_FLAG="-s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
-			- CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017 Win64\"
-			- BUILD_CONFIG=Release
-		# osx
-		- name: "MacOS Clang"
-		  os: osx
-		  osx_image: xcode10
-		  compiler: clang
-		  env:
-			- CONAN_SETTINGS_FLAG=""
-			- CMAKE_GENERATOR_FLAG="Xcode"
-			- BUILD_CONFIG=Release
-		# linux
-		- name: "Linux Gcc"
-		  os: linux
-		  compiler: gcc
-		  dist: xenial
-		  env:
-			- CONAN_SETTINGS_FLAG=""
-			- CMAKE_GENERATOR="Unix Makefiles"
-			- BUILD_CONFIG=Release
+  include:
+    # windows
+	- name: "Windows MSVC"
+	  os: windows
+	  compiler: msvc
+	  env:
+		- CONAN_SETTINGS_FLAG="-s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
+		- CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017 Win64\"
+		- BUILD_CONFIG=Release
+	# osx
+	- name: "MacOS Clang"
+	  os: osx
+	  osx_image: xcode10
+	  compiler: clang
+	  env:
+		- CONAN_SETTINGS_FLAG=""
+		- CMAKE_GENERATOR_FLAG="Xcode"
+		- BUILD_CONFIG=Release
+	# linux
+	- name: "Linux Gcc"
+	  os: linux
+	  compiler: gcc
+	  dist: xenial
+	  env:
+		- CONAN_SETTINGS_FLAG=""
+		- CMAKE_GENERATOR="Unix Makefiles"
+		- BUILD_CONFIG=Release
 
 # The pre-install script. On windows it will install conan via chocolatey
 install:
@@ -43,25 +43,25 @@ install:
 
 # Setup Build
 before_script:
-	# The path to conan does not get set properly because travis does not restart the shell
-	# so we ahve to manually add the path it on Windows.
-	- if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then export PATH=$PATH:/c/Program\ Files/Conan/conan; fi
-	- if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then export PATH=$PATH:/Users/travis/Library/Python/2.7/bin; fi
-	
-	- if [ -f conanfile.txt ]; then export USE_CONAN=TRUE; fi
-
-	- if [[ "${USE_CONAN}" == "TRUE" ]]; then conan user; fi
-	- if [[ "${USE_CONAN}" == "TRUE" ]]; then conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan; fi
+  # The path to conan does not get set properly because travis does not restart the shell
+  # so we ahve to manually add the path it on Windows.
+  - if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then export PATH=$PATH:/c/Program\ Files/Conan/conan; fi
+  - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then export PATH=$PATH:/Users/travis/Library/Python/2.7/bin; fi
   
+  - if [ -f conanfile.txt ]; then export USE_CONAN=TRUE; fi
+  
+  - if [[ "${USE_CONAN}" == "TRUE" ]]; then conan user; fi
+  - if [[ "${USE_CONAN}" == "TRUE" ]]; then conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan; fi
+
 # Build and Test
 script:
-	# Import Environment
-	- env
-	# Conan Build
-	- mkdir conan && cd conan
-	- if [[ "${USE_CONAN}" == "TRUE" ]]; then eval conan install .. ${CONAN_SETTINGS_FLAG}; fi
-	- cd ..
-	# Cmake Build
-	- mkdir build && cd build
-	- eval cmake .. ${CMAKE_GENERATOR_FLAG} ${TEST_FLAGS}
-	- eval cmake --build . --config "${BUILD_CONFIG}"
+  # Import Environment
+  - env
+  # Conan Build
+  - mkdir conan && cd conan
+  - if [[ "${USE_CONAN}" == "TRUE" ]]; then eval conan install .. ${CONAN_SETTINGS_FLAG}; fi
+  - cd ..
+  # Cmake Build
+  - mkdir build && cd build
+  - eval cmake .. ${CMAKE_GENERATOR_FLAG} ${TEST_FLAGS}
+  - eval cmake --build . --config "${BUILD_CONFIG}"
