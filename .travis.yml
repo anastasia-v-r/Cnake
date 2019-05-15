@@ -9,9 +9,10 @@ compiler:
   - gcc
   - clang
 
-# Install
-install:
-  - pip install conan
+# Pre-Install
+before_install:
+  - echo $PATH
+  - choco install conan
   
 # Setup Build
 before_script:
