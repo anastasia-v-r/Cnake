@@ -31,5 +31,5 @@ script:
   - conan install -s compiler="Visual Studio" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing ..
   - cd ..
   - mkdir build && cd build
-  - cmake -G "Visual Studio 15 2017" ..
-  - cmake --build ..
+  - cmake -G "Visual Studio 15 2017 Win64" ..
+  - cmake --build .. --config Release
