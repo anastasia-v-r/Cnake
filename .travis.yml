@@ -31,5 +31,5 @@ script:
   - conan install -g cmake -s arch=x86_64 -s build_type=Release -b missing ..
   - cd ..
   - mkdir build && cd build
-  - cmake ..
-  - make && make test
+  - cmake -G "Visual Studio 16 2019" ..
+  - msbuild Cnake.sln
