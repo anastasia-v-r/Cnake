@@ -10,5 +10,5 @@
 	namespace fs = std::experimental::filesystem;
 #else
 	#define FS_SUPPORT false
-	#error "no filesystem support"
+	#error "no support for filesystem"
 #endif

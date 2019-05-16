@@ -27,7 +27,7 @@ else()
 endif()
 
 # .exe
-add_executable(Cnake src/main.cpp src/player.h src/player.cpp)
+add_executable(Cnake src/main.cpp src/player.h src/fs.hpp src/player.cpp)
 set_target_properties(Cnake PROPERTIES
 	CXX_STANDARD_REQUIRED ON
 	CXX_EXTENSIONS OFF
