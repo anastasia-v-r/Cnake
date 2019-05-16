@@ -15,30 +15,49 @@ int main() {
 	#ifdef FS_SUPPORT
 	std::cout << fs::current_path().string() << std::endl;
 	#endif
-	//***************
-	// Window Setup *
-	//***************
-	auto desktop = sf::VideoMode::getDesktopMode();
+	//**********
+	// Logging *
+	//**********
+	std::fstream logFile;
+	logFile.open("logFile.txt", std::ios::out | std::ios::app);
+	std::string logSeperator =
+			   "==================================";
+	logFile << logSeperator << std::endl;
+	logFile << "Begin Log" << std::endl;
+	logFile << logSeperator << std::endl;
+	logFile << "Log Versions v1.0" << std::endl;
+	logFile << logSeperator << std::endl;
+	//***************************************
+	// Window Setup and Scren Element Setup *
+	//***************************************
+	auto desktop = sf::VideoMode::getDesktopMode(); // Grab the size of the monitor
 	unsigned int sWidth = static_cast<unsigned int>(desktop.width), sHeight = static_cast<unsigned int>(desktop.height); // Create reusable values of window width and height
 	sf::RenderWindow window(sf::VideoMode(sWidth + 1, sHeight, desktop.bitsPerPixel), "Cnake", sf::Style::None); // Create Window & add one to make borderless windowed
+	//***************
+	// Player Setup *
+	//***************
 	Player player; // Create player object
 	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
-	player.setPosition(); // Center Snake
-	//************************
-	// Screen Elements Setup *
-	//************************
+	player.setPosition(sWidth, sHeight); // Center Snake
+	//*****************
+	// Backdrop Setup *
+	//*****************
 	sf::RectangleShape background(sf::Vector2f(sWidth, sHeight)); // Create Background
 	background.setFillColor(sf::Color(255, 255, 255, 50)); // Make it dark grey
 	background.setOrigin(background.getSize().x / 2, background.getSize().y / 2); // Center the Origin
 	background.setPosition(sWidth / 2, sHeight / 2); // Center the Position
-
-	sf::RectangleShape playArea(sf::Vector2f(sWidth - 10, sHeight - 10)); // Create overlay
-	playArea.setFillColor(sf::Color::Transparent); // Make it hollow
-	playArea.setOutlineThickness(10.0f); // Add border
-	playArea.setOutlineColor(sf::Color(255, 255, 255, 130)); // Make border light grey
-	playArea.setOrigin(playArea.getSize().x / 2, playArea.getSize().y / 2); // Center the Origin
-	playArea.setPosition(sWidth / 2, sHeight / 2); // Center the Position
-
+	//****************
+	// Playbox Setup *
+	//****************
+	sf::RectangleShape playBox(sf::Vector2f(sWidth - 10, sHeight - 10)); // Create overlay
+	playBox.setFillColor(sf::Color::Transparent); // Make it hollow
+	playBox.setOutlineThickness(10.0f); // Add border
+	playBox.setOutlineColor(sf::Color(255, 255, 255, 130)); // Make border light grey
+	playBox.setOrigin(playBox.getSize().x / 2, playBox.getSize().y / 2); // Center the Origin
+	playBox.setPosition(sWidth / 2, sHeight / 2); // Center the Position  
+	//*****************
+	// Grab text font *
+	//*****************
 	sf::Font bauh; // Create bauh local font
 	if (!bauh.loadFromFile("../../../fonts/bauh.ttf")) {
 		std::cout << "Moving to second Directory" << std::endl;
@@ -49,6 +68,9 @@ int main() {
 			}
 		}
 	}
+	//**********************
+	// Score Tracker Setup *
+	//**********************
 	std::stringstream ss;
 	ss << "Score : " << player.getScore();
 	sf::Text scoreText(sf::String(ss.str()), bauh, 30);
@@ -77,11 +99,15 @@ int main() {
 				break;
 			case sf::Event::LostFocus:
 				
-			//case sf::Event::TextEntered:
-			//	if (evnt.text.unicode < 128) {
-			//		std::cout << evnt.text.unicode << '\n'; // Post key to console 
-			//	}
-			//	break;
+			case sf::Event::TextEntered:
+				if (evnt.text.unicode < 128) {
+					char* keyOut = new char;
+					*keyOut = static_cast<char>(evnt.text.unicode);
+					std::cout << "Keypressed : [" << *keyOut << "]" << std::endl; // Post key to console 
+					logFile << "Keypressed : [" << *keyOut << "]" << std::endl; // Post key to log
+					delete keyOut;
+				}
+				break;
 			case sf::Event::KeyPressed: 
 				switch (evnt.key.code) 
 				{
@@ -119,13 +145,13 @@ int main() {
 		//***********************
 		window.clear();
 		window.draw(background); // Draw BG
-		window.draw(playArea); // Draw Play Box over that
+		window.draw(playBox); // Draw Play Box over that
 		player.drawSnake(window); // Draw Snake over that
 		window.draw(scoreText); // Draw score overlay
 		if (gamePaused) { // Overlay the pause Scren
 			
 		}
 		window.display();
-
+		// sprite.getGlobalBounds().contains(mousePos) // storing here for later
 	}
 }
