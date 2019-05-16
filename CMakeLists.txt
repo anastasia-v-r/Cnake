@@ -27,13 +27,14 @@ else()
 endif()
 
 # .exe
-add_executable(Cnake src/main.cpp src/player.h src/fs.hpp src/player.cpp)
-set_target_properties(Cnake PROPERTIES
+FILE(GLOB sources ${CMAKE_SOURCE_DIR}/src/*) # Append all src files to an env. var.
+add_executable(Cnake ${sources}) # Create executable
+set_target_properties(Cnake PROPERTIES 
 	CXX_STANDARD_REQUIRED ON
 	CXX_EXTENSIONS OFF
-	CXX_STANDARD 17
+	CXX_STANDARD 17 # Force c++17 standard
 	)
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") 
   target_link_libraries(Cnake stdc++fs)
 endif()
 target_link_libraries(Cnake ${CONAN_LIBS})
