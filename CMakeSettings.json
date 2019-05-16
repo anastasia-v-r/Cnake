@@ -1,4 +1,4 @@
-﻿{
+{
   "configurations": [
     {
       "name": "x64-Release",
@@ -11,6 +11,7 @@
       "ctestCommandArgs": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "variables": []
-    }
+    },
+    { "cacheRoot": "H:\\Dev\\Faunsce\\Cnake\\build\\x64-Release" }
   ]
 }

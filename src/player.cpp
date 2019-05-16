@@ -8,10 +8,10 @@ void Player::setColor(sf::Color colorH, sf::Color colorB) {
 	}
 }
 
-void Player::setPosition() {
+void Player::setPosition(int sWidth, int sHeight) {
 	sf::Vector2f temp = snake[0].getSize();
 	for (int i = 0; i < snake.size(); ++i) {
-		snake[i].setPosition(200.0f, (200.0f + (i * temp.x)));
+		snake[i].setPosition((sWidth / 2), ((sHeight / 2) + (i * temp.x)));
 	}
 }
 
@@ -72,4 +72,8 @@ direction Player::getDir() {
 
 sf::Vector2f Player::getSize() {
 	return snake[0].getSize();
+}
+
+int Player::getScore() {
+  return score;
 }
