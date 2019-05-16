@@ -8,6 +8,7 @@
 #include <string> // String
 #include <fstream> // File I/O
 #include "fs.hpp" // FilePath
+// #include "log.h"
 #include "player.h" // Player Class
 // Entry Point
 int main() {
@@ -15,18 +16,6 @@ int main() {
 	#ifdef FS_SUPPORT
 	std::cout << fs::current_path().string() << std::endl;
 	#endif
-	//**********
-	// Logging *
-	//**********
-	std::fstream logFile;
-	logFile.open("logFile.txt", std::ios::out | std::ios::app);
-	std::string logSeperator =
-			   "==================================";
-	logFile << logSeperator << std::endl;
-	logFile << "Begin Log" << std::endl;
-	logFile << logSeperator << std::endl;
-	logFile << "Log Versions v1.0" << std::endl;
-	logFile << logSeperator << std::endl;
 	//***************************************
 	// Window Setup and Scren Element Setup *
 	//***************************************
@@ -101,11 +90,9 @@ int main() {
 				
 			case sf::Event::TextEntered:
 				if (evnt.text.unicode < 128) {
-					char* keyOut = new char;
-					*keyOut = static_cast<char>(evnt.text.unicode);
-					std::cout << "Keypressed : [" << *keyOut << "]" << std::endl; // Post key to console 
-					logFile << "Keypressed : [" << *keyOut << "]" << std::endl; // Post key to log
-					delete keyOut;
+					char keyOut = static_cast<char>(evnt.text.unicode);
+					std::cout << "Keypressed : [" << keyOut << "]" << std::endl; // Post key to console 
+					//logFile << "Keypressed : [" << keyOut << "]" << std::endl; // Post key to log
 				}
 				break;
 			case sf::Event::KeyPressed: 

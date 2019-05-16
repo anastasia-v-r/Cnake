@@ -1,12 +1,26 @@
 #pragma once
-#include <iostream>
-#include <fstream>
-#include <string>
 
-void logOutput(std::fstream file, std::string sep, std::string message) {
-	for (int i = 0; i < sep.size())
-}
+class LogStream 
+{
+	std::ofstream _fileStream;
+public:
+	friend std::ostream& operator<<(LogStream& log, std::string const& logText);
+	LogStream(const std::string& path)
+		: _fileStream(std::ofstream(path))
+	{
+	}
+};
 
-void logOutput(std::fstream file, std::string message) {
-	for (int i = 0; i < sep.size())
+class Log 
+{
+public:
+	static LogStream Log::Info;
+	static LogStream Log::Debug;
+	static LogStream Log::Warn;
+	static LogStream Log::Error;
+};
+
+std::ostream& operator<<(LogStream& log, std::string const& logText) {
+	// what to do here?
+	// you need a file to write things into, probably
 }
