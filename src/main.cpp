@@ -11,20 +11,22 @@
 #include "player.h" // Player Class
 // Entry Point
 int main() {
-	//***************
-	// Window Setup *
-	//***************
+	// Path Check
 	#ifdef FS_SUPPORT
 	std::cout << fs::current_path().string() << std::endl;
 	#endif
-	unsigned int sHeight = 900, sWidth = 1600; // Create reusable values of window width and height
-	sf::RenderWindow window(sf::VideoMode(sWidth, sHeight), "Cnake", sf::Style::Close | sf::Style::Titlebar); // Create Window
+	//***************
+	// Window Setup *
+	//***************
+	auto desktop = sf::VideoMode::getDesktopMode();
+	unsigned int sWidth = static_cast<unsigned int>(desktop.width), sHeight = static_cast<unsigned int>(desktop.height); // Create reusable values of window width and height
+	sf::RenderWindow window(sf::VideoMode(sWidth + 1, sHeight, desktop.bitsPerPixel), "Cnake", sf::Style::None); // Create Window & add one to make borderless windowed
 	Player player; // Create player object
 	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
 	player.setPosition(); // Center Snake
-	
-	std::cout << player.getScore() << std::endl;
-
+	//************************
+	// Screen Elements Setup *
+	//************************
 	sf::RectangleShape background(sf::Vector2f(sWidth, sHeight)); // Create Background
 	background.setFillColor(sf::Color(255, 255, 255, 50)); // Make it dark grey
 	background.setOrigin(background.getSize().x / 2, background.getSize().y / 2); // Center the Origin
@@ -53,16 +55,19 @@ int main() {
 	scoreText.setOrigin(scoreText.getScale().x / 2, scoreText.getScale().y / 2);
 	scoreText.setPosition(sWidth / 50, (sHeight / 10) * 9);
 	scoreText.setColor(sf::Color::Red);
-
+	//*********************************
+	// Game Clock and Time Management *
+	//*********************************
+	sf::Clock gameClock; // Begin and create game clock
+	sf::Time tick = sf::milliseconds(200); // Divide game into 4 parts per second ticks
 	//************
 	// Game Loop *
 	//************
-	sf::Clock gameClock; // Begin and create game clock
-	sf::Time tick = sf::milliseconds(200); // Divide game into 4 parts per second ticks
-	while (window.isOpen()) { 
-		//*****************
-		// Event Handeler *
-		//*****************
+	bool gamePaused = false;
+	while (window.isOpen()) {
+		//**********************************
+		// User and Window Events Handeler *
+		//**********************************
 		sf::Event evnt;
 		while (window.pollEvent(evnt)) { // Poll for events, if no event then skip 
 			switch (evnt.type)
@@ -70,12 +75,11 @@ int main() {
 			case sf::Event::Closed: 
 				window.close();
 				break;
-			case sf::Event::Resized:
-				std::cout << "New window size (" << evnt.size.width << ", " << evnt.size.height << ")" << std::endl;
-				break;
+			case sf::Event::LostFocus:
+				
 			//case sf::Event::TextEntered:
 			//	if (evnt.text.unicode < 128) {
-			//		std::cout << static_cast<char>(evnt.text.unicode) << '\n'; // Post key to console 
+			//		std::cout << evnt.text.unicode << '\n'; // Post key to console 
 			//	}
 			//	break;
 			case sf::Event::KeyPressed: 
@@ -91,23 +95,36 @@ int main() {
 					player.setDir(evnt.key.code); // Change Direction of snake
 					break;
 				case sf::Keyboard::Escape: // ESC Pressed
-					window.close(); // Close Window
+					if (gamePaused) {
+						gamePaused = false;
+					} else {
+						gamePaused = true;
+					}
 					break;
 				}
 			}
 		}
-		sf::Time elapsed = gameClock.getElapsedTime(); // Grab time elapsed 
-		//std::cout << elapsed.asSeconds();
-		if ((elapsed > tick) && (player.getDir() != STOP)) {
-			player.move(); // Move the player along the screen
-			gameClock.restart();
+		//**********************************
+		// Game Logic and Updates Handeler *
+		//**********************************
+		if (!gamePaused) {
+			sf::Time elapsed = gameClock.getElapsedTime(); // Grab time elapsed 
+			if ((elapsed > tick) && (player.getDir() != STOP)) {
+				player.move(); // Move the player along the screen
+				gameClock.restart();
+			}
 		}
-
+		//***********************
+		// Game Drawing Handler *
+		//***********************
 		window.clear();
 		window.draw(background); // Draw BG
 		window.draw(playArea); // Draw Play Box over that
 		player.drawSnake(window); // Draw Snake over that
 		window.draw(scoreText); // Draw score overlay
+		if (gamePaused) { // Overlay the pause Scren
+			
+		}
 		window.display();
 
 	}

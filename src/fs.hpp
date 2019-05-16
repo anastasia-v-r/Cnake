@@ -9,5 +9,5 @@
 	#include <experimental/filesystem>
 	namespace fs = std::experimental::filesystem;
 #else
-	#warning "no support for filesystem"
+	#warning "no support for filesystem" // "#pragma warning" for MSVC, "#warning for osx clang"
 #endif
