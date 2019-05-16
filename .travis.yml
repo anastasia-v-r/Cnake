@@ -6,7 +6,6 @@ matrix:
   include:
   # windows msvc
   - os: windows
-    compiler: msvc
     env:
       - CONAN_SETTINGS_FLAG="-s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
@@ -14,19 +13,27 @@ matrix:
   # MacOS clang
   - os: osx
     osx_image: xcode10
-    compiler: clang
     env:
+      - compiler=clang
+      - COMPILER_CC=clang
+      - COMPILER_CXX=clang++
       - CONAN_SETTINGS_FLAG=""
-      - CMAKE_GENERATOR_FLAG="Xcode"
+      - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Release
   # Linux gcc
   - os: linux
-    compiler: gcc
     dist: xenial
     env:
+      - COMPILER=g++-8
+      - COMPILER_CC=gcc-8
+      - COMPILER_CXX=g++-8
       - CONAN_SETTINGS_FLAG=""
       - CMAKE_GENERATOR="Unix Makefiles"
       - BUILD_CONFIG=Release
+    addons:
+      apt:
+        sources: ['ubuntu-toolchain-r-test']
+        packages: ['gcc-8', 'g++-8' ]
 
 # The pre-install script. On windows it will install conan via chocolatey
 install:
@@ -49,6 +56,9 @@ before_script:
   
   - if [[ "${USE_CONAN}" == "TRUE" ]]; then conan user; fi
   - if [[ "${USE_CONAN}" == "TRUE" ]]; then conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan; fi
+
+  - if [[ "${COMPILER_CXX}" != "" ]]; then export CXX=${COMPILER_CXX}; fi
+  - if [[ "${COMPILER_CC}" != "" ]]; then export CC=${COMPILER_CC}; fi
 
 # Build and Test
 script:

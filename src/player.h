@@ -39,7 +39,7 @@ public:
 	Player() 
 		: score(0)
 		, dir(UP)
-		, snake(3, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
+		, snake(4, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
 	{
 	}
 	~Player()

@@ -1,8 +1,12 @@
 // Proprocessor
 #include <SFML/Graphics.hpp> // SFML Graphics
+#include <SFML/Window.hpp> // SFML Window
+#include <SFML/System.hpp> // SFML System
 #include <iostream> // IO
+#include <sstream> // String Stream
 #include <iomanip> // IO Manipulation
 #include <string> // String
+#include <fstream> // File I/O
 #include <filesystem> // FilePath
 #include "player.h" // Player Class
 // Entry Point
@@ -10,17 +14,16 @@ int main() {
 	//***************
 	// Window Setup *
 	//***************
-	//sf::Font bauh; // Create bauh local font
-	//if (!bauh.loadFromFile("../fonts/BAUHS93.TTF")) { // Load bauh from file
-	//  std::cout << "Error loading font BAUHS93" << std::endl; // Output if error
-	//}
-
-  unsigned int sHeight = 900, sWidth = 1600; // Create reusable values of window width and height
+	std::cout << std::filesystem::current_path().string() << std::endl;
+	
+	unsigned int sHeight = 900, sWidth = 1600; // Create reusable values of window width and height
 	sf::RenderWindow window(sf::VideoMode(sWidth, sHeight), "Cnake", sf::Style::Close | sf::Style::Titlebar); // Create Window
 	Player player; // Create player object
 	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
 	player.setPosition(); // Center Snake
 	
+	std::cout << player.getScore() << std::endl;
+
 	sf::RectangleShape background(sf::Vector2f(sWidth, sHeight)); // Create Background
 	background.setFillColor(sf::Color(255, 255, 255, 50)); // Make it dark grey
 	background.setOrigin(background.getSize().x / 2, background.getSize().y / 2); // Center the Origin
@@ -33,13 +36,22 @@ int main() {
 	playArea.setOrigin(playArea.getSize().x / 2, playArea.getSize().y / 2); // Center the Origin
 	playArea.setPosition(sWidth / 2, sHeight / 2); // Center the Position
 
-	/*std::string scoreString = "Score :" + player.getScore();
-	std::cout << scoreString << std::endl;
-	sf::Text scoreText(scoreString, sf::Font(bauh), 30);
-	scoreText.setPosition((sWidth / 10), (sHeight / 10));
-	scoreText.setColor(sf::Color::Black);
-	scoreText.setOutlineColor(sf::Color::White);
-	scoreText.setOutlineThickness(2);*/
+	sf::Font bauh; // Create bauh local font
+	if (!bauh.loadFromFile("../../../fonts/bauh.ttf")) {
+		std::cout << "Moving to second Directory" << std::endl;
+		if (!bauh.loadFromFile("../fonts/bauh.ttf")) {
+			std::cout << "Moving to second Directory" << std::endl;
+			if (!bauh.loadFromFile("fonts/bauh.ttf")) {
+				std::cout << "All directories exhausted for font bauh" << std::endl;
+			}
+		}
+	}
+	std::stringstream ss;
+	ss << "Score : " << player.getScore();
+	sf::Text scoreText(sf::String(ss.str()), bauh, 30);
+	scoreText.setOrigin(scoreText.getScale().x / 2, scoreText.getScale().y / 2);
+	scoreText.setPosition(sWidth / 50, (sHeight / 10) * 9);
+	scoreText.setColor(sf::Color::Red);
 
 	//************
 	// Game Loop *
@@ -91,10 +103,10 @@ int main() {
 		}
 
 		window.clear();
-		window.draw(background);
-		window.draw(playArea);
-		player.drawSnake(window);
-		/*window.draw(scoreText);*/
+		window.draw(background); // Draw BG
+		window.draw(playArea); // Draw Play Box over that
+		player.drawSnake(window); // Draw Snake over that
+		window.draw(scoreText); // Draw score overlay
 		window.display();
 
 	}
