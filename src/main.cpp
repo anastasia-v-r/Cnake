@@ -15,7 +15,7 @@ int main() {
 	// Window Setup *
 	//***************
 	#ifdef FS_SUPPORT
-	std::cout << std::filesystem::current_path().string() << std::endl;
+	std::cout << fs::current_path().string() << std::endl;
 	#endif
 	unsigned int sHeight = 900, sWidth = 1600; // Create reusable values of window width and height
 	sf::RenderWindow window(sf::VideoMode(sWidth, sHeight), "Cnake", sf::Style::Close | sf::Style::Titlebar); // Create Window
