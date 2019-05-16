@@ -7,6 +7,10 @@ else()
     cmake_policy(VERSION 3.14)
 endif()
 
+set (CXX_STANDARD_REQUIRED ON)
+set (CXX_EXTENSIONS OFF)
+set (CXX_STANDARD 17)
+
 # Project Creation
 project (Cnake)
 
@@ -16,9 +20,7 @@ conan_basic_setup()
 
 # .exe
 add_executable(Cnake src/main.cpp src/player.h src/player.cpp)
-set_target_properties(Cnake PROPERTIES
-	CXX_STANDARD_REQUIRED ON
-	CXX_EXTENSIONS OFF
-	CXX_STANDARD 17
-	)
 target_link_libraries(Cnake ${CONAN_LIBS})
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+  target_link_libraries(Cnake stdc++fs)
+endif()
