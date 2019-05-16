@@ -28,7 +28,7 @@ matrix:
       - COMPILER_CC=gcc-8
       - COMPILER_CXX=g++-8
       - CONAN_SETTINGS_FLAG="-s compiler.libcxx=libstdc++11"
-      - CMAKE_GENERATOR_FLAG="Unix Makefiles"
+      - CMAKE_GENERATOR_FLAG=-G \"Unix Makefiles\"
       - BUILD_CONFIG=Release
     addons:
       apt:
