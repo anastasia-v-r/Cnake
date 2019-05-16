@@ -9,7 +9,7 @@ matrix:
     compiler: msvc
     env:
       - CONAN_SETTINGS_FLAG="-s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
-      - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017 Win64\" -A x64
+      - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017 Win64\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Release
   # MacOS clang
   - os: osx
