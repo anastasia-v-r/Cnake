@@ -28,7 +28,7 @@ public:
 	// Setters
 	void setColor(sf::Color, sf::Color);
 
-	void setPosition();
+	void setPosition(int, int);
 
 	void setDir(sf::Keyboard::Key);
 
@@ -38,7 +38,7 @@ public:
 
 	Player() 
 		: score(0)
-		, dir(UP)
+		, dir(STOP)
 		, snake(4, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
 	{
 	}
