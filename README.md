@@ -7,7 +7,8 @@
 <br>
 
 [![Build Status](https://travis-ci.org/Faunsce/Cnake.svg?branch=master)](https://travis-ci.org/Faunsce/Cnake)
-
+[![GitHub release](https://img.shields.io/github/release/Faunsce/Cnake.svg?style=flat-square)](https://github.com/Faunsce/Cnake/releases/latest)
+![License](https://img.shields.io/github/license/faunsce/Cnake.svg)
 ## What is this?
 This is a clone of the famous "Snake" game coded in [C++](http://cplusplus.com) with the aid of [SFML](http://sfml-dev.org).  
 
