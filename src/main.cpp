@@ -25,9 +25,9 @@ int main() {
 	//***************
 	// Player Setup *
 	//***************
-	Player player; // Create player object
-	player.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
-	player.setPosition(sWidth, sHeight); // Center Snake
+	Player playerSnake; // Create player object
+	playerSnake.setColor(sf::Color::Cyan, sf::Color::Red); // Color in snake
+	playerSnake.setPosition(sWidth, sHeight); // Center Snake
 	//*****************
 	// Backdrop Setup *
 	//*****************
@@ -61,7 +61,7 @@ int main() {
 	// Score Tracker Setup *
 	//**********************
 	std::stringstream ss;
-	ss << "Score : " << player.getScore();
+	ss << "Score : " << playerSnake.getScore();
 	sf::Text scoreText(sf::String(ss.str()), bauh, 30);
 	scoreText.setOrigin(scoreText.getScale().x / 2, scoreText.getScale().y / 2);
 	scoreText.setPosition(sWidth / 50, (sHeight / 10) * 9);
@@ -99,13 +99,10 @@ int main() {
 				switch (evnt.key.code) 
 				{
 				case sf::Keyboard::W:
-
 				case sf::Keyboard::A:
-				
 				case sf::Keyboard::S:
-				
 				case sf::Keyboard::D:
-					player.setDir(evnt.key.code); // Change Direction of snake
+					playerSnake.setDir(evnt.key.code); // Change Direction of snake
 					break;
 				case sf::Keyboard::Escape: // ESC Pressed
 					if (gamePaused) {
@@ -122,8 +119,8 @@ int main() {
 		//**********************************
 		if (!gamePaused) {
 			sf::Time elapsed = gameClock.getElapsedTime(); // Grab time elapsed 
-			if ((elapsed > tick) && (player.getDir() != STOP)) {
-				player.move(); // Move the player along the screen
+			if ((elapsed > tick) && (playerSnake.getDir() != STOP)) {
+				playerSnake.move(); // Move the player along the screen
 				gameClock.restart();
 			}
 		}
@@ -133,7 +130,7 @@ int main() {
 		window.clear();
 		window.draw(background); // Draw BG
 		window.draw(playBox); // Draw Play Box over that
-		player.drawSnake(window); // Draw Snake over that
+		window.draw(playerSnake); // Draw Snake over that
 		window.draw(scoreText); // Draw score overlay
 		if (gamePaused) { // Overlay the pause Scren
 			

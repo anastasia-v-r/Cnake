@@ -15,12 +15,6 @@ void Player::setPosition(int sWidth, int sHeight) {
 	}
 }
 
-void Player::drawSnake(sf::RenderWindow& window) {
-	for (auto& i : snake) {
-		window.draw(i);
-	}
-}
-
 void Player::setDir(sf::Keyboard::Key kKey) {
 	switch (kKey)
 	{
@@ -76,4 +70,10 @@ sf::Vector2f Player::getSize() {
 
 int Player::getScore() {
   return score;
+}
+
+void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+	for (auto& i : snake) {
+		target.draw(i, states);
+	}
 }
