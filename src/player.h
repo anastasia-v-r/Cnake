@@ -10,9 +10,11 @@ enum direction {
 	RIGHT = 4
 };
 
-class Player
+class Player : public sf::Drawable
 {
 // Data
+public:
+
 private:
 	int score; // Points
 	direction dir;
@@ -34,8 +36,11 @@ public:
 
 	void move();
 
-	void drawSnake(sf::RenderWindow&);
-
+private:
+	// Draw snake
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+// C's n D's
+public:
 	Player() 
 		: score(0)
 		, dir(STOP)
