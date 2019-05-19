@@ -12,14 +12,14 @@ int main() {
 	#ifdef FS_SUPPORT
 		std::cout << fs::current_path().string() << std::endl;
 	#endif
-
+	void optionSwitch();
 	auto desktop = sf::VideoMode::getDesktopMode();
 	unsigned int sWidth = static_cast<unsigned int>(desktop.width), sHeight = static_cast<unsigned int>(desktop.height);
 	sf::RenderWindow window(sf::VideoMode(sWidth + 1, sHeight, desktop.bitsPerPixel), "Cnake", sf::Style::None);
-	Screen screenBuffer();
-	
-	Player playerSnake; 
-	playerSnake.setColor(sf::Color::Cyan, sf::Color::Red); 
+	std::vector<sf::Drawable> screenBuffer;
+	Screen mainMenu;
+	Screen pauseScreen;
+	Player playerSnake(sf::Color::Blue, sf::Color::Green, sWidth, sHeight); 
 	playerSnake.setPosition(sWidth, sHeight); 
 
 	sf::RectangleShape background(sf::Vector2f(sWidth, sHeight)); 
@@ -94,10 +94,13 @@ int main() {
 					case sf::Keyboard::Up:
 					case sf::Keyboard::S:
 					case sf::Keyboard::Down:
-						
+						optionSwitch();
 						break;
 					case sf::Keyboard::Enter:
 
+						break;
+					case sf::Keyboard::Z:
+						window.close();
 						break;
 					}
 				}
@@ -113,8 +116,14 @@ int main() {
 		}
 
 		window.clear();
-		window.draw(screenObjects);
+		for (auto& screenElement : screenBuffer) {
+			window.draw(screenElement);
+		}
 		window.display();
 		// sprite.getGlobalBounds().contains(mousePos) // storing here for later
 	}
+}
+
+void optionSwitch() {
+
 }
