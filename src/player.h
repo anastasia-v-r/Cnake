@@ -16,9 +16,9 @@ class Player : public sf::Drawable
 public:
 
 private:
-	int score; // Points
+	int score;
 	direction dir;
-	std::vector<sf::RectangleShape> snake; // Body
+	std::vector<sf::RectangleShape> snakeBody;
 // Methods
 public:
 	// Getters
@@ -44,7 +44,7 @@ public:
 	Player() 
 		: score(0)
 		, dir(STOP)
-		, snake(4, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
+		, snakeBody(4, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
 	{
 	}
 	~Player()
