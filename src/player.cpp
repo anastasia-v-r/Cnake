@@ -2,16 +2,16 @@
 #include <iostream>
 
 void Player::setColor(sf::Color colorH, sf::Color colorB) {
-	snake[0].setFillColor(colorH);
-	for (int i = 1; i < snake.size(); i++) {
-		snake[i].setFillColor(colorB);
+	snakeBody[0].setFillColor(colorH);
+	for (int i = 1; i < snakeBody.size(); i++) {
+		snakeBody[i].setFillColor(colorB);
 	}
 }
 
 void Player::setPosition(int sWidth, int sHeight) {
-	sf::Vector2f temp = snake[0].getSize();
-	for (int i = 0; i < snake.size(); ++i) {
-		snake[i].setPosition((sWidth / 2), ((sHeight / 2) + (i * temp.x)));
+	sf::Vector2f temp = snakeBody[0].getSize();
+	for (int i = 0; i < snakeBody.size(); ++i) {
+		snakeBody[i].setPosition((sWidth / 2), ((sHeight / 2) + (i * temp.x)));
 	}
 }
 
@@ -34,28 +34,28 @@ void Player::setDir(sf::Keyboard::Key kKey) {
 }
 
 void Player::move() {
-	sf::Vector2f temPos = snake[0].getPosition();
+	sf::Vector2f temPos = snakeBody[0].getPosition();
 	sf::Vector2f temPos2;
-	sf::Vector2f dist = snake[0].getSize();
+	sf::Vector2f dist = snakeBody[0].getSize();
 	sf::Vector2f nexPos;
 	switch (dir)
 	{
 	case UP:
-		snake[0].setPosition(temPos.x, (temPos.y - dist.x));
+		snakeBody[0].setPosition(temPos.x, (temPos.y - dist.x));
 		break;
 	case DOWN:
-		snake[0].setPosition(temPos.x, (temPos.y + dist.x));
+		snakeBody[0].setPosition(temPos.x, (temPos.y + dist.x));
 		break;
 	case LEFT:
-		snake[0].setPosition((temPos.x - dist.x) , temPos.y);
+		snakeBody[0].setPosition((temPos.x - dist.x) , temPos.y);
 		break;
 	case RIGHT:
-		snake[0].setPosition((temPos.x + dist.x) , temPos.y);
+		snakeBody[0].setPosition((temPos.x + dist.x) , temPos.y);
 		break;
 	}
-	for (int i = 1; i < snake.size(); ++i) {
-		temPos2 = snake[i].getPosition();
-		snake[i].setPosition(temPos);
+	for (int i = 1; i < snakeBody.size(); ++i) {
+		temPos2 = snakeBody[i].getPosition();
+		snakeBody[i].setPosition(temPos);
 		temPos = temPos2;
 	}
 }
@@ -65,7 +65,7 @@ direction Player::getDir() {
 }
 
 sf::Vector2f Player::getSize() {
-	return snake[0].getSize();
+	return snakeBody[0].getSize();
 }
 
 int Player::getScore() {
@@ -73,7 +73,7 @@ int Player::getScore() {
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-	for (auto& i : snake) {
-		target.draw(i, states);
+	for (auto& snakePart : snakeBody) {
+		target.draw(snakePart, states);
 	}
 }
