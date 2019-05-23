@@ -1,4 +1,4 @@
-#include "player.h"
+#include "player.hpp"
 #include <iostream>
 
 void Player::setColor(sf::Color colorH, sf::Color colorB) {
