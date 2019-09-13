@@ -23,9 +23,6 @@ int main() {
 	unsigned int sWidth = static_cast<unsigned int>(desktop.width), sHeight = static_cast<unsigned int>(desktop.height);
 	sf::RenderWindow window(sf::VideoMode(sWidth + 1, sHeight, desktop.bitsPerPixel), "Cnake", sf::Style::None);
 	Player playerSnake(sf::Color::Blue, sf::Color::Green, sWidth, sHeight);
-	StartScreen* startScreen = new StartScreen(sWidth, sHeight);
-	GameScreen* gameScreen = new GameScreen(sWidth, sHeight, playerSnake.getSize().x);
-	std::vector<sf::Drawable*> screenBuffer{startScreen};
 	GameState gameState(PLAYING);
 	sf::Clock gameClock; 
 	sf::Time tick = sf::milliseconds(200); 
