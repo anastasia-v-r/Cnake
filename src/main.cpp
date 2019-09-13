@@ -4,9 +4,6 @@
 #include <string> 
 #include "fs.hpp" 
 #include "player.hpp"
-#include "gameScreen.hpp"
-#include "pauseScreen.hpp"
-#include "startScreen.hpp"
 // Data
 enum GameState {
 	INTRO = 0,
@@ -19,11 +16,17 @@ int main() {
 	#ifdef FS_SUPPORT
 		std::cout << fs::current_path().string() << std::endl;
 	#endif
+	
 	auto desktop = sf::VideoMode::getDesktopMode();
-	unsigned int sWidth = static_cast<unsigned int>(desktop.width), sHeight = static_cast<unsigned int>(desktop.height);
-	sf::RenderWindow window(sf::VideoMode(sWidth + 1, sHeight, desktop.bitsPerPixel), "Cnake", sf::Style::None);
-	Player playerSnake(sf::Color::Blue, sf::Color::Green, sWidth, sHeight);
+	desktop.width += 1.0f;
+	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
+
+	sf::RectangleShape Bg(sf::Vector2f(desktop.width, desktop.height));
+	Bg.setFillColor(sf::Color::Green);
+
+	Player playerSnake(sf::Color::Blue, sf::Color::Green, desktop.width, desktop.height);
 	GameState gameState(PLAYING);
+	
 	sf::Clock gameClock; 
 	sf::Time tick = sf::milliseconds(200); 
 
@@ -50,9 +53,6 @@ int main() {
 					switch (evnt.key.code)
 					{
 					case sf::Keyboard::Enter:
-						screenBuffer[0] = gameScreen;
-						screenBuffer.reserve(screenBuffer.size() + 1);
-						screenBuffer[1] = &playerSnake;
 						gameState = PLAYING;
 					}
 				} else if (PLAYING) {
@@ -96,8 +96,9 @@ int main() {
 		}
 
 		window.clear();
-		for (const auto& screenElement : screenBuffer) {
-			window.draw(*screenElement);
+		window.draw(Bg);
+		if (gameState != GameState::INTRO) {
+			window.draw(playerSnake);
 		}
 		window.display();
 		// sprite.getGlobalBounds().contains(mousePos) // storing here for later
