@@ -1,10 +1,27 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+
+enum struct ModeOption
+{
+	None,
+	Intro,
+	Menu,
+	Game,
+	Paused
+};
+
+enum struct ModeAction
+{
+	None,
+	Add,
+	Remove
+};
+
 
 class Mode
 {
 public:
-	Mode() {};
-	virtual void Run(sf::Time, sf::RenderWindow&) = 0;
+	virtual std::pair<ModeAction, ModeOption> Run(sf::Time, sf::RenderWindow&) = 0;
 private:
 
 };
