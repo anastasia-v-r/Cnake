@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <math.h>
 #include "fs.hpp" 
 #include "player.hpp"
 #include "Mode.hpp"
@@ -13,20 +14,39 @@
 // Func
 void RenderScreen(sf::RenderWindow* window) {
 	window->setActive(true);
+	window->setFramerateLimit(120);
 	sf::Clock RenderClock;
+	sf::Time TotalTime;
+	sf::Time ElapsedTime;
 	unsigned int frames = 0;
 	unsigned int FPS = 0;
 	sf::Font font;
 	font.loadFromFile("../../../fonts/bauh.ttf");
-	std::cout << "yah";
-	sf::Text FPSText(frames, font, 30);
+	std::vector<sf::Text> Stats = { 
+		sf::Text("FPSCounter", font, 30),
+		sf::Text("TotalFPS", font, 15),
+		sf::Text("FrameInterval", font, 15),
+		sf::Text("CurrentRunTime", font, 15)		
+	};
+	auto size = Stats[0].getScale().y;
+	for (int i = 1; i < Stats.size(); i++) {
+		Stats[i].setPosition(0, 30.0f * i);
+	}
 	while (true) {
 		window->clear();
-		window->draw(FPSText);
+		for (const auto& text : Stats) {
+			window->draw(text);
+		}
 		window->display();
 		frames++;
-		FPS = frames / RenderClock.getElapsedTime().asSeconds();
-		FPSText.setString(std::to_string(FPS));
+		ElapsedTime = RenderClock.restart();
+		TotalTime += ElapsedTime;
+		FPS = frames / TotalTime.asSeconds();
+		Stats[0].setString(std::to_string(FPS) + " FPS");
+		Stats[1].setString(std::to_string(frames) + " Frames");
+		Stats[2].setString(std::to_string(ElapsedTime.asMicroseconds())+ "µs FrameTime");
+		Stats[3].setString(std::to_string( (std::round( TotalTime.asSeconds() * 10) / 10) ) + "s TotalTime" );
+		// TODO: Properly round seconds to the hundreth decimal place
 	}
 }
 // Entry Point
