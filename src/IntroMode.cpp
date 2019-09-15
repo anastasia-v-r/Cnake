@@ -4,7 +4,7 @@ std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow
 	// Handle Input
 	sf::Event evnt;
 	while (window.pollEvent(evnt)) {
-
+		
 	}
 	// Handle Logic
 	if (true)

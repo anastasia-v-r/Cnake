@@ -19,11 +19,10 @@ int main() {
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
 	window.setActive(false);
 	// Prepare Screen Elements
-	std::vector<sf::RectangleShape> screenElements{sf::RectangleShape(sf::Vector2f(10, 10))};
-	screenElements[0].move(500, 500);
+	std::vector<sf::RectangleShape> screenElements;
 	// Prepare Stack
 	std::stack<Mode*> ModeStack;
-	ModeStack.push(new IntroMode);
+	ModeStack.push(new IntroMode(&screenElements));
 
 	// Create Rendering Thread
 	std::thread RenderThread([&window, &screenElements] {
@@ -58,13 +57,13 @@ int main() {
 			switch (result.second)
 			{
 			case ModeOption::Intro:
-				ModeStack.push(new IntroMode);
+				ModeStack.push(new IntroMode(&screenElements));
 				break;
 			case ModeOption::Menu:
-				ModeStack.push(new MenuMode);
+				ModeStack.push(new MenuMode(&screenElements));
 				break;
 			case ModeOption::Game:
-				ModeStack.push(new GameMode);
+				ModeStack.push(new GameMode(&screenElements));
 				break;
 			case ModeOption::Paused:
 				// TODO: Decide how to pause the game
