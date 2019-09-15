@@ -18,7 +18,7 @@ int main() {
 	auto desktop = sf::VideoMode::getDesktopMode();
 	desktop.width += 1;
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
-	//window.setActive(false);
+	window.setActive(false);
 	// Prepare Screen Elements
 	std::vector<std::pair<sf::RectangleShape*, sf::Texture*>>* screenElements{ nullptr };
 	// Prepare Stack
@@ -29,7 +29,7 @@ int main() {
 	bool isRunning = true;
 	// Create Rendering Thread
 	// TODO: Create a threadsafe way to change the ptr to the top modes vector rather than simply copying an entire the entire vector and allow for use of `screenElements = &(ModeStack.top()->screenElements);`
-	/*std::thread RenderThread([&window, &screenElements, &isRunning] {
+	std::thread RenderThread([&window, &screenElements, &isRunning] {
 		// Window Settings
 		window.setActive(true);
 		window.setFramerateLimit(5000);
@@ -46,12 +46,7 @@ int main() {
 			window.display();
 			stats.update();
 		}
-	});*/
-	// Window Settings
-	window.setActive(true);
-	window.setFramerateLimit(5000);
-	// Setup Stats
-	RuntimeStats stats;
+	});
 	// Begin Game
 	sf::Clock GameClock;
 	while (!ModeStack.empty()) {
@@ -100,17 +95,10 @@ int main() {
 		default:
 			break;
 		}
-		// Rendering
-		window.clear();
-		for (const auto& element : (*screenElements)) {
-			window.draw(*element.first);
-		}
-		stats.draw(window);
-		window.display();
-		stats.update();
 	}
 	// Safely Kill Render Thread
-	//isRunning = false;
-	//RenderThread.join();
+	isRunning = false;
+	RenderThread.join();
+	window.close();
 }
 
