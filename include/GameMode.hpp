@@ -10,5 +10,5 @@ public:
 private:
 	void GameMode::processKeys(sf::Keyboard::Key, bool);
 private:
-	
+	std::map<std::string, bool> mKeys;
 };

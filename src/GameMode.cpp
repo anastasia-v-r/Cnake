@@ -2,13 +2,6 @@
 #include <thread>
 #include <chrono>
 
-std::map<std::string, bool> mKeys = {
-		{"Up", false},
-		{"Right", false},
-		{"Down", false},
-		{"Left", false}
-};
-
 GameMode::GameMode() {
 	auto mode = sf::VideoMode::getDesktopMode();
 	sf::RectangleShape* playField{ new sf::RectangleShape(sf::Vector2f((float)mode.width, (float)mode.height)) };
@@ -22,6 +15,12 @@ GameMode::GameMode() {
 	player->setPosition(sf::Vector2f((float)mode.width / 2.0f, (float)mode.height / 2.0f));
 	screenElements.push_back(std::make_pair(playField, playFieldTexture));
 	screenElements.push_back(std::make_pair(player, playerTexutre));
+	mKeys = {
+		{"Up", false},
+		{"Right", false},
+		{"Down", false},
+		{"Left", false}
+	};
 }
 
 std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow& window) {
