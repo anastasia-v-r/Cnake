@@ -5,11 +5,11 @@
 #include <vector>
 #include <stack>
 #include <thread>
-#include "Player.hpp"
-#include "Mode.hpp"
-#include "IntroMode.hpp"
-#include "MenuMode.hpp"
-#include "GameMode.hpp"
+#include <player/Player.hpp>
+#include <mode/Mode.hpp>
+#include <mode/IntroMode.hpp>
+#include <mode/MenuMode.hpp>
+#include <mode/GameMode.hpp>
 // Func
 void RenderScreen(sf::RenderWindow& window, std::vector<sf::RectangleShape>& screenElements) {
 	// Window Settings
@@ -22,7 +22,7 @@ void RenderScreen(sf::RenderWindow& window, std::vector<sf::RectangleShape>& scr
 	sf::Time elapsedTime(sf::Time::Zero);
 	// Text Setup
 	sf::Font font;
-	font.loadFromFile("../../../fonts/bauh.ttf");
+	font.loadFromFile("assets/fonts/bauh.ttf");
 	sf::Text FPSCounter("", font, 30);
 	sf::Text FrameInterval("", font, 15);
 	FrameInterval.move(0, 30);
