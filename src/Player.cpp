@@ -1,4 +1,4 @@
-#include "player.hpp"
+#include "Player.hpp"
 #include <iostream>
 
 void Player::setColor(sf::Color colorH, sf::Color colorB) {
@@ -11,7 +11,7 @@ void Player::setColor(sf::Color colorH, sf::Color colorB) {
 void Player::setPosition(int sWidth, int sHeight) {
 	sf::Vector2f temp = snakeBody[0].getSize();
 	for (int i = 0; i < snakeBody.size(); ++i) {
-		snakeBody[i].setPosition((sWidth / 2), ((sHeight / 2) + (i * temp.x)));
+		snakeBody[i].setPosition((sWidth / 2.0f), ((sHeight / 2.0f) + (i * temp.x)));
 	}
 }
 

@@ -1,106 +1,116 @@
 // Preprocessor
 #include <SFML/Graphics.hpp> 
 #include <iostream> 
-#include <string> 
-#include "fs.hpp" 
-#include "player.hpp"
-// Data
-enum GameState {
-	INTRO = 0,
-	PLAYING = 1,
-	PAUSED = 2
-};
+#include <string>
+#include <vector>
+#include <stack>
+#include <thread>
+#include <mutex>
+#include <Player.hpp>
+#include <Mode.hpp>
+#include <IntroMode.hpp>
+#include <MenuMode.hpp>
+#include <GameMode.hpp>
+#include <RuntimeStats.hpp>
 // Entry Point
 int main() {
-	// Path Check
-	#ifdef FS_SUPPORT
-		std::cout << fs::current_path().string() << std::endl;
-	#endif
-	
+	// Setup Window
 	auto desktop = sf::VideoMode::getDesktopMode();
-	desktop.width += 1.0f;
+	desktop.width += 1;
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
-
-	sf::RectangleShape Bg(sf::Vector2f(desktop.width, desktop.height));
-	Bg.setFillColor(sf::Color::Green);
-
-	Player playerSnake(sf::Color::Blue, sf::Color::Green, desktop.width, desktop.height);
-	GameState gameState(PLAYING);
-	
-	sf::Clock gameClock; 
-	sf::Time tick = sf::milliseconds(200); 
-
-	bool gamePaused = false;
-	while (window.isOpen()) {
-
-		sf::Event evnt;
-		while (window.pollEvent(evnt)) { 
-			switch (evnt.type)
+	//window.setActive(false);
+	// Prepare Screen Elements
+	std::vector<std::pair<sf::RectangleShape*, sf::Texture*>>* screenElements{ nullptr };
+	// Prepare Stack
+	std::stack<std::unique_ptr<Mode>> ModeStack;
+	ModeStack.push(std::make_unique<IntroMode>());
+	screenElements = &(ModeStack.top()->screenElements);
+	// Variable for killing thread safely
+	bool isRunning = true;
+	// Create Rendering Thread
+	// TODO: Create a threadsafe way to change the ptr to the top modes vector rather than simply copying an entire the entire vector and allow for use of `screenElements = &(ModeStack.top()->screenElements);`
+	/*std::thread RenderThread([&window, &screenElements, &isRunning] {
+		// Window Settings
+		window.setActive(true);
+		window.setFramerateLimit(5000);
+		// Setup Stats
+		RuntimeStats stats;
+		// Render Loop
+		while (isRunning) {
+			// Rendering
+			window.clear();
+			for (const auto& element : (*screenElements)) {
+				window.draw(*element.first);
+			}
+			stats.draw(window);
+			window.display();
+			stats.update();
+		}
+	});*/
+	// Window Settings
+	window.setActive(true);
+	window.setFramerateLimit(5000);
+	// Setup Stats
+	RuntimeStats stats;
+	// Begin Game
+	sf::Clock GameClock;
+	while (!ModeStack.empty()) {
+		sf::Time timePassed = GameClock.restart();
+		auto result = ModeStack.top()->Run(timePassed, window);
+		switch (result.first)
+		{
+		case ModeAction::None:
+			break;
+		case ModeAction::Add:
+			switch (result.second)
 			{
-			case sf::Event::Closed:
-				window.close();
+			case ModeOption::Intro:
+				ModeStack.push(std::make_unique<IntroMode>());
+				screenElements = &(ModeStack.top()->screenElements);
 				break;
-			case sf::Event::LostFocus:
-
-			case sf::Event::TextEntered:
-				if (evnt.text.unicode < 128) {
-					char keyOut = static_cast<char>(evnt.text.unicode);
-					std::cout << "Keypressed : [" << keyOut << "]" << std::endl;  
-				}
+			case ModeOption::Menu:
+				ModeStack.push(std::make_unique<MenuMode>());
+				screenElements = &(ModeStack.top()->screenElements);
 				break;
-			case sf::Event::KeyPressed:
-				if (INTRO) {
-					switch (evnt.key.code)
-					{
-					case sf::Keyboard::Enter:
-						gameState = PLAYING;
-					}
-				} else if (PLAYING) {
-					switch (evnt.key.code)
-					{
-					case sf::Keyboard::W:
-					case sf::Keyboard::A:
-					case sf::Keyboard::S:
-					case sf::Keyboard::D:
-						playerSnake.setDir(evnt.key.code); 
-						break;
-					case sf::Keyboard::Escape: 
-						gamePaused = !gamePaused;
-						break;
-					}
-				} else {
-					switch (evnt.key.code)
-					{
-					case sf::Keyboard::W:
-					case sf::Keyboard::Up:
-					case sf::Keyboard::S:
-					case sf::Keyboard::Down:
-						break;
-					case sf::Keyboard::Enter:
-
-						break;
-					case sf::Keyboard::Z:
-						window.close();
-						break;
-					}
-				}
+			case ModeOption::Game:
+				ModeStack.push(std::make_unique<GameMode>());
+				screenElements = &(ModeStack.top()->screenElements);
+				break;
+			case ModeOption::Paused:
+				// TODO: Decide how to pause the game
+				break;
 			}
-		}
-
-		if (PLAYING) {
-			sf::Time elapsed = gameClock.getElapsedTime(); 
-			if ((elapsed > tick) && (playerSnake.getDir() != STOP)) {
-				playerSnake.move(); 
-				gameClock.restart();
+			break;
+		case ModeAction::Remove:
+			ModeStack.pop();
+			if (ModeStack.empty()) {
+				std::cout << "All popped!";
 			}
+			else {
+				screenElements = &(ModeStack.top()->screenElements);
+			}
+			break;
+		case ModeAction::RemoveAll:
+			while (!ModeStack.empty()) {
+				ModeStack.pop();
+				std::cout << "Popped !";
+			}
+			std::cout << "All popped!";
+			break;
+		default:
+			break;
 		}
-
+		// Rendering
 		window.clear();
-		window.draw(Bg);
-		if (gameState != GameState::INTRO) {
-			window.draw(playerSnake);
+		for (const auto& element : (*screenElements)) {
+			window.draw(*element.first);
 		}
+		stats.draw(window);
 		window.display();
-		// sprite.getGlobalBounds().contains(mousePos) // storing here for later
+		stats.update();
 	}
+	// Safely Kill Render Thread
+	//isRunning = false;
+	//RenderThread.join();
 }
+
