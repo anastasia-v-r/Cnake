@@ -5,8 +5,7 @@
 #include <vector>
 #include <stack>
 #include <thread>
-#include "fs.hpp"
-#include "player.hpp"
+#include "Player.hpp"
 #include "Mode.hpp"
 #include "IntroMode.hpp"
 #include "MenuMode.hpp"
