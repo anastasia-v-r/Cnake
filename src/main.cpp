@@ -4,44 +4,39 @@
 #include <string>
 #include <vector>
 #include <stack>
-#include <math.h>
-#include "fs.hpp" 
+#include <thread>
+#include "fs.hpp"
 #include "player.hpp"
 #include "Mode.hpp"
 #include "IntroMode.hpp"
 #include "MenuMode.hpp"
 #include "GameMode.hpp"
 // Func
-void RenderScreen(std::pair<sf::RenderWindow*, std::vector<sf::RectangleShape*>> pair) {
-	sf::RenderWindow* window = pair.first;
-	std::vector<sf::RectangleShape*> screenElements = pair.second;
-	window->setActive(true);
-	// window->setFramerateLimit(120);
+void RenderScreen(sf::RenderWindow& window, std::vector<sf::RectangleShape>& screenElements) {
+	// Window Settings
+	window.setActive(true);
+	window.setFramerateLimit(5000);
+	// Stat Holders
 	sf::Clock RenderClock;
 	unsigned int totalFrames = 0;
 	sf::Time totalTime(sf::Time::Zero);
 	sf::Time elapsedTime(sf::Time::Zero);
+	// Text Setup
 	sf::Font font;
 	font.loadFromFile("../../../fonts/bauh.ttf");
 	sf::Text FPSCounter("", font, 30);
 	sf::Text FrameInterval("", font, 15);
 	FrameInterval.move(0, 30);
-
-	sf::Texture boxTexture;
-	boxTexture.loadFromFile("../../../textures/snakebody.png");
-	sf::RectangleShape box(sf::Vector2f(100, 100));
-	box.setTexture(&boxTexture);
-	box.move(500, 500);
-
+	// Render Loop
 	while (true) {
 		// Rendering
-		window->clear();
+		window.clear();
 		for (const auto& element : screenElements) {
-			window->draw(*element);
+			window.draw(element);
 		}
-		window->draw(FPSCounter);
-		window->draw(FrameInterval);
-		window->display();
+		window.draw(FPSCounter);
+		window.draw(FrameInterval);
+		window.display();
 		// Stat Updates
 		elapsedTime = RenderClock.restart();
 		totalTime += elapsedTime;
@@ -52,21 +47,19 @@ void RenderScreen(std::pair<sf::RenderWindow*, std::vector<sf::RectangleShape*>>
 }
 // Entry Point
 int main() {
-	// Path Check
-	#ifdef FS_SUPPORT
-		std::cout << fs::current_path().string() << std::endl;
-	#endif
+
 	auto desktop = sf::VideoMode::getDesktopMode();
 	desktop.width += 1;
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
 	window.setActive(false);
 
 	std::vector<sf::RectangleShape> Elements{sf::RectangleShape(sf::Vector2f(10, 10))};
+	Elements[0].move(500, 500);
+
 	std::stack<Mode*> ModeStack;
 	ModeStack.push(new IntroMode);
 
-	sf::Thread RenderThread(&RenderScreen, std::make_pair(&window, &Elements));
-	RenderThread.launch();
+	std::thread RenderThread(RenderScreen, std::ref(window), std::ref(Elements));
 
 	sf::Clock GameClock;
 	while (window.isOpen()) {
