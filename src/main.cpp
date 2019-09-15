@@ -23,16 +23,17 @@ int main() {
 	// Prepare Stack
 	std::stack<Mode*> ModeStack;
 	ModeStack.push(new IntroMode(&screenElements));
-
+	// Variable for killing thread safely
+	bool isRunning = true;
 	// Create Rendering Thread
-	std::thread RenderThread([&window, &screenElements] {
+	std::thread RenderThread([&window, &screenElements, &isRunning] {
 		// Window Settings
 		window.setActive(true);
 		window.setFramerateLimit(5000);
 		// Setup Stats
 		RuntimeStats stats;
 		// Render Loop
-		while (true) {
+		while (isRunning) {
 			// Rendering
 			window.clear();
 			for (const auto& element : screenElements) {
@@ -72,9 +73,12 @@ int main() {
 			break;
 		case ModeAction::Remove:
 			ModeStack.pop();
+			std::cout << "Popped !";
 			break;
 		}
 	}
+	// Safely Kill Render Thread
+	isRunning = false;
 	RenderThread.join();
 	window.close();
 }
