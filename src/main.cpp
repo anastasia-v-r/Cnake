@@ -10,6 +10,7 @@
 #include <IntroMode.hpp>
 #include <MenuMode.hpp>
 #include <GameMode.hpp>
+#include <RuntimeStats.hpp>
 // Entry Point
 int main() {
 	// Setup Window
@@ -23,22 +24,14 @@ int main() {
 	// Prepare Stack
 	std::stack<Mode*> ModeStack;
 	ModeStack.push(new IntroMode);
+
 	// Create Rendering Thread
 	std::thread RenderThread([&window, &screenElements] {
 		// Window Settings
 		window.setActive(true);
 		window.setFramerateLimit(5000);
-		// Stat Holders
-		sf::Clock RenderClock;
-		unsigned int totalFrames = 0;
-		sf::Time totalTime(sf::Time::Zero);
-		sf::Time elapsedTime(sf::Time::Zero);
-		// Text Setup
-		sf::Font font;
-		font.loadFromFile("assets/fonts/bauh.ttf");
-		sf::Text FPSCounter("", font, 30);
-		sf::Text FrameInterval("", font, 15);
-		FrameInterval.move(0, 30);
+		// Setup Stats
+		RuntimeStats stats;
 		// Render Loop
 		while (true) {
 			// Rendering
@@ -46,17 +39,12 @@ int main() {
 			for (const auto& element : screenElements) {
 				window.draw(element);
 			}
-			window.draw(FPSCounter);
-			window.draw(FrameInterval);
+			stats.draw(window);
 			window.display();
-			// Stat Updates
-			elapsedTime = RenderClock.restart();
-			totalTime += elapsedTime;
-			totalFrames += 1;
-			FPSCounter.setString(std::to_string(static_cast<unsigned int>(totalFrames / totalTime.asSeconds())) + " FPS");
-			FrameInterval.setString(std::to_string(totalTime.asMicroseconds() / totalFrames) + "µs FrameTime");
+			stats.update();
 		}
 	});
+
 	// Begin Game
 	sf::Clock GameClock;
 	while (window.isOpen()) {
