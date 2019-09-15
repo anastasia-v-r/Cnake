@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="Resources/cpp_logo.png" alt="Cpp" height="50" align="bottom" />
+    <img src="ghAssets/cpp_logo.png" alt="Cpp" height="50" align="bottom" />
     <font size="7">nake</font> <br>
     <font size="4">A snake Clone using SFML</font>
     <hr />
