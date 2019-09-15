@@ -12,41 +12,42 @@
 #include "MenuMode.hpp"
 #include "GameMode.hpp"
 // Func
-void RenderScreen(sf::RenderWindow* window) {
+void RenderScreen(std::pair<sf::RenderWindow*, std::vector<sf::RectangleShape*>> pair) {
+	sf::RenderWindow* window = pair.first;
+	std::vector<sf::RectangleShape*> screenElements = pair.second;
 	window->setActive(true);
-	window->setFramerateLimit(120);
+	// window->setFramerateLimit(120);
 	sf::Clock RenderClock;
-	sf::Time TotalTime;
-	sf::Time ElapsedTime;
-	unsigned int frames = 0;
-	unsigned int FPS = 0;
+	unsigned int totalFrames = 0;
+	sf::Time totalTime(sf::Time::Zero);
+	sf::Time elapsedTime(sf::Time::Zero);
 	sf::Font font;
 	font.loadFromFile("../../../fonts/bauh.ttf");
-	std::vector<sf::Text> Stats = { 
-		sf::Text("FPSCounter", font, 30),
-		sf::Text("TotalFPS", font, 15),
-		sf::Text("FrameInterval", font, 15),
-		sf::Text("CurrentRunTime", font, 15)		
-	};
-	auto size = Stats[0].getScale().y;
-	for (int i = 1; i < Stats.size(); i++) {
-		Stats[i].setPosition(0, 30.0f * i);
-	}
+	sf::Text FPSCounter("", font, 30);
+	sf::Text FrameInterval("", font, 15);
+	FrameInterval.move(0, 30);
+
+	sf::Texture boxTexture;
+	boxTexture.loadFromFile("../../../textures/snakebody.png");
+	sf::RectangleShape box(sf::Vector2f(100, 100));
+	box.setTexture(&boxTexture);
+	box.move(500, 500);
+
 	while (true) {
+		// Rendering
 		window->clear();
-		for (const auto& text : Stats) {
-			window->draw(text);
+		for (const auto& element : screenElements) {
+			window->draw(*element);
 		}
+		window->draw(FPSCounter);
+		window->draw(FrameInterval);
 		window->display();
-		frames++;
-		ElapsedTime = RenderClock.restart();
-		TotalTime += ElapsedTime;
-		FPS = frames / TotalTime.asSeconds();
-		Stats[0].setString(std::to_string(FPS) + " FPS");
-		Stats[1].setString(std::to_string(frames) + " Frames");
-		Stats[2].setString(std::to_string(ElapsedTime.asMicroseconds())+ "µs FrameTime");
-		Stats[3].setString(std::to_string( (std::round( TotalTime.asSeconds() * 10) / 10) ) + "s TotalTime" );
-		// TODO: Properly round seconds to the hundreth decimal place
+		// Stat Updates
+		elapsedTime = RenderClock.restart();
+		totalTime += elapsedTime;
+		totalFrames += 1;
+		FPSCounter.setString(std::to_string(static_cast<unsigned int>(totalFrames / totalTime.asSeconds())) + " FPS");
+		FrameInterval.setString(std::to_string(totalTime.asMicroseconds() / totalFrames) + "µs FrameTime");
 	}
 }
 // Entry Point
@@ -64,7 +65,7 @@ int main() {
 	std::stack<Mode*> ModeStack;
 	ModeStack.push(new IntroMode);
 
-	sf::Thread RenderThread(&RenderScreen, &window);
+	sf::Thread RenderThread(&RenderScreen, std::make_pair(&window, &Elements));
 	RenderThread.launch();
 
 	sf::Clock GameClock;
