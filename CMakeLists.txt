@@ -42,7 +42,7 @@ set_target_properties(Cnake PROPERTIES
 )
 
 # Include Directories
-target_include_directories(Cnake PUBLIC ${CMAKE_SOURCE_DIR}/src)
+target_include_directories(Cnake PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 
 # For Filthy MacOS

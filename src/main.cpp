@@ -5,11 +5,11 @@
 #include <vector>
 #include <stack>
 #include <thread>
-#include <player/Player.hpp>
-#include <mode/Mode.hpp>
-#include <mode/IntroMode.hpp>
-#include <mode/MenuMode.hpp>
-#include <mode/GameMode.hpp>
+#include <Player.hpp>
+#include <Mode.hpp>
+#include <IntroMode.hpp>
+#include <MenuMode.hpp>
+#include <GameMode.hpp>
 // Func
 void RenderScreen(sf::RenderWindow& window, std::vector<sf::RectangleShape>& screenElements) {
 	// Window Settings
@@ -46,20 +46,20 @@ void RenderScreen(sf::RenderWindow& window, std::vector<sf::RectangleShape>& scr
 }
 // Entry Point
 int main() {
-
+	// Setup Window
 	auto desktop = sf::VideoMode::getDesktopMode();
 	desktop.width += 1;
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
 	window.setActive(false);
-
+	// Prepare Screen Elements
 	std::vector<sf::RectangleShape> Elements{sf::RectangleShape(sf::Vector2f(10, 10))};
 	Elements[0].move(500, 500);
-
+	// Prepare Stack
 	std::stack<Mode*> ModeStack;
 	ModeStack.push(new IntroMode);
-
+	// Create Rendering Thread
 	std::thread RenderThread(RenderScreen, std::ref(window), std::ref(Elements));
-
+	// Begin Game
 	sf::Clock GameClock;
 	while (window.isOpen()) {
 		sf::Time timePassed = GameClock.restart();
@@ -89,6 +89,8 @@ int main() {
 			ModeStack.pop();
 			break;
 		}
+		RenderThread.join();
+
 	}
 
 
