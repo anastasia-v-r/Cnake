@@ -9,15 +9,7 @@ std::map<std::string, bool> mKeys = {
 		{"Left", false}
 };
 
-GameMode::GameMode(std::vector<std::pair<sf::RectangleShape*, sf::Texture*>>* sfVec)
-	: screenElements{ sfVec } {
-	for (const auto& element : *screenElements) {
-		delete element.first;
-		delete element.second;
-	}
-	for (int i = 0; i < screenElements->size(); i++) {
-		screenElements->pop_back();
-	}
+GameMode::GameMode() {
 	auto mode = sf::VideoMode::getDesktopMode();
 	sf::RectangleShape* playField{ new sf::RectangleShape(sf::Vector2f((float)mode.width, (float)mode.height)) };
 	sf::RectangleShape* player{ new sf::RectangleShape(sf::Vector2f(100.0f, 100.0f)) };
@@ -28,8 +20,8 @@ GameMode::GameMode(std::vector<std::pair<sf::RectangleShape*, sf::Texture*>>* sf
 	playField->setTexture(playFieldTexture);
 	player->setTexture(playerTexutre);
 	player->setPosition(sf::Vector2f((float)mode.width / 2.0f, (float)mode.height / 2.0f));
-	screenElements->push_back(std::make_pair(playField, playFieldTexture));
-	screenElements->push_back(std::make_pair(player, playerTexutre));
+	screenElements.push_back(std::make_pair(playField, playFieldTexture));
+	screenElements.push_back(std::make_pair(player, playerTexutre));
 }
 
 std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow& window) {
@@ -48,6 +40,18 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 			case sf::Keyboard::BackSpace:
 				return std::make_pair(ModeAction::Remove, ModeOption::None);
 				break;
+			case sf::Keyboard::Space: {
+				mut.lock();
+				auto mode = sf::VideoMode::getDesktopMode();
+				sf::RectangleShape* player{ new sf::RectangleShape(sf::Vector2f(100.0f, 100.0f)) };
+				sf::Texture* playerTexutre{ new sf::Texture };
+				playerTexutre->loadFromFile("assets/textures/snakebody2.png");
+				player->setTexture(playerTexutre);
+				player->setPosition(sf::Vector2f((float)mode.width / 2.0f, (float)mode.height / 2.0f));
+				screenElements.push_back(std::make_pair(player, playerTexutre));
+				mut.unlock();
+				break;
+			}
 			default:
 				processKeys(evnt.key.code, true);
 				break;
@@ -63,13 +67,13 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 	}
 	// Update Game Logic
 	if (mKeys["Up"])
-		(*screenElements)[1].first->move(0.0f, -speed * time.asSeconds());
+		screenElements[1].first->move(0.0f, -speed * time.asSeconds());
 	if (mKeys["Right"])
-		(*screenElements)[1].first->move(speed * time.asSeconds(), 0.0f);
+		screenElements[1].first->move(speed * time.asSeconds(), 0.0f);
 	if (mKeys["Down"])
-		(*screenElements)[1].first->move(0.0f, speed * time.asSeconds());
+		screenElements[1].first->move(0.0f, speed * time.asSeconds());
 	if (mKeys["Left"])
-		(*screenElements)[1].first->move(-speed * time.asSeconds(), 0.0f);
+		screenElements[1].first->move(-speed * time.asSeconds(), 0.0f);
 	// Im case of no state changes
 	return std::make_pair(ModeAction::None, ModeOption::None);
 }
