@@ -49,6 +49,7 @@ int main() {
 	sf::Clock GameClock;
 	while (!ModeStack.empty()) {
 		sf::Time timePassed = GameClock.restart();
+		std::cout << timePassed.asSeconds() << std::endl;
 		auto result = ModeStack.top()->Run(timePassed, window);
 		switch (result.first)
 		{
@@ -74,6 +75,8 @@ int main() {
 		case ModeAction::Remove:
 			ModeStack.pop();
 			std::cout << "Popped !";
+			break;
+		default:
 			break;
 		}
 	}

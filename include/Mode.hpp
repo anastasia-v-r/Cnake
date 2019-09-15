@@ -14,7 +14,8 @@ enum struct ModeAction
 {
 	None,
 	Add,
-	Remove
+	Remove,
+	RemoveAll
 };
 
 
