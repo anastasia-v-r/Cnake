@@ -19,7 +19,7 @@ int main() {
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
 	window.setActive(false);
 	// Prepare Screen Elements
-	std::vector<sf::RectangleShape> screenElements;
+	std::vector<std::pair<sf::RectangleShape*, sf::Texture*>>screenElements;
 	// Prepare Stack
 	std::stack<Mode*> ModeStack;
 	ModeStack.push(new IntroMode(&screenElements));
@@ -36,7 +36,7 @@ int main() {
 			// Rendering
 			window.clear();
 			for (const auto& element : screenElements) {
-				window.draw(element);
+				window.draw(*element.first);
 			}
 			stats.draw(window);
 			window.display();
@@ -46,7 +46,7 @@ int main() {
 
 	// Begin Game
 	sf::Clock GameClock;
-	while (window.isOpen()) {
+	while (!ModeStack.empty()) {
 		sf::Time timePassed = GameClock.restart();
 		auto result = ModeStack.top()->Run(timePassed, window);
 		switch (result.first)
@@ -74,9 +74,7 @@ int main() {
 			ModeStack.pop();
 			break;
 		}
-		RenderThread.join();
-
 	}
-
-
+	RenderThread.join();
+	window.close();
 }
