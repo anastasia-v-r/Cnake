@@ -10,7 +10,6 @@ matrix:
       - CONAN_SETTINGS_FLAG="-s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Release
-  allow_failures:
   # MacOS clang
   - os: osx
     osx_image: xcode10
@@ -35,6 +34,9 @@ matrix:
       apt:
         sources: ['ubuntu-toolchain-r-test']
         packages: ['gcc-8', 'g++-8' ]
+  allow_failures:
+  - os: osx
+  - os: linux
 
 # The pre-install script. On windows it will install conan via chocolatey
 install:
