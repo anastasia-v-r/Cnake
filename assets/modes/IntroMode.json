@@ -25,7 +25,7 @@
     },
     {
       "name": "testSquare2",
-      "size": [ 500, 500 ],
+      "size": [ 200, 200 ],
       "position": [ 800, 800 ],
       "textureName": "snakebody"
     }

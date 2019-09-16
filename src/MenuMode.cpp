@@ -1,6 +1,6 @@
 #include "MenuMode.hpp"
 
-MenuMode::MenuMode() {
+MenuMode::MenuMode() : Mode("MenuMode.json") {
 
 }
 
