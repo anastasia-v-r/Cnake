@@ -29,6 +29,7 @@ Mode::Mode(std::string fileName, std::mutex* mutex) : mut{ mutex } {
 		}
 		pushObject(object["name"].get<std::string>(), rect, object["textureName"].get<std::string>());
 	}
+	file.close();
 }
 
 Mode::~Mode() {

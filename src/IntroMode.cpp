@@ -25,7 +25,7 @@ std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow
 			case sf::Keyboard::LSystem: 
 				break;
 			default:
-				return std::make_pair(ModeAction::Add, ModeOption::Game);
+				return std::make_pair(ModeAction::Add, ModeOption::Menu);
 				break;
 			}
 			break;

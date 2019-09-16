@@ -12,6 +12,7 @@
 #include <MenuMode.hpp>
 #include <GameMode.hpp>
 #include <RuntimeStats.hpp>
+#include <Windows.h>
 // Entry Point
 int main() {
 	static std::mutex mu;
@@ -20,6 +21,8 @@ int main() {
 	desktop.width += 1;
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
 	window.setActive(false);
+	window.setActive(true);
+	window.setFramerateLimit(60);
 	// Prepare Stack
 	std::stack<std::unique_ptr<Mode>> ModeStack;
 	ModeStack.push(std::make_unique<IntroMode>(&mu));
@@ -27,26 +30,28 @@ int main() {
 	bool isRunning = true;
 	// Create Rendering Thread
 	// TODO: Fix wierd rendering error that occurs when repushing old states
-	std::thread RenderThread([&window, &ModeStack, &isRunning] {
+	/*std::thread RenderThread([&window, &ModeStack, &isRunning] {
 		// Window Settings
 		window.setActive(true);
-		window.setFramerateLimit(5000);
+		window.setFramerateLimit(60);
 		// Setup Stats
 		RuntimeStats stats;
 		// Render Loop
 		while (isRunning) {
 			// Rendering
 			window.clear();
-			//mu.lock();
-			for (const auto& object : ModeStack.top()->screenObjects) {
-				window.draw(object);
-			}
+			mu.lock();
+				for (const auto& object : ModeStack.top()->screenObjects) {
+					window.draw(object);
+				}
 			stats.draw(window);
 			window.display();
 			stats.update();
-			//mu.unlock();
+			mu.unlock();
 		}
-	});
+	});*/
+	// Setup Stats
+	RuntimeStats stats;
 	// Begin Game
 	sf::Clock GameClock;
 	while (!ModeStack.empty()) {
@@ -89,10 +94,18 @@ int main() {
 		default:
 			break;
 		}
+		// render loop
+		window.clear();
+		for (const auto& object : ModeStack.top()->screenObjects) {
+			window.draw(object);
+		}
+		stats.draw(window);
+		window.display();
+		stats.update();
 	}
 	// Safely Kill Render Thread
 	isRunning = false;
-	RenderThread.join();
+	//RenderThread.join();
 	window.close();
 }
 
