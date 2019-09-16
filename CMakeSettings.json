@@ -1,9 +1,9 @@
 {
   "configurations": [
     {
-      "name": "x64-Release",
+      "name": "x64-Debug",
       "generator": "Ninja",
-      "configurationType": "RelWithDebInfo",
+      "configurationType": "Debug",
       "buildRoot": "${projectDir}\\build\\${name}",
       "installRoot": "${projectDir}\\install\\${name}",
       "cmakeCommandArgs": "",

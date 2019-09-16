@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 
-Mode::Mode(std::string fileName) {
+Mode::Mode(std::string fileName, std::mutex* mutex) : mut{ mutex } {
 	nlohmann::json jsonData;
 	std::ifstream file("assets/modes/" + fileName);
 	file >> jsonData;
@@ -30,43 +30,34 @@ Mode::Mode(std::string fileName) {
 		pushObject(object["name"].get<std::string>(), rect, object["textureName"].get<std::string>());
 	}
 }
+
+Mode::~Mode() {
+	mut->lock();
+	mut->unlock();
+}
 /// (RectangleName, The Rectagle, the texture name)
 void Mode::pushObject(std::string rectName, sf::RectangleShape newRect, std::string textureName) {
-	while (true) {
-		if (mut.try_lock()) {
-			newRect.setTexture(&objectTextures[textureName]);
-			screenObjects.push_back(newRect);
-			screenObjectsMap.emplace(rectName, &screenObjects.back());
-			mut.unlock();
-			break;
-		} else {
-			// std::cout << "Mutex Locked!" << std::endl;
-		}
-	}
+	mut->lock();
+	newRect.setTexture(&objectTextures[textureName]);
+	screenObjects.push_back(newRect);
+	screenObjectsMap.emplace(rectName, &screenObjects.back());
+	mut->unlock();
 }
 
 void Mode::popObject(std::string name) {
-	while (true) {
-		if (true/*mut.try_lock()*/) {
-			int count = 0;
-			for (auto it = screenObjectsMap.begin(); it != screenObjectsMap.end();) {
-				if (it->first == name) {
-					screenObjects.erase(screenObjects.begin() + count);
-					it = screenObjectsMap.erase(it);
-					break;
+	mut->lock();
+	sf::RectangleShape* ptr{ nullptr };
+	for (auto it = screenObjectsMap.begin(); it != screenObjectsMap.end();) {
+		if (it->first == name) {
+			ptr = it->second;
+			for (int i = 0; i < screenObjects.size(); i++) {
+				if (&screenObjects[i] == ptr) {
+					screenObjects.erase(screenObjects.begin() + i);
 				}
-				count++;
 			}
-			//mut.unlock();
+			it = screenObjectsMap.erase(it);
 			break;
-		} else {
-			// std::cout << "Mutex Locked!" << std::endl;
 		}
 	}
+	mut->unlock();
 }
-
-/*
-std::vector<sf::RectangleShape> screenObjects;
-std::map<std::string, sf::RectangleShape*> screenObjectsMap;
-std::map<std::string, sf::Texture> objectTextures;
-*/

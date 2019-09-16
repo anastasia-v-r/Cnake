@@ -1,6 +1,6 @@
 #include "MenuMode.hpp"
 
-MenuMode::MenuMode() : Mode("MenuMode.json") {
+MenuMode::MenuMode(std::mutex* mutex) : Mode("MenuMode.json", mutex) {
 
 }
 

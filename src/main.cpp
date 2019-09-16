@@ -14,22 +14,20 @@
 #include <RuntimeStats.hpp>
 // Entry Point
 int main() {
+	static std::mutex mu;
 	// Setup Window
 	auto desktop = sf::VideoMode::getDesktopMode();
 	desktop.width += 1;
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
 	window.setActive(false);
-	// Prepare Screen Elements
-	std::vector<sf::RectangleShape>* screenObjects{ nullptr };
 	// Prepare Stack
 	std::stack<std::unique_ptr<Mode>> ModeStack;
-	ModeStack.push(std::make_unique<IntroMode>());
-	screenObjects = &(ModeStack.top()->screenObjects);
+	ModeStack.push(std::make_unique<IntroMode>(&mu));
 	// Variable for killing thread safely
 	bool isRunning = true;
 	// Create Rendering Thread
-	// TODO: Create a threadsafe way to change the ptr to the top modes vector rather than simply copying an entire the entire vector and allow for use of `screenElements = &(ModeStack.top()->screenElements);`
-	std::thread RenderThread([&window, &screenObjects, &isRunning] {
+	// TODO: Fix wierd rendering error that occurs when repushing old states
+	std::thread RenderThread([&window, &ModeStack, &isRunning] {
 		// Window Settings
 		window.setActive(true);
 		window.setFramerateLimit(5000);
@@ -39,12 +37,14 @@ int main() {
 		while (isRunning) {
 			// Rendering
 			window.clear();
-			for (const auto& element : (*screenObjects)) {
-				window.draw(element);
+			//mu.lock();
+			for (const auto& object : ModeStack.top()->screenObjects) {
+				window.draw(object);
 			}
 			stats.draw(window);
 			window.display();
 			stats.update();
+			//mu.unlock();
 		}
 	});
 	// Begin Game
@@ -60,16 +60,13 @@ int main() {
 			switch (result.second)
 			{
 			case ModeOption::Intro:
-				ModeStack.push(std::make_unique<IntroMode>());
-				screenObjects = &(ModeStack.top()->screenObjects);
+				ModeStack.push(std::make_unique<IntroMode>(&mu));
 				break;
 			case ModeOption::Menu:
-				ModeStack.push(std::make_unique<MenuMode>());
-				screenObjects = &(ModeStack.top()->screenObjects);
+				ModeStack.push(std::make_unique<MenuMode>(&mu));
 				break;
 			case ModeOption::Game:
-				ModeStack.push(std::make_unique<GameMode>());
-				screenObjects = &(ModeStack.top()->screenObjects);
+				ModeStack.push(std::make_unique<GameMode>(&mu));
 				break;
 			case ModeOption::Paused:
 				// TODO: Decide how to pause the game
@@ -80,9 +77,6 @@ int main() {
 			ModeStack.pop();
 			if (ModeStack.empty()) {
 				std::cout << "All popped!";
-			}
-			else {
-				screenObjects = &(ModeStack.top()->screenObjects);
 			}
 			break;
 		case ModeAction::RemoveAll:

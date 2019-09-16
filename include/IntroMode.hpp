@@ -5,7 +5,7 @@
 class IntroMode : public Mode
 {
 public:
-	IntroMode();
+	IntroMode(std::mutex* mutex);
 	virtual std::pair<ModeAction, ModeOption> Run(sf::Time, sf::RenderWindow&) override;
 private:
 

@@ -1,6 +1,6 @@
 #include "IntroMode.hpp"
 
-IntroMode::IntroMode() : Mode("IntroMode.json") {
+IntroMode::IntroMode(std::mutex* mutex) : Mode("IntroMode.json", mutex) {
 	auto mode = sf::VideoMode::getDesktopMode();
 	
 }
