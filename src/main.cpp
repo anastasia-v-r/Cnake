@@ -20,16 +20,16 @@ int main() {
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
 	window.setActive(false);
 	// Prepare Screen Elements
-	std::vector<std::pair<sf::RectangleShape*, sf::Texture*>>* screenElements{ nullptr };
+	std::vector<sf::RectangleShape>* screenObjects{ nullptr };
 	// Prepare Stack
 	std::stack<std::unique_ptr<Mode>> ModeStack;
 	ModeStack.push(std::make_unique<IntroMode>());
-	screenElements = &(ModeStack.top()->screenElements);
+	screenObjects = &(ModeStack.top()->screenObjects);
 	// Variable for killing thread safely
 	bool isRunning = true;
 	// Create Rendering Thread
 	// TODO: Create a threadsafe way to change the ptr to the top modes vector rather than simply copying an entire the entire vector and allow for use of `screenElements = &(ModeStack.top()->screenElements);`
-	std::thread RenderThread([&window, &screenElements, &isRunning] {
+	std::thread RenderThread([&window, &screenObjects, &isRunning] {
 		// Window Settings
 		window.setActive(true);
 		window.setFramerateLimit(5000);
@@ -39,8 +39,8 @@ int main() {
 		while (isRunning) {
 			// Rendering
 			window.clear();
-			for (const auto& element : (*screenElements)) {
-				window.draw(*element.first);
+			for (const auto& element : (*screenObjects)) {
+				window.draw(element);
 			}
 			stats.draw(window);
 			window.display();
@@ -61,15 +61,15 @@ int main() {
 			{
 			case ModeOption::Intro:
 				ModeStack.push(std::make_unique<IntroMode>());
-				screenElements = &(ModeStack.top()->screenElements);
+				screenObjects = &(ModeStack.top()->screenObjects);
 				break;
 			case ModeOption::Menu:
 				ModeStack.push(std::make_unique<MenuMode>());
-				screenElements = &(ModeStack.top()->screenElements);
+				screenObjects = &(ModeStack.top()->screenObjects);
 				break;
 			case ModeOption::Game:
 				ModeStack.push(std::make_unique<GameMode>());
-				screenElements = &(ModeStack.top()->screenElements);
+				screenObjects = &(ModeStack.top()->screenObjects);
 				break;
 			case ModeOption::Paused:
 				// TODO: Decide how to pause the game
@@ -82,7 +82,7 @@ int main() {
 				std::cout << "All popped!";
 			}
 			else {
-				screenElements = &(ModeStack.top()->screenElements);
+				screenObjects = &(ModeStack.top()->screenObjects);
 			}
 			break;
 		case ModeAction::RemoveAll:
