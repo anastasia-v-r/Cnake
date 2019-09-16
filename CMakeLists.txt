@@ -27,6 +27,8 @@ else()
     endif()
 endif()
 
+find_package(nlohmann_json 3.2.0 REQUIRED)
+
 # Program Asset Management
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
@@ -51,3 +53,4 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 endif()
 
 conan_target_link_libraries(Cnake)
+target_link_libraries(Cnake nlohmann_json::nlohmann_json)
