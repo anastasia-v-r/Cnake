@@ -1,0 +1,17 @@
+{
+  "textureCount": 1,
+  "textures": [
+    {
+      "textureName": "name",
+      "textureLoc": "name.png"
+    }
+  ],
+  "objectCount": 1,
+  "objects": [
+    {
+      "name": "name",
+      "size": [ 0, 0 ],
+      "textureName": "name"
+    }
+  ]
+}
