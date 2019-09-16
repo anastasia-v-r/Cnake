@@ -1,0 +1,21 @@
+{
+  "textureCount": 1,
+  "textures": [
+    {
+      "textureName": "playfield",
+      "textureLoc": "playfield.png"
+    },
+    {
+      "textureName": "snakebody2",
+      "textureLoc": "snakebody2.png"
+    }
+  ],
+  "objectCount": 1,
+  "objects": [
+    {
+      "name": "playfield",
+      "size": [ 1920, 1080 ],
+      "textureName": "playfield"
+    }
+  ]
+}

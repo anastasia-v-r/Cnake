@@ -12,41 +12,46 @@
 #include <MenuMode.hpp>
 #include <GameMode.hpp>
 #include <RuntimeStats.hpp>
+#include <Windows.h>
 // Entry Point
 int main() {
+	static std::mutex mu;
 	// Setup Window
 	auto desktop = sf::VideoMode::getDesktopMode();
 	desktop.width += 1;
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
 	window.setActive(false);
-	// Prepare Screen Elements
-	std::vector<std::pair<sf::RectangleShape*, sf::Texture*>>* screenElements{ nullptr };
+	window.setActive(true);
+	window.setFramerateLimit(60);
 	// Prepare Stack
 	std::stack<std::unique_ptr<Mode>> ModeStack;
-	ModeStack.push(std::make_unique<IntroMode>());
-	screenElements = &(ModeStack.top()->screenElements);
+	ModeStack.push(std::make_unique<IntroMode>(&mu));
 	// Variable for killing thread safely
 	bool isRunning = true;
 	// Create Rendering Thread
-	// TODO: Create a threadsafe way to change the ptr to the top modes vector rather than simply copying an entire the entire vector and allow for use of `screenElements = &(ModeStack.top()->screenElements);`
-	std::thread RenderThread([&window, &screenElements, &isRunning] {
+	// TODO: Fix wierd rendering error that occurs when repushing old states
+	/*std::thread RenderThread([&window, &ModeStack, &isRunning] {
 		// Window Settings
 		window.setActive(true);
-		window.setFramerateLimit(5000);
+		window.setFramerateLimit(60);
 		// Setup Stats
 		RuntimeStats stats;
 		// Render Loop
 		while (isRunning) {
 			// Rendering
 			window.clear();
-			for (const auto& element : (*screenElements)) {
-				window.draw(*element.first);
-			}
+			mu.lock();
+				for (const auto& object : ModeStack.top()->screenObjects) {
+					window.draw(object);
+				}
 			stats.draw(window);
 			window.display();
 			stats.update();
+			mu.unlock();
 		}
-	});
+	});*/
+	// Setup Stats
+	RuntimeStats stats;
 	// Begin Game
 	sf::Clock GameClock;
 	while (!ModeStack.empty()) {
@@ -60,16 +65,13 @@ int main() {
 			switch (result.second)
 			{
 			case ModeOption::Intro:
-				ModeStack.push(std::make_unique<IntroMode>());
-				screenElements = &(ModeStack.top()->screenElements);
+				ModeStack.push(std::make_unique<IntroMode>(&mu));
 				break;
 			case ModeOption::Menu:
-				ModeStack.push(std::make_unique<MenuMode>());
-				screenElements = &(ModeStack.top()->screenElements);
+				ModeStack.push(std::make_unique<MenuMode>(&mu));
 				break;
 			case ModeOption::Game:
-				ModeStack.push(std::make_unique<GameMode>());
-				screenElements = &(ModeStack.top()->screenElements);
+				ModeStack.push(std::make_unique<GameMode>(&mu));
 				break;
 			case ModeOption::Paused:
 				// TODO: Decide how to pause the game
@@ -80,9 +82,6 @@ int main() {
 			ModeStack.pop();
 			if (ModeStack.empty()) {
 				std::cout << "All popped!";
-			}
-			else {
-				screenElements = &(ModeStack.top()->screenElements);
 			}
 			break;
 		case ModeAction::RemoveAll:
@@ -95,10 +94,18 @@ int main() {
 		default:
 			break;
 		}
+		// render loop
+		window.clear();
+		for (const auto& object : ModeStack.top()->screenObjects) {
+			window.draw(object);
+		}
+		stats.draw(window);
+		window.display();
+		stats.update();
 	}
 	// Safely Kill Render Thread
 	isRunning = false;
-	RenderThread.join();
+	//RenderThread.join();
 	window.close();
 }
 
