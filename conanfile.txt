@@ -4,6 +4,3 @@ sfml/2.5.1@bincrafters/stable
 [options]
 sfml:window=True
 sfml:graphics=True
-
-[generators]
-cmake
