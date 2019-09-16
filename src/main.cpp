@@ -12,7 +12,6 @@
 #include <MenuMode.hpp>
 #include <GameMode.hpp>
 #include <RuntimeStats.hpp>
-#include <Windows.h>
 // Entry Point
 int main() {
 	static std::mutex mu;
