@@ -1,12 +1,8 @@
 #include "IntroMode.hpp"
 
-IntroMode::IntroMode() {
+IntroMode::IntroMode() : Mode("IntroMode.json") {
 	auto mode = sf::VideoMode::getDesktopMode();
-	sf::RectangleShape* splash{ new sf::RectangleShape(sf::Vector2f((float)mode.width, (float)mode.height)) };
-	sf::Texture* splashTexture{ new sf::Texture };
-	splashTexture->loadFromFile("assets/textures/splash.png");
-	splash->setTexture(splashTexture);
-	screenElements.push_back(std::make_pair(splash, splashTexture));
+	
 }
 
 std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow& window) {
@@ -19,11 +15,21 @@ std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow
 			return std::make_pair(ModeAction::Remove, ModeOption::None);
 			break;
 		case sf::Event::KeyPressed:
-			if (evnt.key.code == sf::Keyboard::Key::Escape) {
+			switch (evnt.key.code)
+			{
+			case sf::Keyboard::Escape:
 				return std::make_pair(ModeAction::Remove, ModeOption::None);
-			} else {
-				// TODO: Game->Menu once proof of concept is finished
+				break;
+			case sf::Keyboard::BackSpace:
+				return std::make_pair(ModeAction::Remove, ModeOption::None);
+				break;
+			case sf::Keyboard::RSystem: // Block windows key
+				break;
+			case sf::Keyboard::LSystem: // Block windows key
+				break;
+			default:
 				return std::make_pair(ModeAction::Add, ModeOption::Game);
+				break;
 			}
 			break;
 		}
