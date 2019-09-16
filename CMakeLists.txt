@@ -14,7 +14,10 @@ set (WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets)
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 
 # Conan
-if(EXISTS ${CMAKE_SOURCE_DIR}/conan/conanbuildinfo.cmake)
+if(EXISTS ${CMAKE_SOURCE_DIR}/conan/conanbuildinfo_multi.cmake)
+	include(${CMAKE_SOURCE_DIR}/conan/conanbuildinfo_multi.cmake)
+	conan_basic_setup()
+elseif(EXISTS ${CMAKE_SOURCE_DIR}/conan/conanbuildinfo.cmake)
     include(${CMAKE_SOURCE_DIR}/conan/conanbuildinfo.cmake)
     conan_basic_setup()
 else()
@@ -52,5 +55,10 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   target_link_libraries(Cnake stdc++fs)
 endif()
 
+# Link All Libraries
 conan_target_link_libraries(Cnake)
-target_link_libraries(Cnake nlohmann_json::nlohmann_json)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+	target_link_libraries(Cnake debug nlohmann_json::nlohmann_json)
+else ()
+	target_link_libraries(Cnake optimized nlohmann_json::nlohmann_json)
+endif()
