@@ -1,0 +1,31 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskName": "conan install release",
+      "appliesTo": "conan/",
+      "type": "launch",
+      "workingDirectory": "conan/",
+      "command": "${env.COMSPEC}",
+      "args": [
+        "conan install .. -g cmake_multi -s build_type=Release"
+      ]
+    },
+    {
+      "taskName": "conan install debug",
+      "appliesTo": "conan/",
+      "type": "launch",
+      "workingDirectory": "conan/",
+      "command": "${env.COMSPEC}",
+      "args": [
+        "conan install .. -g cmake_multi -s build_type=Debug"
+      ]
+    },
+    {
+      "taskName": "task-CMakeSettings",
+      "appliesTo": "CMakeSettings.json",
+      "type": "launch"
+    }
+
+  ]
+}

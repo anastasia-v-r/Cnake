@@ -11,6 +11,7 @@ endif()
 project (Cnake)
 set (CMAKE_CXX_STANDARD 17)
 set (WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets)
+set (EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 
 # Conan
