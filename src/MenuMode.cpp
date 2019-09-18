@@ -1,12 +1,8 @@
 #include "MenuMode.hpp"
+#include <iostream>
 
 MenuMode::MenuMode(std::mutex* mutex) : Mode("MenuMode.json", mutex, ModeOption::Menu) {
-	mKeys = {
-	{"Up", false},
-	{"Right", false},
-	{"Down", false},
-	{"Left", false}
-	};
+
 }
 
 std::pair<ModeAction, ModeOption> MenuMode::Run(sf::Time time, sf::RenderWindow& window) {
@@ -17,7 +13,7 @@ std::pair<ModeAction, ModeOption> MenuMode::Run(sf::Time time, sf::RenderWindow&
 		switch (evnt.type)
 		{
 		case sf::Event::MouseButtonPressed:
-			return std::make_pair(ModeAction::Add, ModeOption::Game);
+			break;
 		case sf::Event::KeyPressed:
 			switch (evnt.key.code)
 			{
@@ -27,25 +23,15 @@ std::pair<ModeAction, ModeOption> MenuMode::Run(sf::Time time, sf::RenderWindow&
 			case sf::Keyboard::BackSpace:
 				return std::make_pair(ModeAction::DropTo, ModeOption::Intro);
 				break;
-			case sf::Keyboard::Space: {
-				auto mode = sf::VideoMode::getDesktopMode();
-				sf::RectangleShape player{ sf::RectangleShape(sf::Vector2f(100.0f, 100.0f)) };
-				player.setPosition(sf::Vector2f((float)mode.width / 2.0f, (float)mode.height / 2.0f));
-				if (!screenObjectsMap.count("Player"))
-					pushObject("Player", player, "snakebody");
-				break;
-			}
 			case sf::Keyboard::Enter:
-				if (screenObjectsMap.count("Player"))
-					popObject("Player");
+				return std::make_pair(ModeAction::Add, ModeOption::Game);
 				break;
 			default:
-				processKeys(evnt.key.code, true);
+				std::cout << "Key [" << evnt.key.code << "] is not handeled by State [MenuMode]" << std::endl;
 				break;
 			}
 			break;
 		case sf::Event::KeyReleased:
-			processKeys(evnt.key.code, false);
 			break;
 		case sf::Event::Closed:
 			return std::make_pair(ModeAction::DropTo, ModeOption::None);
@@ -53,38 +39,7 @@ std::pair<ModeAction, ModeOption> MenuMode::Run(sf::Time time, sf::RenderWindow&
 		}
 	}
 	// Update Game Logic
-	if (screenObjectsMap.count("Player")) {
-		if (mKeys["Up"])
-			screenObjectsMap["Player"]->move(0.0f, -speed * time.asSeconds());
-		if (mKeys["Right"])
-			screenObjectsMap["Player"]->move(speed * time.asSeconds(), 0.0f);
-		if (mKeys["Down"])
-			screenObjectsMap["Player"]->move(0.0f, speed * time.asSeconds());
-		if (mKeys["Left"])
-			screenObjectsMap["Player"]->move(-speed * time.asSeconds(), 0.0f);
-	}
+
 	// Im case of no state changes
 	return std::make_pair(ModeAction::None, ModeOption::None);
-}
-
-void MenuMode::processKeys(sf::Keyboard::Key key, bool pressed) {
-	switch (key)
-	{
-	case sf::Keyboard::W:
-	case sf::Keyboard::Up:
-		mKeys["Up"] = pressed;
-		break;
-	case sf::Keyboard::D:
-	case sf::Keyboard::Right:
-		mKeys["Right"] = pressed;
-		break;
-	case sf::Keyboard::S:
-	case sf::Keyboard::Down:
-		mKeys["Down"] = pressed;
-		break;
-	case sf::Keyboard::A:
-	case sf::Keyboard::Left:
-		mKeys["Left"] = pressed;
-		break;
-	}
 }
