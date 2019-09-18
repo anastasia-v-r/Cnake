@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 
-Mode::Mode(std::string fileName, std::mutex* mutex) : mut{ mutex } {
+Mode::Mode(std::string fileName, std::mutex* mutex, ModeOption modeType) : mut{ mutex }, ModeType{ modeType } {
 	nlohmann::json jsonData;
 	std::ifstream file("assets/modes/" + fileName);
 	file >> jsonData;
@@ -32,10 +32,6 @@ Mode::Mode(std::string fileName, std::mutex* mutex) : mut{ mutex } {
 	file.close();
 }
 
-Mode::~Mode() {
-	mut->lock();
-	mut->unlock();
-}
 /// (RectangleName, The Rectagle, the texture name)
 void Mode::pushObject(std::string rectName, sf::RectangleShape newRect, std::string textureName) {
 	mut->lock();
