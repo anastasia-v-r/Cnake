@@ -5,7 +5,8 @@
 [Cc]onan/
 
 ## .vs
-.vs/
+.vs/*
+!.vs/tasks.vs.json
 
 ## .vscode
 .vscode/

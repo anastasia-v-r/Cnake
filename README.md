@@ -53,6 +53,7 @@ This is a clone of the famous "Snake" game coded in [C++](http://cplusplus.com) 
       - Run `makedir build && cd build`
       - Run `cmake ..`
       - Run `cmake --build .`
+     
 
 ## Dependencies && Resource
 SFML v2.5.1

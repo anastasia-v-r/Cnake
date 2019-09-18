@@ -4,39 +4,72 @@ language: cpp
 # Matrix
 matrix:
   include:
-  # windows msvc
-  - os: windows
+  # Windows msvc Release
+  - name: "Windows Release"
+    os: windows
     env:
-      - CONAN_SETTINGS_FLAG="-s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
+      - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Release
-  # MacOS clang
-  - os: osx
+  # Windows msvc Debug
+  - name: "Windows Debug"
+    os: windows
+    env:
+      - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Debug -b missing"
+      - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
+      - BUILD_CONFIG=Debug
+  # MacOS clang Release
+  - name: "MacOS Release"
+    os: osx
     osx_image: xcode10
     env:
       - compiler=clang
       - COMPILER_CC=clang
       - COMPILER_CXX=clang++
-      - CONAN_SETTINGS_FLAG=""
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Release
-  # Linux gcc
-  - os: linux
+  # MacOS clang Debug
+  - name: "MacOS Debug"
+    os: osx
+    osx_image: xcode10
+    env:
+      - compiler=clang
+      - COMPILER_CC=clang
+      - COMPILER_CXX=clang++
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug"
+      - CMAKE_GENERATOR_FLAG=""
+      - BUILD_CONFIG=Debug
+  # Linux gcc Release
+  - name: "Linux Release"
+    os: linux
     dist: xenial
     env:
       - COMPILER=g++-8
       - COMPILER_CC=gcc-8
       - COMPILER_CXX=g++-8
-      - CONAN_SETTINGS_FLAG="-s compiler.libcxx=libstdc++11"
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -s compiler.libcxx=libstdc++11"
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Release
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']
         packages: ['gcc-8', 'g++-8' ]
-  allow_failures:
-  - os: osx
-  - os: linux
+  # Linux gcc Debug
+  - name: "Linux Debug"
+    os: linux
+    dist: xenial
+    env:
+      - COMPILER=g++-8
+      - COMPILER_CC=gcc-8
+      - COMPILER_CXX=g++-8
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -s compiler.libcxx=libstdc++11"
+      - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
+      - BUILD_CONFIG=Debug
+    addons:
+      apt:
+        sources: ['ubuntu-toolchain-r-test']
+        packages: ['gcc-8', 'g++-8' ]
 
 # The pre-install script. On windows it will install conan via chocolatey
 install:
@@ -47,7 +80,6 @@ install:
        pip install --user --upgrade pip
        pip install --user conan --upgrade
      fi
-
 # Setup Build
 before_script:
   # The path to conan does not get set properly because travis does not restart the shell
