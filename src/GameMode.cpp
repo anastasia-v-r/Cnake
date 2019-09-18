@@ -2,7 +2,7 @@
 #include <thread>
 #include <chrono>
 
-GameMode::GameMode(std::mutex* mutex) : Mode("GameMode.json", mutex) {
+GameMode::GameMode(std::mutex* mutex) : Mode("GameMode.json", mutex, ModeOption::Game) {
 	mKeys = {
 		{"Up", false},
 		{"Right", false},
@@ -22,10 +22,10 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 			switch (evnt.key.code)
 			{
 			case sf::Keyboard::Escape:
-				return std::make_pair(ModeAction::RemoveAll, ModeOption::None);
+				return std::make_pair(ModeAction::DropTo, ModeOption::None);
 				break;
 			case sf::Keyboard::BackSpace:
-				return std::make_pair(ModeAction::Remove, ModeOption::None);
+				return std::make_pair(ModeAction::DropTo, ModeOption::Menu);
 				break;
 			case sf::Keyboard::Space: {
 				auto mode = sf::VideoMode::getDesktopMode();
@@ -48,7 +48,7 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 			processKeys(evnt.key.code, false);
 			break;
 		case sf::Event::Closed:
-			return std::make_pair(ModeAction::RemoveAll, ModeOption::None);
+			return std::make_pair(ModeAction::DropTo, ModeOption::None);
 			break;
 		}
 	}

@@ -30,7 +30,7 @@ int main() {
 	std::thread RenderThread([&window, &ModeStack, &isRunning] {
 		// Window Settings
 		window.setActive(true);
-		window.setFramerateLimit(60);
+		//window.setFramerateLimit(60);
 		// Setup Stats
 		RuntimeStats stats;
 		// Render Loop
@@ -38,61 +38,63 @@ int main() {
 			// Rendering
 			window.clear();
 			mu.lock();
-				for (const auto& object : ModeStack.top()->screenObjects) {
-					window.draw(object);
-				}
+			for (const auto& object : ModeStack.top()->screenObjects) {
+				window.draw(object);
+			}
 			stats.draw(window);
 			window.display();
-			stats.update();
 			mu.unlock();
+			stats.update();
 		}
+		std::cout << "Yeh" << std::endl;
 	});
 	// Begin Game
 	sf::Clock GameClock;
 	while (!ModeStack.empty()) {
 		sf::Time timePassed = GameClock.restart();
 		auto result = ModeStack.top()->Run(timePassed, window);
-		switch (result.first)
-		{
-		case ModeAction::None:
-			break;
-		case ModeAction::Add:
-			switch (result.second)
+		if (result.first != ModeAction::None) {
+			switch (result.first)
 			{
-			case ModeOption::Intro:
-				ModeStack.push(std::make_unique<IntroMode>(&mu));
+			case ModeAction::Add:
+				switch (result.second)
+				{
+				case ModeOption::Intro:
+					ModeStack.push(std::make_unique<IntroMode>(&mu));
+					break;
+				case ModeOption::Menu:
+					ModeStack.push(std::make_unique<MenuMode>(&mu));
+					break;
+				case ModeOption::Game:
+					ModeStack.push(std::make_unique<GameMode>(&mu));
+					break;
+				case ModeOption::Paused:
+					// TODO: Decide how to pause the game
+					break;
+				}
 				break;
-			case ModeOption::Menu:
-				ModeStack.push(std::make_unique<MenuMode>(&mu));
+			case ModeAction::DropTo:
+				// Safely Kill Render Thread
+				if (result.second == ModeOption::None) {
+					isRunning = false;
+					RenderThread.join();
+				}
+				mu.lock();
+				while (!(ModeStack.empty()) && (ModeStack.top()->type() != result.second)) {
+					ModeStack.pop();
+				}
+				if (ModeStack.empty()) {
+					window.close();
+				}
+				mu.unlock();
+				isRunning = true;
 				break;
-			case ModeOption::Game:
-				ModeStack.push(std::make_unique<GameMode>(&mu));
-				break;
-			case ModeOption::Paused:
-				// TODO: Decide how to pause the game
+			default:
 				break;
 			}
-			break;
-		case ModeAction::Remove:
-			ModeStack.pop();
-			if (ModeStack.empty()) {
-				std::cout << "All popped!";
-			}
-			break;
-		case ModeAction::RemoveAll:
-			while (!ModeStack.empty()) {
-				ModeStack.pop();
-				std::cout << "Popped !";
-			}
-			std::cout << "All popped!";
-			break;
-		default:
-			break;
 		}
 	}
-	// Safely Kill Render Thread
-	isRunning = false;
-	RenderThread.join();
-	window.close();
+	std::cout << "All done" << std::endl;
+	//std::cin.ignore(1);
 }
 
