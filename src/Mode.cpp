@@ -35,7 +35,11 @@ Mode::Mode(std::string fileName, std::mutex* mutex, ModeOption modeType) : mut{ 
 /// (RectangleName, The Rectagle, the texture name)
 void Mode::pushObject(std::string rectName, sf::RectangleShape newRect, std::string textureName) {
 	mut->lock();
-	newRect.setTexture(&objectTextures[textureName]);
+	if (objectTextures.count(textureName)) {
+		newRect.setTexture(&objectTextures[textureName]);
+	} else {
+		newRect.setFillColor(sf::Color());
+	}
 	screenObjects.push_back(newRect);
 	screenObjectsMap.emplace(rectName, &screenObjects.back());
 	mut->unlock();
