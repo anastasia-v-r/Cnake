@@ -10,7 +10,7 @@
       "textureLoc": "menu.png"
     }
   ],
-  "objectCount": 1,
+  "objectCount": 2,
   "objects": [
     {
       "name": "playfield",
@@ -20,7 +20,19 @@
     {
       "name": "menu",
       "size": [ 500, 200 ],
-      "position": [ 960, 540 ],
+      "position": [ 710, 240 ],
+      "textureName": "menu"
+    },
+    {
+      "name": "playButton",
+      "size": [ 300, 150 ],
+      "position": [ 710, 540 ],
+      "textureName": "menu"
+    },
+    {
+      "name": "exitButton",
+      "size": [ 300, 150 ],
+      "position": [ 710, 740 ],
       "textureName": "menu"
     }
   ]
