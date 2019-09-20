@@ -4,13 +4,9 @@
     {
       "textureName": "background",
       "textureLoc": "MenuBg.png"
-    },
-    {
-      "textureName": "menu",
-      "textureLoc": "menu.png"
     }
   ],
-  "objectCount": 2,
+  "objectCount": 4,
   "objects": [
     {
       "name": "background",
@@ -19,20 +15,20 @@
     },
     {
       "name": "playButton",
-      "size": [ 300, 150 ],
-      "position": [ 710, 540 ],
+      "size": [ 350, 200 ],
+      "position": [ 750, 340 ],
       "textureName": "empty"
     },
     {
       "name": "optionButton",
-      "size": [ 300, 150 ],
-      "position": [ 710, 540 ],
+      "size": [ 350, 200 ],
+      "position": [ 750, 550 ],
       "textureName": "empty"
     },
     {
       "name": "exitButton",
-      "size": [ 300, 150 ],
-      "position": [ 710, 740 ],
+      "size": [ 350, 200 ],
+      "position": [ 750, 760 ],
       "textureName": "empty"
     }
   ]
