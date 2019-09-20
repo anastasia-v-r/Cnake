@@ -2,8 +2,8 @@
   "textureCount": 1,
   "textures": [
     {
-      "textureName": "playfield",
-      "textureLoc": "playfield.png"
+      "textureName": "background",
+      "textureLoc": "MenuBg.png"
     },
     {
       "textureName": "menu",
@@ -13,27 +13,27 @@
   "objectCount": 2,
   "objects": [
     {
-      "name": "playfield",
+      "name": "background",
       "size": [ 1920, 1080 ],
-      "textureName": "playfield"
-    },
-    {
-      "name": "menu",
-      "size": [ 500, 200 ],
-      "position": [ 710, 240 ],
-      "textureName": "menu"
+      "textureName": "background"
     },
     {
       "name": "playButton",
       "size": [ 300, 150 ],
       "position": [ 710, 540 ],
-      "textureName": "menu"
+      "textureName": "empty"
+    },
+    {
+      "name": "optionButton",
+      "size": [ 300, 150 ],
+      "position": [ 710, 540 ],
+      "textureName": "empty"
     },
     {
       "name": "exitButton",
       "size": [ 300, 150 ],
       "position": [ 710, 740 ],
-      "textureName": "menu"
+      "textureName": "empty"
     }
   ]
 }
