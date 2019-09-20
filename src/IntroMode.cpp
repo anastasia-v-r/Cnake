@@ -17,20 +17,26 @@ std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow
 		case sf::Event::KeyPressed:
 			switch (evnt.key.code)
 			{
-			case sf::Keyboard::Escape:
-			case sf::Keyboard::BackSpace:
-				return std::make_pair(ModeAction::DropTo, ModeOption::None);
-				break;
-			case sf::Keyboard::RSystem: // Block windows key
+			case sf::Keyboard::RSystem: // Block windows and other system keys
 			case sf::Keyboard::LSystem: 
+			case sf::Keyboard::LAlt:
+			case sf::Keyboard::RAlt:
+			case sf::Keyboard::LControl:
+			case sf::Keyboard::RControl:
 				break;
 			default:
 				return std::make_pair(ModeAction::Add, ModeOption::Menu);
 				break;
 			}
 			break;
+		case sf::Event::MouseButtonPressed:
+			if (window.hasFocus()) {
+				return std::make_pair(ModeAction::Add, ModeOption::Menu);
+			}
 		}
 	}
+	// Handle Passive Logic
+
 	// Im case of no state changes
 	return std::make_pair(ModeAction::None, ModeOption::None);
 }
