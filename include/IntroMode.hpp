@@ -10,5 +10,10 @@ public:
 private:
 
 private:
-	
+	enum fadeStage {
+		In,
+		Out,
+		Over
+	};
+	fadeStage fading;
 };

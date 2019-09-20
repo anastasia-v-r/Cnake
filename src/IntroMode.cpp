@@ -1,8 +1,9 @@
 #include "IntroMode.hpp"
+#include <iostream>
 
-IntroMode::IntroMode(std::mutex* mutex) : Mode("IntroMode.json", mutex, ModeOption::Intro) {
+IntroMode::IntroMode(std::mutex* mutex) : fading{ fadeStage::In } , Mode("IntroMode.json", mutex, ModeOption::Intro) {
 	auto mode = sf::VideoMode::getDesktopMode();
-	
+	screenObjectsMap["fadeCover"]->setFillColor(sf::Color(255, 255, 255, 255));
 }
 
 std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow& window) {
@@ -24,6 +25,9 @@ std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow
 			case sf::Keyboard::LControl:
 			case sf::Keyboard::RControl:
 				break;
+			case sf::Keyboard::Enter:
+				return std::make_pair(ModeAction::DropTo, ModeOption::None);
+				break;
 			default:
 				return std::make_pair(ModeAction::Add, ModeOption::Menu);
 				break;
@@ -36,7 +40,39 @@ std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow
 		}
 	}
 	// Handle Passive Logic
-
+	if (timeBank.asSeconds() > .01) {
+		switch (fading)
+		{
+		case fadeStage::In:
+			if (screenObjectsMap["fadeCover"]->getFillColor().a > 0) {
+				sf::Color temp = screenObjectsMap["fadeCover"]->getFillColor();
+				temp.a--;
+				screenObjectsMap["fadeCover"]->setFillColor(temp);
+				std::cout << "Fading ..." << std::endl;
+				timeBank = (sf::seconds)(timeBank.asSeconds() - .01);
+			} else {
+				fading = fadeStage::Out;
+			}
+			break;
+		case fadeStage::Out:
+			if (screenObjectsMap["fadeCover"]->getFillColor().a < 255) {
+				sf::Color temp = screenObjectsMap["fadeCover"]->getFillColor();
+				temp.a++;
+				screenObjectsMap["fadeCover"]->setFillColor(temp);
+				std::cout << "Fading ..." << std::endl;
+				timeBank = (sf::seconds)(timeBank.asSeconds() - .01);
+			}
+			else {
+				fading = fadeStage::Over;
+			}
+			break;
+		case fadeStage::Over:
+			return std::make_pair(ModeAction::Add, ModeOption::Menu);
+			break;
+		}
+	} else {
+		timeBank += time;
+	}
 	// Im case of no state changes
 	return std::make_pair(ModeAction::None, ModeOption::None);
 }
