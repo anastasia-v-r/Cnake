@@ -38,7 +38,8 @@ void Mode::pushObject(std::string rectName, sf::RectangleShape newRect, std::str
 	if (objectTextures.count(textureName)) {
 		newRect.setTexture(&objectTextures[textureName]);
 	} else {
-		newRect.setFillColor(sf::Color());
+		std::cout << "Rectangle \"" << rectName << "\" is missing the their texture \"" << textureName << "\"\n";
+		newRect.setFillColor(sf::Color::Green);
 	}
 	screenObjects.push_back(newRect);
 	screenObjectsMap.emplace(rectName, &screenObjects.back());

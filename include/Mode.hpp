@@ -35,4 +35,5 @@ public:
 protected:
 	std::mutex* mut;
 	ModeOption ModeType;
+	sf::Time timeBank;
 };
