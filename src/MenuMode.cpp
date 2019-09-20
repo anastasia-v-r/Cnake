@@ -12,7 +12,19 @@ std::pair<ModeAction, ModeOption> MenuMode::Run(sf::Time time, sf::RenderWindow&
 	while (window.pollEvent(evnt)) {
 		switch (evnt.type)
 		{
-		case sf::Event::MouseButtonPressed:
+		case sf::Event::MouseButtonPressed: {
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+			if (screenObjectsMap["playButton"]->getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+				return std::make_pair(ModeAction::Add, ModeOption::Game);
+			}
+			else if (screenObjectsMap["exitButton"]->getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+				return std::make_pair(ModeAction::DropTo, ModeOption::None);
+			}
+			else {
+				std::cout << "You clicked on nothing!" << std::endl;
+			}
+		}
 			break;
 		case sf::Event::KeyPressed:
 			switch (evnt.key.code)
