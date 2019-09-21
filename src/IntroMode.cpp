@@ -3,7 +3,7 @@
 
 IntroMode::IntroMode(std::mutex* mutex) : fading{ fadeStage::In } , Mode("IntroMode.json", mutex, ModeOption::Intro) {
 	auto mode = sf::VideoMode::getDesktopMode();
-	screenObjectsMap["fadeCover"]->setFillColor(sf::Color(255, 255, 255, 255));
+	screenObjectsMap["fadeCover"].setFillColor(sf::Color(255, 255, 255, 255));
 }
 
 std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow& window) {
@@ -44,10 +44,10 @@ std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow
 		switch (fading)
 		{
 		case fadeStage::In:
-			if (screenObjectsMap["fadeCover"]->getFillColor().a > 0) {
-				sf::Color temp = screenObjectsMap["fadeCover"]->getFillColor();
+			if (screenObjectsMap["fadeCover"].getFillColor().a > 0) {
+				sf::Color temp = screenObjectsMap["fadeCover"].getFillColor();
 				temp.a--;
-				screenObjectsMap["fadeCover"]->setFillColor(temp);
+				screenObjectsMap["fadeCover"].setFillColor(temp);
 				std::cout << "Fading ..." << std::endl;
 				timeBank = (sf::seconds)(timeBank.asSeconds() - .01);
 			} else {
@@ -55,10 +55,10 @@ std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow
 			}
 			break;
 		case fadeStage::Out:
-			if (screenObjectsMap["fadeCover"]->getFillColor().a < 255) {
-				sf::Color temp = screenObjectsMap["fadeCover"]->getFillColor();
+			if (screenObjectsMap["fadeCover"].getFillColor().a < 255) {
+				sf::Color temp = screenObjectsMap["fadeCover"].getFillColor();
 				temp.a++;
-				screenObjectsMap["fadeCover"]->setFillColor(temp);
+				screenObjectsMap["fadeCover"].setFillColor(temp);
 				std::cout << "Fading ..." << std::endl;
 				timeBank = (sf::seconds)(timeBank.asSeconds() - .01);
 			}

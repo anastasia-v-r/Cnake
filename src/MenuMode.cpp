@@ -15,16 +15,32 @@ std::pair<ModeAction, ModeOption> MenuMode::Run(sf::Time time, sf::RenderWindow&
 		case sf::Event::MouseButtonPressed: {
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-			if (screenObjectsMap["playButton"]->getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+			std::cout << "Mouse Pos [" << mousePosF.x << ", " << mousePosF.y << "]" << std::endl;
+			/*if ((mousePosF.x > 770.0f) && (mousePosF.x < 1250.0f) && (mousePosF.y > 440.0f) && (mousePosF.y < 630.0f)) {
 				return std::make_pair(ModeAction::Add, ModeOption::Game);
-			}
-			else if (screenObjectsMap["exitButton"]->getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+			} else if ((mousePosF.x > 770.0f) && (mousePosF.x < 1250.0f) && (mousePosF.y > 650.0f) && (mousePosF.y < 840.0f)) {
+				return std::make_pair(ModeAction::Add, ModeOption::Settings);
+			} else if ((mousePosF.x > 770.0f) && (mousePosF.x < 1250.0f) && (mousePosF.y > 860.0f) && (mousePosF.y < 1050.0f)) {
 				return std::make_pair(ModeAction::DropTo, ModeOption::None);
+			} else {
+				std::cout << "You clicked on nothing!" << std::endl;
+			}*/
+			std::cout << "[" << screenObjectsMap["playButton"].getPosition().x << ", " << screenObjectsMap["playButton"].getPosition().y << "]" << std::endl;
+			std::cout << "[" << screenObjectsMap["playButton"].getPosition().x << ", " << screenObjectsMap["playButton"].getPosition().y << "]" << std::endl;
+			if (screenObjectsMap["playButton"].getGlobalBounds().contains(mousePosF)) {
+				//return std::make_pair(ModeAction::Add, ModeOption::Game);
+				std::cout << "Play Button" << std::endl;
+			} else if (screenObjectsMap["settingsButton"].getGlobalBounds().contains(mousePosF)) {
+				//return std::make_pair(ModeAction::Add, ModeOption::Settings);
+				std::cout << "Settings Button" << std::endl;
+			} else if (screenObjectsMap["exitButton"].getGlobalBounds().contains(mousePosF)) {
+				//return std::make_pair(ModeAction::DropTo, ModeOption::None);
+				std::cout << "Exit Button" << std::endl;
 			}
 			else {
 				std::cout << "You clicked on nothing!" << std::endl;
 			}
-		}
+			}
 			break;
 		case sf::Event::KeyPressed:
 			switch (evnt.key.code)
@@ -32,21 +48,15 @@ std::pair<ModeAction, ModeOption> MenuMode::Run(sf::Time time, sf::RenderWindow&
 			case sf::Keyboard::Escape:
 				return std::make_pair(ModeAction::DropTo, ModeOption::None);
 				break;
-			case sf::Keyboard::BackSpace:
-				return std::make_pair(ModeAction::DropTo, ModeOption::Intro);
-				break;
-			case sf::Keyboard::Enter:
-				return std::make_pair(ModeAction::Add, ModeOption::Game);
-				break;
 			default:
 				std::cout << "Key [" << evnt.key.code << "] is not handeled by State [MenuMode]" << std::endl;
 				break;
 			}
 			break;
-		case sf::Event::KeyReleased:
-			break;
 		case sf::Event::Closed:
 			return std::make_pair(ModeAction::DropTo, ModeOption::None);
+			break;
+		default:
 			break;
 		}
 	}

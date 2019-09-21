@@ -30,7 +30,7 @@ protected:
 	void pushObject(std::string, sf::RectangleShape, std::string);
 	void popObject(std::string);
 public:
-	std::vector<sf::RectangleShape> screenObjects;
+	std::vector<sf::RectangleShape*> screenObjects;
 	std::map<std::string, sf::RectangleShape> screenObjectsMap;
 	std::map<std::string, sf::Texture> objectTextures;
 protected:

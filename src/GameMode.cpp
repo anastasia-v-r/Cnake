@@ -29,8 +29,7 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 				break;
 			case sf::Keyboard::Space: {
 				auto mode = sf::VideoMode::getDesktopMode();
-				sf::RectangleShape player{sf::RectangleShape(sf::Vector2f(100.0f, 100.0f))};
-				player.setPosition(sf::Vector2f((float)mode.width / 2.0f, (float)mode.height / 2.0f));
+				sf::RectangleShape player{ sf::Vector2f((float)mode.width / 2.0f, (float)mode.height / 2.0f) };
 				if (!screenObjectsMap.count("Player"))
 					pushObject("Player", player, "snakebody");
 				break;
@@ -55,13 +54,13 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 	// Update Game Logic
 	if (screenObjectsMap.count("Player")) {
 		if (mKeys["Up"])
-			screenObjectsMap["Player"]->move(0.0f, -speed * time.asSeconds());
+			screenObjectsMap["Player"].move(0.0f, -speed * time.asSeconds());
 		if (mKeys["Right"])
-			screenObjectsMap["Player"]->move(speed * time.asSeconds(), 0.0f);
+			screenObjectsMap["Player"].move(speed * time.asSeconds(), 0.0f);
 		if (mKeys["Down"])
-			screenObjectsMap["Player"]->move(0.0f, speed * time.asSeconds());
+			screenObjectsMap["Player"].move(0.0f, speed * time.asSeconds());
 		if (mKeys["Left"])
-			screenObjectsMap["Player"]->move(-speed * time.asSeconds(), 0.0f);
+			screenObjectsMap["Player"].move(-speed * time.asSeconds(), 0.0f);
 	}
 	// Im case of no state changes
 	return std::make_pair(ModeAction::None, ModeOption::None);

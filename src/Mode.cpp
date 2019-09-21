@@ -38,30 +38,29 @@ void Mode::pushObject(std::string rectName, sf::RectangleShape newRect, std::str
 	if (objectTextures.count(textureName)) {
 		newRect.setTexture(&objectTextures[textureName]);
 		std::cout << "Rectangle \"" << rectName << "\" has found texture \"" << textureName << "\"\n";
-	} else if (textureName == "blank") {
+	} else if (textureName == "empty") {
 		std::cout << "Rectangle \"" << rectName << "\" has chosen no texture \n";
 		newRect.setFillColor(sf::Color(255, 255, 255, 0));
 	} else {
 		std::cout << "Rectangle \"" << rectName << "\" is missing the their texture \"" << textureName << "\"\n";
 		newRect.setFillColor(sf::Color::Green);
 	}
-	screenObjects.push_back(newRect);
-	screenObjectsMap.emplace(rectName, &screenObjects.back());
+	screenObjectsMap.emplace(rectName, newRect);
+	screenObjects.emplace_back(&newRect);
 	mut->unlock();
 }
 
 void Mode::popObject(std::string name) {
 	mut->lock();
-	sf::RectangleShape* ptr{ nullptr };
 	for (auto it = screenObjectsMap.begin(); it != screenObjectsMap.end();) {
 		if (it->first == name) {
-			ptr = it->second;
 			for (int i = 0; i < screenObjects.size(); i++) {
-				if (&screenObjects[i] == ptr) {
-					screenObjects.erase(screenObjects.begin() + i);
+				if (screenObjects[i] == &(it->second)) {
+					screenObjects.erase(screenObjects.begin()+i);
+					screenObjects.shrink_to_fit();
+					break;
 				}
 			}
-			it = screenObjectsMap.erase(it);
 			break;
 		}
 	}

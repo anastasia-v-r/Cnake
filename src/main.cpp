@@ -38,8 +38,8 @@ int main() {
 			// Rendering
 			window.clear();
 			mu.lock();
-			for (const auto& object : ModeStack.top()->screenObjects) {
-				window.draw(object);
+			for (const auto& element : ModeStack.top()->screenObjects) {
+				window.draw(*element);
 			}
 			stats.draw(window);
 			window.display();
