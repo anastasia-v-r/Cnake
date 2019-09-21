@@ -19,6 +19,8 @@ int main() {
 	// Prepare Stack
 	std::stack<std::unique_ptr<Mode>> ModeStack;
 	ModeStack.push(std::make_unique<IntroMode>());
+	// Prepare Runtime State
+	RuntimeStats rStats;
 	// Begin Game
 	sf::Clock GameClock;
 	while (!ModeStack.empty()) {
@@ -59,6 +61,15 @@ int main() {
 				break;
 			}
 		}
+		if (window.isOpen()) {
+			window.clear();
+			for (const auto& element : ModeStack.top()->screenObjects) {
+				window.draw(*element);
+			}
+			rStats.draw(window);
+			window.display();
+			rStats.update();
+		}	
 	}
 	std::cout << "All done" << std::endl;
 	//std::cin.ignore(1);
