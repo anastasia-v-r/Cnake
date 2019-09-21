@@ -8,10 +8,7 @@
 #include <mutex>
 #include <atomic>
 #include <Player.hpp>
-#include <Mode.hpp>
-#include <IntroMode.hpp>
-#include <MenuMode.hpp>
-#include <GameMode.hpp>
+#include <ModeList.hpp>
 #include <RuntimeStats.hpp>
 // Entry Point
 int main() {
