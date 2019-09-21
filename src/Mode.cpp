@@ -39,8 +39,10 @@ void Mode::pushObject(std::string rectName, sf::RectangleShape newRect, std::str
 		newRect.setTexture(&objectTextures[textureName]);
 		std::cout << "Rectangle \"" << rectName << "\" has found texture \"" << textureName << "\"\n";
 	} else if (textureName == "empty") {
-		std::cout << "Rectangle \"" << rectName << "\" has chosen no texture \n";
+		std::cout << "Rectangle \"" << rectName << "\" has chosen a blank texture \n";
 		newRect.setFillColor(sf::Color(255, 255, 255, 0));
+	} else if (textureName == "noChange") {
+		std::cout << "Rectangle \"" << rectName << "\" has chosen no texture \n";
 	} else {
 		std::cout << "Rectangle \"" << rectName << "\" is missing the their texture \"" << textureName << "\"\n";
 		newRect.setFillColor(sf::Color::Green);
