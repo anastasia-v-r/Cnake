@@ -46,7 +46,8 @@ void Mode::pushObject(std::string rectName, sf::RectangleShape newRect, std::str
 		newRect.setFillColor(sf::Color::Green);
 	}
 	screenObjectsMap.emplace(rectName, newRect);
-	screenObjects.emplace_back(&newRect);
+	auto* obj = &screenObjectsMap[rectName];
+	screenObjects.emplace_back(obj);
 	mut->unlock();
 }
 
