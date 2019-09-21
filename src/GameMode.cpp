@@ -29,7 +29,8 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 				break;
 			case sf::Keyboard::Space: {
 				auto mode = sf::VideoMode::getDesktopMode();
-				sf::RectangleShape player{ sf::Vector2f((float)mode.width / 2.0f, (float)mode.height / 2.0f) };
+				sf::RectangleShape player{ sf::Vector2f( 100.0f, 100.0f) };
+				player.setPosition((float)mode.width / 2.0f, (float)mode.height / 2.0f);
 				if (!screenObjectsMap.count("Player"))
 					pushObject("Player", player, "snakebody");
 				break;

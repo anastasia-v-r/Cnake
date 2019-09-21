@@ -67,6 +67,7 @@ void Mode::popObject(std::string name) {
 					break;
 				}
 			}
+			screenObjectsMap.erase(it);
 			break;
 		}
 	}
