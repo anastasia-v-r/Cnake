@@ -5,7 +5,7 @@
 class MenuMode : public Mode
 {
 public:
-	MenuMode(std::mutex* mutex);
+	MenuMode();
 	virtual std::pair<ModeAction, ModeOption> Run(sf::Time, sf::RenderWindow&) override;
 private:
 

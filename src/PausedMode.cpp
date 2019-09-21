@@ -1,6 +1,6 @@
 #include "PausedMode.hpp"
 
-PausedMode::PausedMode(std::mutex* mutex) : Mode("PausedMode.json", mutex, ModeOption::Intro) {
+PausedMode::PausedMode() : Mode("PausedMode.json", ModeOption::Intro) {
 	auto mode = sf::VideoMode::getDesktopMode();
 }
 

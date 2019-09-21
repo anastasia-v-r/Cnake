@@ -1,7 +1,7 @@
 #include "IntroMode.hpp"
 #include <iostream>
 
-IntroMode::IntroMode(std::mutex* mutex) : fading{ fadeStage::In } , Mode("IntroMode.json", mutex, ModeOption::Intro) {
+IntroMode::IntroMode() : fading{ fadeStage::In } , Mode("IntroMode.json", ModeOption::Intro) {
 	auto mode = sf::VideoMode::getDesktopMode();
 	screenObjectsMap["fadeCover"].setFillColor(sf::Color(255, 255, 255, 255));
 }

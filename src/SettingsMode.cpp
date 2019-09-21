@@ -1,6 +1,6 @@
 #include "SettingsMode.hpp"
 
-SettingsMode::SettingsMode(std::mutex* mutex) : Mode("SettingsMode.json", mutex, ModeOption::Intro) {
+SettingsMode::SettingsMode() : Mode("SettingsMode.json", ModeOption::Intro) {
 	auto mode = sf::VideoMode::getDesktopMode();
 }
 

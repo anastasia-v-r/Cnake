@@ -2,7 +2,7 @@
 #include <thread>
 #include <chrono>
 
-GameMode::GameMode(std::mutex* mutex) : Mode("GameMode.json", mutex, ModeOption::Game) {
+GameMode::GameMode() : Mode("GameMode.json", ModeOption::Game) {
 	mKeys = {
 		{"Up", false},
 		{"Right", false},

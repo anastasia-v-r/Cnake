@@ -5,7 +5,7 @@
 class GameMode : public Mode
 {
 public:
-	GameMode(std::mutex* mutex);
+	GameMode();
 	virtual std::pair<ModeAction, ModeOption> Run(sf::Time, sf::RenderWindow&) override;
 private:
 	void processKeys(sf::Keyboard::Key, bool);

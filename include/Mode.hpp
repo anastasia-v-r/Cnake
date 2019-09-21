@@ -23,7 +23,7 @@ enum struct ModeAction
 class Mode
 {
 public:
-	Mode(std::string, std::mutex*, ModeOption);
+	Mode(std::string, ModeOption);
 	virtual std::pair<ModeAction, ModeOption> Run(sf::Time, sf::RenderWindow&) = 0;
 	ModeOption type() { return ModeType; };
 protected:
@@ -34,7 +34,6 @@ public:
 	std::map<std::string, sf::RectangleShape> screenObjectsMap;
 	std::map<std::string, sf::Texture> objectTextures;
 protected:
-	std::mutex* mut;
 	ModeOption ModeType;
 	sf::Time timeBank;
 };

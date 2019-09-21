@@ -5,7 +5,7 @@
 class PausedMode : public Mode
 {
 public:
-	PausedMode(std::mutex* mutex);
+	PausedMode();
 	virtual std::pair<ModeAction, ModeOption> Run(sf::Time, sf::RenderWindow&) override;
 private:
 

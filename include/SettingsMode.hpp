@@ -5,7 +5,7 @@
 class SettingsMode : public Mode
 {
 public:
-	SettingsMode(std::mutex* mutex);
+	SettingsMode();
 	virtual std::pair<ModeAction, ModeOption> Run(sf::Time, sf::RenderWindow&) override;
 private:
 

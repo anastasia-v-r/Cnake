@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 
-Mode::Mode(std::string fileName, std::mutex* mutex, ModeOption modeType) : mut{ mutex }, ModeType{ modeType } {
+Mode::Mode(std::string fileName, ModeOption modeType) : ModeType{ modeType } {
 	nlohmann::json jsonData;
 	std::ifstream file("assets/modes/" + fileName);
 	file >> jsonData;
@@ -34,7 +34,6 @@ Mode::Mode(std::string fileName, std::mutex* mutex, ModeOption modeType) : mut{ 
 
 /// (RectangleName, The Rectagle, the texture name)
 void Mode::pushObject(std::string rectName, sf::RectangleShape newRect, std::string textureName) {
-	mut->lock();
 	if (objectTextures.count(textureName)) {
 		newRect.setTexture(&objectTextures[textureName]);
 		std::cout << "Rectangle \"" << rectName << "\" has found texture \"" << textureName << "\"\n";
@@ -53,11 +52,9 @@ void Mode::pushObject(std::string rectName, sf::RectangleShape newRect, std::str
 	screenObjectsMap.emplace(rectName, newRect);
 	auto* obj = &screenObjectsMap[rectName];
 	screenObjects.emplace_back(obj);
-	mut->unlock();
 }
 
 void Mode::popObject(std::string name) {
-	mut->lock();
 	for (auto it = screenObjectsMap.begin(); it != screenObjectsMap.end();) {
 		if (it->first == name) {
 			for (int i = 0; i < screenObjects.size(); i++) {
@@ -71,5 +68,4 @@ void Mode::popObject(std::string name) {
 			break;
 		}
 	}
-	mut->unlock();
 }
