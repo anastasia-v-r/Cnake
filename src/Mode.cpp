@@ -35,24 +35,39 @@ Mode::Mode(std::string fileName, std::mutex* mutex, ModeOption modeType) : mut{ 
 /// (RectangleName, The Rectagle, the texture name)
 void Mode::pushObject(std::string rectName, sf::RectangleShape newRect, std::string textureName) {
 	mut->lock();
-	newRect.setTexture(&objectTextures[textureName]);
-	screenObjects.push_back(newRect);
-	screenObjectsMap.emplace(rectName, &screenObjects.back());
+	if (objectTextures.count(textureName)) {
+		newRect.setTexture(&objectTextures[textureName]);
+		std::cout << "Rectangle \"" << rectName << "\" has found texture \"" << textureName << "\"\n";
+	} else if (textureName == "empty") {
+		std::cout << "Rectangle \"" << rectName << "\" has chosen a blank texture \n";
+		newRect.setFillColor(sf::Color(255, 255, 255, 0));
+	} else if (textureName == "noChange") {
+		std::cout << "Rectangle \"" << rectName << "\" has chosen no texture \n";
+	} else if (textureName == "blue") {
+		std::cout << "Rectangle \"" << rectName << "\" has chosen no texture and a blue fill \n";
+		newRect.setFillColor(sf::Color::Blue);
+	} else {
+		std::cout << "Rectangle \"" << rectName << "\" is missing the their texture \"" << textureName << "\"\n";
+		newRect.setFillColor(sf::Color::Green);
+	}
+	screenObjectsMap.emplace(rectName, newRect);
+	auto* obj = &screenObjectsMap[rectName];
+	screenObjects.emplace_back(obj);
 	mut->unlock();
 }
 
 void Mode::popObject(std::string name) {
 	mut->lock();
-	sf::RectangleShape* ptr{ nullptr };
 	for (auto it = screenObjectsMap.begin(); it != screenObjectsMap.end();) {
 		if (it->first == name) {
-			ptr = it->second;
 			for (int i = 0; i < screenObjects.size(); i++) {
-				if (&screenObjects[i] == ptr) {
-					screenObjects.erase(screenObjects.begin() + i);
+				if (screenObjects[i] == &(it->second)) {
+					screenObjects.erase(screenObjects.begin()+i);
+					screenObjects.shrink_to_fit();
+					break;
 				}
 			}
-			it = screenObjectsMap.erase(it);
+			screenObjectsMap.erase(it);
 			break;
 		}
 	}

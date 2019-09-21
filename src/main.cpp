@@ -6,11 +6,9 @@
 #include <stack>
 #include <thread>
 #include <mutex>
+#include <atomic>
 #include <Player.hpp>
-#include <Mode.hpp>
-#include <IntroMode.hpp>
-#include <MenuMode.hpp>
-#include <GameMode.hpp>
+#include <ModeList.hpp>
 #include <RuntimeStats.hpp>
 // Entry Point
 int main() {
@@ -24,7 +22,7 @@ int main() {
 	std::stack<std::unique_ptr<Mode>> ModeStack;
 	ModeStack.push(std::make_unique<IntroMode>(&mu));
 	// Variable for killing thread safely
-	bool isRunning = true;
+	std::atomic<bool> isRunning = true;
 	// Create Rendering Thread
 	// TODO: Fix wierd rendering error that occurs when repushing old states
 	std::thread RenderThread([&window, &ModeStack, &isRunning] {
@@ -38,8 +36,8 @@ int main() {
 			// Rendering
 			window.clear();
 			mu.lock();
-			for (const auto& object : ModeStack.top()->screenObjects) {
-				window.draw(object);
+			for (const auto& element : ModeStack.top()->screenObjects) {
+				window.draw(*element);
 			}
 			stats.draw(window);
 			window.display();
@@ -65,11 +63,14 @@ int main() {
 				case ModeOption::Menu:
 					ModeStack.push(std::make_unique<MenuMode>(&mu));
 					break;
+				case ModeOption::Settings:
+					ModeStack.push(std::make_unique<SettingsMode>(&mu));
+					break;
 				case ModeOption::Game:
 					ModeStack.push(std::make_unique<GameMode>(&mu));
 					break;
 				case ModeOption::Paused:
-					// TODO: Decide how to pause the game
+					ModeStack.push(std::make_unique<PausedMode>(&mu));
 					break;
 				}
 				break;

@@ -3,10 +3,10 @@
   "textures": [
     {
       "textureName": "background",
-      "textureLoc": "ValorianSplash.png"
+      "textureLoc": "MenuBg.png"
     }
   ],
-  "objectCount": 2,
+  "objectCount": 4,
   "objects": [
     {
       "name": "background",
@@ -14,9 +14,10 @@
       "textureName": "background"
     },
     {
-      "name": "fadeCover",
-      "size": [ 1920, 1080 ],
-      "textureName": "noTexture"
+      "name": "placeHolder",
+      "size": [ 400, 200 ],
+      "position": [ 760, 640 ],
+      "textureName": "blue"
     }
   ]
 }
