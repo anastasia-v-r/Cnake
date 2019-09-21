@@ -6,6 +6,7 @@
 #include <stack>
 #include <thread>
 #include <mutex>
+#include <atomic>
 #include <Player.hpp>
 #include <Mode.hpp>
 #include <IntroMode.hpp>
@@ -24,7 +25,7 @@ int main() {
 	std::stack<std::unique_ptr<Mode>> ModeStack;
 	ModeStack.push(std::make_unique<IntroMode>(&mu));
 	// Variable for killing thread safely
-	bool isRunning = true;
+	std::atomic<bool> isRunning = true;
 	// Create Rendering Thread
 	// TODO: Fix wierd rendering error that occurs when repushing old states
 	std::thread RenderThread([&window, &ModeStack, &isRunning] {
