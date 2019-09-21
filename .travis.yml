@@ -72,6 +72,7 @@ matrix:
         packages: ['gcc-8', 'g++-8' ]
   allow_failures:
   - os: osx
+  fast_finish: true
 
 # The pre-install script. On windows it will install conan via chocolatey
 install:
