@@ -63,11 +63,14 @@ int main() {
 				case ModeOption::Menu:
 					ModeStack.push(std::make_unique<MenuMode>(&mu));
 					break;
+				case ModeOption::Settings:
+					ModeStack.push(std::make_unique<SettingsMode>(&mu));
+					break;
 				case ModeOption::Game:
 					ModeStack.push(std::make_unique<GameMode>(&mu));
 					break;
 				case ModeOption::Paused:
-					// TODO: Decide how to pause the game
+					ModeStack.push(std::make_unique<PausedMode>(&mu));
 					break;
 				}
 				break;

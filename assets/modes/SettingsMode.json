@@ -1,0 +1,17 @@
+{
+  "textureCount": 1,
+  "textures": [
+    {
+      "textureName": "background",
+      "textureLoc": "MenuBg.png"
+    }
+  ],
+  "objectCount": 4,
+  "objects": [
+    {
+      "name": "background",
+      "size": [ 1920, 1080 ],
+      "textureName": "background"
+    }
+  ]
+}
