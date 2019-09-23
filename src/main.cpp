@@ -68,6 +68,8 @@ int main() {
 		sf::Time timePassed = GameClock.restart();
 		auto result = ModeStack.top()->Run(timePassed, window);
 		if (result.first != ModeAction::None) {
+			sf::Event evnt;
+			while (window.pollEvent(evnt));
 			switch (result.first)
 			{
 			case ModeAction::Add:
