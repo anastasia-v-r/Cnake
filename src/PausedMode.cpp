@@ -1,7 +1,9 @@
 #include "PausedMode.hpp"
 
-PausedMode::PausedMode(std::mutex* mutex) : Mode("PausedMode.json", mutex, ModeOption::Intro) {
+PausedMode::PausedMode(std::mutex* mutex, sf::Image ss) : screenShot{ ss }, Mode("PausedMode.json", mutex, ModeOption::Intro) {
 	auto mode = sf::VideoMode::getDesktopMode();
+	gameScreen.loadFromImage(screenShot);
+	screenObjectsMap["background"].setTexture(&gameScreen);
 }
 
 std::pair<ModeAction, ModeOption> PausedMode::Run(sf::Time time, sf::RenderWindow& window) {
@@ -18,6 +20,12 @@ std::pair<ModeAction, ModeOption> PausedMode::Run(sf::Time time, sf::RenderWindo
 			{
 			case sf::Keyboard::BackSpace:
 				return std::make_pair(ModeAction::DropTo, ModeOption::Game);
+				break;
+			case sf::Keyboard::Escape:
+				return std::make_pair(ModeAction::DropTo, ModeOption::Menu);
+				break;
+			case sf::Keyboard::Enter:
+				return std::make_pair(ModeAction::Add, ModeOption::Settings);
 				break;
 			}
 			break;
