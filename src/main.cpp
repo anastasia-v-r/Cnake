@@ -25,9 +25,10 @@ int main() {
 	std::atomic<bool> isRunning = true;
 	std::atomic<bool> showStats = true;
 	std::atomic<bool> isPaused = false;
+	std::atomic<bool> isWaiting = false;
 	// Create Rendering Thread
 	// TODO: Fix wierd rendering error that occurs when repushing old states
-	std::thread RenderThread([&window, &ModeStack, &isRunning, &showStats, &isPaused] {
+	std::thread RenderThread([&window, &ModeStack, &isRunning, &showStats, &isPaused, &isWaiting] {
 		// Window Settings
 		window.setActive(true);
 		//window.setFramerateLimit(60);
@@ -49,6 +50,8 @@ int main() {
 				mu.unlock();
 				stats.update();
 			} else {
+				window.setActive(false);
+				isWaiting = true;
 				while (true) {
 					if (!isPaused) {
 						window.setActive(true);
@@ -84,7 +87,12 @@ int main() {
 					break;
 				case ModeOption::Paused:
 					isPaused = true;
-					ModeStack.push(std::make_unique<PausedMode>(&mu));
+					while (!isWaiting) {
+					}
+					window.setActive(true);
+					ModeStack.push(std::make_unique<PausedMode>(&mu, window.capture()));
+					window.setActive(false);
+					isPaused = false;
 					break;
 				}
 				break;
