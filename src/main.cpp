@@ -23,9 +23,11 @@ int main() {
 	ModeStack.push(std::make_unique<IntroMode>(&mu));
 	// Variable for killing thread safely
 	std::atomic<bool> isRunning = true;
+	std::atomic<bool> showStats = true;
+	std::atomic<bool> isPaused = false;
 	// Create Rendering Thread
 	// TODO: Fix wierd rendering error that occurs when repushing old states
-	std::thread RenderThread([&window, &ModeStack, &isRunning] {
+	std::thread RenderThread([&window, &ModeStack, &isRunning, &showStats, &isPaused] {
 		// Window Settings
 		window.setActive(true);
 		//window.setFramerateLimit(60);
@@ -33,16 +35,27 @@ int main() {
 		RuntimeStats stats;
 		// Render Loop
 		while (isRunning) {
-			// Rendering
-			window.clear();
-			mu.lock();
-			for (const auto& element : ModeStack.top()->screenObjects) {
-				window.draw(*element);
+			if (!isPaused) {
+				// Rendering
+				window.clear();
+				mu.lock();
+				for (const auto& element : ModeStack.top()->screenObjects) {
+					window.draw(*element);
+				}
+				if (showStats) {
+					stats.draw(window);
+				}
+				window.display();
+				mu.unlock();
+				stats.update();
+			} else {
+				while (true) {
+					if (!isPaused) {
+						window.setActive(true);
+						break;
+					}
+				}
 			}
-			stats.draw(window);
-			window.display();
-			mu.unlock();
-			stats.update();
 		}
 		std::cout << "Yeh" << std::endl;
 	});
@@ -70,6 +83,7 @@ int main() {
 					ModeStack.push(std::make_unique<GameMode>(&mu));
 					break;
 				case ModeOption::Paused:
+					isPaused = true;
 					ModeStack.push(std::make_unique<PausedMode>(&mu));
 					break;
 				}
