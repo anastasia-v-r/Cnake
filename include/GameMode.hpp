@@ -1,5 +1,6 @@
 #pragma once
 #include "Mode.hpp"
+#include "Player.hpp"
 #include <SFML/Graphics.hpp>
 
 class GameMode : public Mode
@@ -11,4 +12,5 @@ private:
 	void processKeys(sf::Keyboard::Key, bool);
 private:
 	std::map<std::string, bool> mKeys;
+	Player mPlayer;
 };
