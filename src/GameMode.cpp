@@ -55,25 +55,3 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 	// Im case of no state changes
 	return std::make_pair(ModeAction::None, ModeOption::None);
 }
-
-void GameMode::processKeys(sf::Keyboard::Key key, bool pressed) {
-	switch (key)
-	{
-	case sf::Keyboard::W:
-	case sf::Keyboard::Up:
-		mKeys["Up"] = pressed;
-		break;
-	case sf::Keyboard::D:
-	case sf::Keyboard::Right:
-		mKeys["Right"] = pressed;
-		break;
-	case sf::Keyboard::S:
-	case sf::Keyboard::Down:
-		mKeys["Down"] = pressed;
-		break;
-	case sf::Keyboard::A:
-	case sf::Keyboard::Left:
-		mKeys["Left"] = pressed;
-		break;
-	}
-}

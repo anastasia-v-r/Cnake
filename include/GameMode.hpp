@@ -11,6 +11,5 @@ public:
 private:
 	void processKeys(sf::Keyboard::Key, bool);
 private:
-	std::map<std::string, bool> mKeys;
 	Player mPlayer;
 };
