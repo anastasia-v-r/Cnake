@@ -42,8 +42,8 @@ find_package(nlohmann_json 3.2.0 REQUIRED)
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 # Program Executable Creation
-FILE(GLOB sources ${CMAKE_SOURCE_DIR}/src/* # Append all src files to an env. var.
-	${CMAKE_SOURCE_DIR}/src/mode/*
+FILE(GLOB sources ${CMAKE_SOURCE_DIR}/src/*.cpp # Append all src files to an env. var.
+	${CMAKE_SOURCE_DIR}/include/*.hpp
 ) 
 add_executable(Cnake ${sources}) # Create executable
 set_target_properties(Cnake PROPERTIES 
