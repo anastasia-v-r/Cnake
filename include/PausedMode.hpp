@@ -5,10 +5,11 @@
 class PausedMode : public Mode
 {
 public:
-	PausedMode(std::mutex* mutex);
+	PausedMode(std::mutex*, sf::Image);
 	virtual std::pair<ModeAction, ModeOption> Run(sf::Time, sf::RenderWindow&) override;
 private:
 
 private:
-
+	sf::Image screenShot;
+	sf::Texture gameScreen;
 };

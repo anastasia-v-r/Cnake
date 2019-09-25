@@ -23,9 +23,12 @@ int main() {
 	ModeStack.push(std::make_unique<IntroMode>(&mu));
 	// Variable for killing thread safely
 	std::atomic<bool> isRunning = true;
+	std::atomic<bool> showStats = true;
+	std::atomic<bool> isPaused = false;
+	std::atomic<bool> isWaiting = false;
 	// Create Rendering Thread
 	// TODO: Fix wierd rendering error that occurs when repushing old states
-	std::thread RenderThread([&window, &ModeStack, &isRunning] {
+	std::thread RenderThread([&window, &ModeStack, &isRunning, &showStats, &isPaused, &isWaiting] {
 		// Window Settings
 		window.setActive(true);
 		//window.setFramerateLimit(60);
@@ -33,16 +36,29 @@ int main() {
 		RuntimeStats stats;
 		// Render Loop
 		while (isRunning) {
-			// Rendering
-			window.clear();
-			mu.lock();
-			for (const auto& element : ModeStack.top()->screenObjects) {
-				window.draw(*element);
+			if (!isPaused) {
+				// Rendering
+				window.clear();
+				mu.lock();
+				for (const auto& element : ModeStack.top()->screenObjects) {
+					window.draw(*element);
+				}
+				if (showStats) {
+					stats.draw(window);
+				}
+				window.display();
+				mu.unlock();
+				stats.update();
+			} else {
+				window.setActive(false);
+				isWaiting = true;
+				while (true) {
+					if (!isPaused) {
+						window.setActive(true);
+						break;
+					}
+				}
 			}
-			stats.draw(window);
-			window.display();
-			mu.unlock();
-			stats.update();
 		}
 		std::cout << "Yeh" << std::endl;
 	});
@@ -52,6 +68,8 @@ int main() {
 		sf::Time timePassed = GameClock.restart();
 		auto result = ModeStack.top()->Run(timePassed, window);
 		if (result.first != ModeAction::None) {
+			sf::Event evnt;
+			while (window.pollEvent(evnt));
 			switch (result.first)
 			{
 			case ModeAction::Add:
@@ -70,19 +88,33 @@ int main() {
 					ModeStack.push(std::make_unique<GameMode>(&mu));
 					break;
 				case ModeOption::Paused:
-					ModeStack.push(std::make_unique<PausedMode>(&mu));
+					isPaused = true;
+					while (!isWaiting) {
+					}
+					window.setActive(true);
+					showStats = false;
+					ModeStack.push(std::make_unique<PausedMode>(&mu, window.capture()));
+					window.setActive(false);
+					isPaused = false;
 					break;
 				}
 				break;
 			case ModeAction::DropTo:
-				// Safely Kill Render Thread
-				if (result.second == ModeOption::None) {
+				// Safely Kill Render Thread 
+				if ((result.second == ModeOption::None) || (result.second == ModeOption::One && ModeStack.size() == 1)) {
 					isRunning = false;
 					RenderThread.join();
-				}
+				} 
 				mu.lock();
-				while (!(ModeStack.empty()) && (ModeStack.top()->type() != result.second)) {
+				if (ModeStack.top()->type() == ModeOption::Paused) {
+					showStats = true;
+				}
+				if (result.second == ModeOption::One) {
 					ModeStack.pop();
+				} else {
+					while (!(ModeStack.empty()) && (ModeStack.top()->type() != result.second)) {
+						ModeStack.pop();
+					}
 				}
 				if (ModeStack.empty()) {
 					window.close();

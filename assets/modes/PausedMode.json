@@ -2,22 +2,33 @@
   "textureCount": 1,
   "textures": [
     {
-      "textureName": "background",
-      "textureLoc": "MenuBg.png"
+      "textureName": "overlay",
+      "textureLoc": "PauseSplash.png"
     }
   ],
   "objectCount": 4,
   "objects": [
     {
-      "name": "background",
+      "name": "game",
       "size": [ 1920, 1080 ],
-      "textureName": "background"
+      "textureName": "overlay"
     },
     {
-      "name": "placeHolder",
+      "name": "overlay",
+      "size": [ 1920, 1080 ],
+      "textureName": "overlay"
+    },
+    {
+      "name": "ResumeButton",
       "size": [ 400, 200 ],
-      "position": [ 760, 640 ],
-      "textureName": "blue"
+      "position": [ 410, 490 ],
+      "textureName": "empty"
+    },
+    {
+      "name": "ExitButton",
+      "size": [ 400, 200 ],
+      "position": [ 1110, 490 ],
+      "textureName": "empty"
     }
   ]
 }

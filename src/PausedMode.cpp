@@ -1,7 +1,9 @@
 #include "PausedMode.hpp"
 
-PausedMode::PausedMode(std::mutex* mutex) : Mode("PausedMode.json", mutex, ModeOption::Intro) {
+PausedMode::PausedMode(std::mutex* mutex, sf::Image ss) : screenShot{ ss }, Mode("PausedMode.json", mutex, ModeOption::Paused) {
 	auto mode = sf::VideoMode::getDesktopMode();
+	gameScreen.loadFromImage(screenShot);
+	screenObjectsMap["game"].setTexture(&gameScreen);
 }
 
 std::pair<ModeAction, ModeOption> PausedMode::Run(sf::Time time, sf::RenderWindow& window) {
@@ -13,11 +15,21 @@ std::pair<ModeAction, ModeOption> PausedMode::Run(sf::Time time, sf::RenderWindo
 		case sf::Event::Closed:
 			return std::make_pair(ModeAction::DropTo, ModeOption::None);
 			break;
+		case sf::Event::MouseButtonPressed: {
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+			if (screenObjectsMap["ResumeButton"].getGlobalBounds().contains(mousePosF)) {
+				return std::make_pair(ModeAction::Add, ModeOption::Game);
+			} else if (screenObjectsMap["ExitButton"].getGlobalBounds().contains(mousePosF)) {
+				return std::make_pair(ModeAction::Add, ModeOption::Menu);
+			}
+			}
+			break;
 		case sf::Event::KeyPressed:
 			switch (evnt.key.code)
 			{
-			case sf::Keyboard::BackSpace:
-				return std::make_pair(ModeAction::DropTo, ModeOption::Game);
+			case sf::Keyboard::Escape:
+				return std::make_pair(ModeAction::DropTo, ModeOption::One);
 				break;
 			}
 			break;
