@@ -1,13 +1,17 @@
 {
-  "textureCount": 1,
+  "textureCount": 3,
   "textures": [
     {
       "textureName": "playfield",
-      "textureLoc": "playfield.png"
+      "textureLoc": "Playfield.png"
+    },
+    {
+      "textureName": "snakehead",
+      "textureLoc": "SnakeHead.png"
     },
     {
       "textureName": "snakebody",
-      "textureLoc": "snakebody.png"
+      "textureLoc": "SnakeBody.png"
     }
   ],
   "objectCount": 1,
