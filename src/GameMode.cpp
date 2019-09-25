@@ -8,12 +8,6 @@ GameMode::GameMode(std::mutex* mutex)
 	: Mode("GameMode.json", mutex, ModeOption::Game)
 	, mPlayer(objectTextures) {
 	screenObjects.emplace_back(&mPlayer);
-	mKeys = {
-		{"Up", false},
-		{"Right", false},
-		{"Down", false},
-		{"Left", false}
-	};
 }
 
 std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow& window) {
@@ -30,12 +24,9 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 				return std::make_pair(ModeAction::Add, ModeOption::Paused);
 				break;
 			default:
-				processKeys(evnt.key.code, true);
+				mPlayer.processKeys(evnt.key.code);
 				break;
 			}
-			break;
-		case sf::Event::KeyReleased:
-			processKeys(evnt.key.code, false);
 			break;
 		case sf::Event::Closed:
 			return std::make_pair(ModeAction::DropTo, ModeOption::None);
@@ -43,8 +34,9 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 		}
 	}
 	// Update Game Logic
-	if (timeBank.asSeconds() > .02) {
-
+	if (timeBank.asSeconds() > .20) {
+		mPlayer.movePlayer();
+		timeBank -= (sf::seconds)(0.20f);
 	} else {
 		timeBank += time;
 	}
