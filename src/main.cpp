@@ -99,14 +99,18 @@ int main() {
 				}
 				break;
 			case ModeAction::DropTo:
-				// Safely Kill Render Thread
-				if (result.second == ModeOption::None) {
+				// Safely Kill Render Thread 
+				if ((result.second == ModeOption::None) || (result.second == ModeOption::One && ModeStack.size() == 1)) {
 					isRunning = false;
 					RenderThread.join();
-				}
+				} 
 				mu.lock();
-				while (!(ModeStack.empty()) && (ModeStack.top()->type() != result.second)) {
+				if (result.second == ModeOption::One) {
 					ModeStack.pop();
+				} else {
+					while (!(ModeStack.empty()) && (ModeStack.top()->type() != result.second)) {
+						ModeStack.pop();
+					}
 				}
 				if (ModeStack.empty()) {
 					window.close();
