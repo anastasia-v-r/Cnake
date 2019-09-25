@@ -58,7 +58,7 @@ void Mode::pushObject(std::string rectName, sf::RectangleShape newRect, std::str
 
 void Mode::popObject(std::string name) {
 	mut->lock();
-	for (auto it = screenObjectsMap.begin(); it != screenObjectsMap.end();) {
+	for (auto it = screenObjectsMap.begin(); it != screenObjectsMap.end(); it++) {
 		if (it->first == name) {
 			for (int i = 0; i < screenObjects.size(); i++) {
 				if (screenObjects[i] == &(it->second)) {
@@ -67,7 +67,7 @@ void Mode::popObject(std::string name) {
 					break;
 				}
 			}
-			screenObjectsMap.erase(it);
+			it = screenObjectsMap.erase(it);
 			break;
 		}
 	}
