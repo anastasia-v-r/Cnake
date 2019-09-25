@@ -92,6 +92,7 @@ int main() {
 					while (!isWaiting) {
 					}
 					window.setActive(true);
+					showStats = false;
 					ModeStack.push(std::make_unique<PausedMode>(&mu, window.capture()));
 					window.setActive(false);
 					isPaused = false;
@@ -105,6 +106,9 @@ int main() {
 					RenderThread.join();
 				} 
 				mu.lock();
+				if (ModeStack.top()->type() == ModeOption::Paused) {
+					showStats = true;
+				}
 				if (result.second == ModeOption::One) {
 					ModeStack.pop();
 				} else {
