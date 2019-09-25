@@ -27,10 +27,6 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 			switch (evnt.key.code)
 			{
 			case sf::Keyboard::Escape:
-				for (auto& key : mKeys) {
-					key.second = false;
-					std::cout << key.first << " is now false" << std::endl;
-				}
 				return std::make_pair(ModeAction::Add, ModeOption::Paused);
 				break;
 			default:
