@@ -6,12 +6,12 @@
       "textureLoc": "PauseSplash.png"
     }
   ],
-  "objectCount": 2,
+  "objectCount": 4,
   "objects": [
     {
       "name": "game",
       "size": [ 1920, 1080 ],
-      "textureName": "empty"
+      "textureName": "overlay"
     },
     {
       "name": "overlay",
@@ -22,13 +22,13 @@
       "name": "ResumeButton",
       "size": [ 400, 200 ],
       "position": [ 410, 490 ],
-      "textureName": "blue"
+      "textureName": "empty"
     },
     {
       "name": "ExitButton",
       "size": [ 400, 200 ],
       "position": [ 1110, 490 ],
-      "textureName": "blue"
+      "textureName": "empty"
     }
   ]
 }
