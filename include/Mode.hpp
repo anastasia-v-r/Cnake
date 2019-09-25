@@ -9,8 +9,7 @@ enum struct ModeOption
 	Menu,
 	Game,
 	Settings,
-	Paused,
-	One
+	Paused
 };
 
 enum struct ModeAction
