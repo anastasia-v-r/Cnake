@@ -5,11 +5,10 @@
 class Player : public sf::Drawable
 {
 public:
-	Player();
+	Player(const std::map<std::string, sf::Texture>&);
 	~Player();
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
-	std::vector<sf::RectangleShape>
-
+	std::vector<sf::RectangleShape> snakeBody;
 };

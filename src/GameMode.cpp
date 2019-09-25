@@ -4,9 +4,10 @@
 #include <chrono>
 #include <iostream>
 
-GameMode::GameMode(std::mutex* mutex) 
-	: mPlayer()
-	, Mode("GameMode.json", mutex, ModeOption::Game) {
+GameMode::GameMode(std::mutex* mutex)
+	: Mode("GameMode.json", mutex, ModeOption::Game)
+	, mPlayer(objectTextures) {
+	screenObjects.emplace_back(&mPlayer);
 	mKeys = {
 		{"Up", false},
 		{"Right", false},
