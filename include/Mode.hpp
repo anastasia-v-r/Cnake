@@ -10,6 +10,7 @@ enum struct ModeOption
 	Game,
 	Settings,
 	Paused,
+	Lose,
 	One
 };
 
