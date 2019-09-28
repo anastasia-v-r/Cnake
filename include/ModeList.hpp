@@ -5,3 +5,4 @@
 #include "GameMode.hpp"
 #include "SettingsMode.hpp"
 #include "PausedMode.hpp"
+#include "LoseMode.hpp"
