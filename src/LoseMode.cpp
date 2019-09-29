@@ -12,8 +12,14 @@ std::pair<ModeAction, ModeOption> LoseMode::Run(sf::Time time, sf::RenderWindow&
 	while (window.pollEvent(evnt)) {
 		switch (evnt.type)
 		{
-		case sf::Keyboard::Enter:
-			return std::make_pair(ModeAction::DropTo, ModeOption::None);
+		case sf::Event::KeyPressed:
+			switch (evnt.key.code)
+			{
+			case sf::Keyboard::Enter:
+				return std::make_pair(ModeAction::DropTo, ModeOption::None);
+			default:
+				break;
+			}
 		default:
 			break;
 		}
