@@ -6,7 +6,17 @@
       "textureLoc": "LoseSplash.png"
     }
   ],
-  "objectCount": 0,
-  "objects": [ 
+  "objectCount": 2,
+  "objects": [
+    {
+      "name": "game",
+      "size": [ 1920, 1080 ],
+      "textureName": "overlay"
+    },
+    {
+      "name": "overlay",
+      "size": [ 1920, 1080 ],
+      "textureName": "overlay"
+    }
   ]
 }
