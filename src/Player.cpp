@@ -1,8 +1,9 @@
 #include "Player.hpp"
 #include <iostream>
+#include <time.h>
 
 Player::Player(const std::map<std::string, sf::Texture>& textures)
-	: snakeBody(5, sf::RectangleShape(sf::Vector2f(100.0f, 100.0f)))
+	: snakeBody(5, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
 	, m_dir{ Direction::Left }
 	, m_lastDir{ Direction::Left }
 {
@@ -83,13 +84,36 @@ void Player::addPart() {
 	snakeBody.push_back(snakeBody[1]);
 }
  
-bool Player::safeCheck() {
+bool Player::safeCheck(sf::RectangleShape& fruit) {
 	auto head = snakeBody[0];
 	sf::Vector2f headPos(head.getPosition().x + (head.getSize().x / 2), head.getPosition().y + (head.getSize().y / 2));
+	sf::Vector2f fruitPos(fruit.getPosition().x + (fruit.getSize().x / 2), fruit.getPosition().y + (fruit.getSize().y / 2));
 	for (int i = 1; i < snakeBody.size(); i++) {
 		if (snakeBody[i].getGlobalBounds().contains(headPos)) {
 			return true;
 		}
+	}
+	if (head.getGlobalBounds().contains(fruitPos)) {
+		std::srand(std::time(NULL));
+		Player::addPart();
+		int x = (rand() % (1920 / 50)) * 50;
+		int y = (rand() % (1080 / 50)) * 50;
+		bool done = true;
+		fruit.setPosition(x, y);
+		fruitPos = sf::Vector2f(fruit.getPosition().x + (fruit.getSize().x / 2), fruit.getPosition().y + (fruit.getSize().y / 2));
+		do {
+			for (int i = 1; i < snakeBody.size(); i++) {
+				if (snakeBody[i].getGlobalBounds().contains(fruitPos)) {
+					x = (rand() % (1920 / 50)) * 50;
+					y = (rand() % (1080 / 50)) * 50;
+					fruit.setPosition(x, y);
+					fruitPos = sf::Vector2f(fruit.getPosition().x + (fruit.getSize().x / 2), fruit.getPosition().y + (fruit.getSize().y / 2));
+					done = false;
+					break;
+				}
+				done = true;
+			}
+		} while (!done);
 	}
 	return false;
 }

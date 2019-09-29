@@ -8,10 +8,13 @@ GameMode::GameMode(std::mutex* mutex)
 	: Mode("GameMode.json", mutex, ModeOption::Game)
 	, mPlayer(objectTextures) {
 	screenObjects.emplace_back(&mPlayer);
+	sf::RectangleShape food(sf::Vector2f(50, 50));
+	food.setPosition(500, 500);
+	Mode::pushObject("food", food, "blue");
 }
 
 std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow& window) {
-	float speed = 500.0f;
+	float gameSpeed = .10f;
 	// Handle Input
 	sf::Event evnt;
 	while (window.pollEvent(evnt)) {
@@ -34,12 +37,12 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 		}
 	}
 	// Update Game Logic
-	if (timeBank.asSeconds() > .20) {
+	if (timeBank.asSeconds() > gameSpeed) {
 		mPlayer.movePlayer();
-		if (mPlayer.safeCheck()) {
+		if (mPlayer.safeCheck(screenObjectsMap["food"])) {
 			return std::make_pair(ModeAction::Add, ModeOption::Lose);
 		}
-		timeBank -= (sf::seconds)(0.20f);
+		timeBank -= (sf::seconds)(gameSpeed);
 	} else {
 		timeBank += time;
 	}

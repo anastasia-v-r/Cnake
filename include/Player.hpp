@@ -22,7 +22,7 @@ public:
 	// Processors
 	void movePlayer();
 	void addPart();
-	bool safeCheck();
+	bool safeCheck(sf::RectangleShape&);
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
