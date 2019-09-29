@@ -36,6 +36,9 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 	// Update Game Logic
 	if (timeBank.asSeconds() > .20) {
 		mPlayer.movePlayer();
+		if (mPlayer.safeCheck()) {
+			return std::make_pair(ModeAction::Add, ModeOption::Lose);
+		}
 		timeBank -= (sf::seconds)(0.20f);
 	} else {
 		timeBank += time;

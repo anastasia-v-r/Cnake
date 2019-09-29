@@ -21,9 +21,12 @@ public:
 	// Getters
 	// Processors
 	void movePlayer();
+	void addPart();
+	bool safeCheck();
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
 	std::vector<sf::RectangleShape> snakeBody;
-	Direction dir;
+	Direction m_dir;
+	Direction m_lastDir;
 };
