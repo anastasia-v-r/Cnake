@@ -114,6 +114,8 @@ bool Player::safeCheck(sf::RectangleShape& fruit) {
 				done = true;
 			}
 		} while (!done);
+	} else if (headPos.x < 0 || headPos.x > 1920 || headPos.y < 0 || headPos.y > 1080) {
+		return true;
 	}
 	return false;
 }
