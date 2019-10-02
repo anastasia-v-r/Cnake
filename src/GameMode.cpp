@@ -6,7 +6,7 @@
 
 GameMode::GameMode(std::mutex* mutex)
 	: Mode("GameMode.json", mutex, ModeOption::Game)
-	, mPlayer(objectTextures) {
+	, mPlayer(objectTextures, mutex) {
 	screenObjects.emplace_back(&mPlayer);
 	sf::RectangleShape food(sf::Vector2f(50, 50));
 	food.setPosition(500, 500);

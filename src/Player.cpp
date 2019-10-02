@@ -2,10 +2,11 @@
 #include <iostream>
 #include <time.h>
 
-Player::Player(const std::map<std::string, sf::Texture>& textures)
+Player::Player(const std::map<std::string, sf::Texture>& textures, std::mutex* mut)
 	: snakeBody(5, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
 	, m_dir{ Direction::Left }
 	, m_lastDir{ Direction::Left }
+	, mu{ mut }
 {
 	for (int i = 0; i < snakeBody.size(); i++) {
 		snakeBody[i].setPosition((float)(800 + (i * 100)), 500.0f);
@@ -81,7 +82,9 @@ void Player::movePlayer() {
 }
 
 void Player::addPart() {
+	mu->lock();
 	snakeBody.push_back(snakeBody[1]);
+	mu->unlock();
 }
  
 bool Player::safeCheck(sf::RectangleShape& fruit) {

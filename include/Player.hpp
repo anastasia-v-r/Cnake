@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <mutex>
 
 enum Direction {
 	Up,
@@ -13,7 +14,7 @@ class Player : public sf::Drawable
 {
 public:
 	// Constructor
-	Player(const std::map<std::string, sf::Texture>&);
+	Player(const std::map<std::string, sf::Texture>&, std::mutex*);
 	// Destructor
 	~Player();
 	// Setters
@@ -29,4 +30,5 @@ private:
 	std::vector<sf::RectangleShape> snakeBody;
 	Direction m_dir;
 	Direction m_lastDir;
+	std::mutex* mu;
 };
