@@ -19,9 +19,9 @@ std::pair<ModeAction, ModeOption> PausedMode::Run(sf::Time time, sf::RenderWindo
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 			if (screenObjectsMap["ResumeButton"].getGlobalBounds().contains(mousePosF)) {
-				return std::make_pair(ModeAction::Add, ModeOption::Game);
+				return std::make_pair(ModeAction::DropTo, ModeOption::One);
 			} else if (screenObjectsMap["ExitButton"].getGlobalBounds().contains(mousePosF)) {
-				return std::make_pair(ModeAction::Add, ModeOption::Menu);
+				return std::make_pair(ModeAction::DropTo, ModeOption::Menu);
 			}
 			}
 			break;
