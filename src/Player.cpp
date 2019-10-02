@@ -97,18 +97,18 @@ bool Player::safeCheck(sf::RectangleShape& fruit) {
 		}
 	}
 	if (head.getGlobalBounds().contains(fruitPos)) {
-		std::srand(std::time(NULL));
+		std::srand((unsigned int)std::time(NULL));
 		Player::addPart();
-		int x = (rand() % (1920 / 50)) * 50;
-		int y = (rand() % (1080 / 50)) * 50;
+		float x = (float)(rand() % (1920 / 50)) * 50;
+		float y = (float)(rand() % (1080 / 50)) * 50;
 		bool done = true;
 		fruit.setPosition(x, y);
 		fruitPos = sf::Vector2f(fruit.getPosition().x + (fruit.getSize().x / 2), fruit.getPosition().y + (fruit.getSize().y / 2));
 		do {
 			for (int i = 1; i < snakeBody.size(); i++) {
 				if (snakeBody[i].getGlobalBounds().contains(fruitPos)) {
-					x = (rand() % (1920 / 50)) * 50;
-					y = (rand() % (1080 / 50)) * 50;
+					x = (float)(rand() % (1920 / 50)) * 50;
+					y = (float)(rand() % (1080 / 50)) * 50;
 					fruit.setPosition(x, y);
 					fruitPos = sf::Vector2f(fruit.getPosition().x + (fruit.getSize().x / 2), fruit.getPosition().y + (fruit.getSize().y / 2));
 					done = false;
