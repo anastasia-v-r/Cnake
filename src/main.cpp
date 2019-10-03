@@ -88,12 +88,17 @@ int main() {
 					ModeStack.push(std::make_unique<GameMode>(&mu));
 					break;
 				case ModeOption::Paused:
+				case ModeOption::Lose:
 					isPaused = true;
 					while (!isWaiting) {
 					}
 					window.setActive(true);
 					showStats = false;
-					ModeStack.push(std::make_unique<PausedMode>(&mu, window.capture()));
+					if (result.second == ModeOption::Paused) {
+						ModeStack.push(std::make_unique<PausedMode>(&mu, window.capture()));
+					} else {
+						ModeStack.push(std::make_unique<LoseMode>(&mu, window.capture()));
+					}
 					window.setActive(false);
 					isPaused = false;
 					break;

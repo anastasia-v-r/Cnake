@@ -1,15 +1,15 @@
 #pragma once
 #include "Mode.hpp"
-#include "Player.hpp"
 #include <SFML/Graphics.hpp>
 
-class GameMode : public Mode
+class LoseMode : public Mode
 {
 public:
-	GameMode(std::mutex* mutex);
+	LoseMode(std::mutex*, sf::Image);
 	virtual std::pair<ModeAction, ModeOption> Run(sf::Time, sf::RenderWindow&) override;
 private:
-	void processKeys(sf::Keyboard::Key, bool);
+
 private:
-	Player mPlayer;
+	sf::Image screenShot;
+	sf::Texture gameScreen;
 };

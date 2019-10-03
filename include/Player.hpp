@@ -1,49 +1,34 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <mutex>
 
-enum direction {
-	STOP = 0,
-	UP = 1,
-	DOWN = 2,
-	LEFT = 3,
-	RIGHT = 4
+enum Direction {
+	Up,
+	Right,
+	Down,
+	Left
 };
 
 class Player : public sf::Drawable
 {
 public:
-
-private:
-	int score;
-	direction dir;
-	std::vector<sf::RectangleShape> snakeBody;
-public:
-	direction getDir();
-
-	sf::Vector2f getSize();
-
-	int getScore();
-
-	void setColor(sf::Color, sf::Color);
-
-	void setPosition(int, int);
-
-	void setDir(sf::Keyboard::Key);
-
-	void move();
+	// Constructor
+	Player(const std::map<std::string, sf::Texture>&, std::mutex*);
+	// Destructor
+	~Player();
+	// Setters
+	void processKeys(sf::Keyboard::Key);
+	// Getters
+	// Processors
+	void movePlayer();
+	void addPart();
+	bool safeCheck(sf::RectangleShape&);
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-public:
-	Player(sf::Color headColor, sf::Color bodyColor, int screenWidth, int screenHeight)
-		: score(0)
-		, dir(STOP)
-		, snakeBody(4, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
-	{
-		setColor(headColor, bodyColor);
-		setPosition(screenWidth, screenHeight);
-	}
-	~Player()
-	{
-	}
+private:
+	std::vector<sf::RectangleShape> snakeBody;
+	Direction m_dir;
+	Direction m_lastDir;
+	std::mutex* mu;
 };
