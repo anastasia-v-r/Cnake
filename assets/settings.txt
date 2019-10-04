@@ -1,0 +1,4 @@
+# fpslock
+false
+# gamespeed
+.10f
