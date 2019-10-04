@@ -15,7 +15,7 @@ std::pair<ModeAction, ModeOption> MenuMode::Run(sf::Time time, sf::RenderWindow&
 		case sf::Event::MouseButtonPressed: {
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-			std::cout << "Mouse Pos [" << mousePosF.x << ", " << mousePosF.y << "]" << std::endl;
+			std::cout << "Mouse Position [" << mousePosF.x << ", " << mousePosF.y << "]" << std::endl;
 			if (screenObjectsMap["playButton"].getGlobalBounds().contains(mousePosF)) {
 				return std::make_pair(ModeAction::Add, ModeOption::Game);
 			} else if (screenObjectsMap["settingsButton"].getGlobalBounds().contains(mousePosF)) {
@@ -34,7 +34,7 @@ std::pair<ModeAction, ModeOption> MenuMode::Run(sf::Time time, sf::RenderWindow&
 				return std::make_pair(ModeAction::DropTo, ModeOption::None);
 				break;
 			default:
-				std::cout << "Key [" << evnt.key.code << "] is not handeled by State [MenuMode]" << std::endl;
+				std::cout << "Key [" << evnt.key.code << "] is not handled by State [MenuMode]" << std::endl;
 				break;
 			}
 			break;
@@ -47,6 +47,6 @@ std::pair<ModeAction, ModeOption> MenuMode::Run(sf::Time time, sf::RenderWindow&
 	}
 	// Update Game Logic
 
-	// Im case of no state changes
+	// In case of no state changes
 	return std::make_pair(ModeAction::None, ModeOption::None);
 }
