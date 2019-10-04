@@ -27,7 +27,7 @@ int main() {
 	std::atomic<bool> isPaused = false;
 	std::atomic<bool> isWaiting = false;
 	// Create Rendering Thread
-	// TODO: Fix wierd rendering error that occurs when repushing old states
+	// TODO: Fix weird rendering error that occurs when re-pushing old states
 	std::thread RenderThread([&window, &ModeStack, &isRunning, &showStats, &isPaused, &isWaiting] {
 		// Window Settings
 		window.setActive(true);
@@ -60,7 +60,7 @@ int main() {
 				}
 			}
 		}
-		std::cout << "Yeh" << std::endl;
+		std::cout << "Yuh" << std::endl;
 	});
 	// Begin Game
 	sf::Clock GameClock;
