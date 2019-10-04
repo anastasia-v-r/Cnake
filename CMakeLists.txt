@@ -30,9 +30,9 @@ else()
     if(EXISTS ${CMAKE_SOURCE_DIR}/conanfile.txt)
         message( FATAL_ERROR
 " A conanfile.txt file exists in the source directory\n"
-" indicating conan is used for dependences but a conanbuildinfo.cmake\n"
+" indicating Conan is used for dependences but a conanbuildinfo.cmake\n"
 " file does not exist. Make sure to execute:\n\n"
-" conan install ${CMAKE_SOURCE_DIR} --build=missing -if ${CMAKE_BINARY_DIR}" )
+" Conan install ${CMAKE_SOURCE_DIR} --build=missing -if ${CMAKE_BINARY_DIR}" )
     endif()
 endif()
 

@@ -4,17 +4,17 @@
 #include <chrono>
 #include <iostream>
 
-GameMode::GameMode(std::mutex* mutex)
+GameMode::GameMode(std::mutex* mutex, float speed)
 	: Mode("GameMode.json", mutex, ModeOption::Game)
-	, mPlayer(objectTextures, mutex) {
+	, mPlayer(objectTextures, mutex)
+	, gameSpeed{ speed } {
 	screenObjects.emplace_back(&mPlayer);
 	sf::RectangleShape food(sf::Vector2f(50, 50));
 	food.setPosition(500, 500);
-	Mode::pushObject("food", food, "blue");
+	Mode::pushObject("food", food, "Blue");
 }
 
 std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow& window) {
-	float gameSpeed = .10f;
 	// Handle Input
 	sf::Event evnt;
 	while (window.pollEvent(evnt)) {

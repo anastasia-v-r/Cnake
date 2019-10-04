@@ -10,6 +10,7 @@
 #include <Player.hpp>
 #include <ModeList.hpp>
 #include <RuntimeStats.hpp>
+#include <Settings.hpp>
 // Entry Point
 int main() {
 	static std::mutex mu;
@@ -18,6 +19,11 @@ int main() {
 	desktop.width += 1;
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
 	window.setActive(false);
+	// Load Settings
+	Settings gameSettings;
+	if (gameSettings.getFpsLock()) {
+		window.setFramerateLimit(60);
+	}
 	// Prepare Stack
 	std::stack<std::unique_ptr<Mode>> ModeStack;
 	ModeStack.push(std::make_unique<IntroMode>(&mu));
@@ -27,7 +33,7 @@ int main() {
 	std::atomic<bool> isPaused = false;
 	std::atomic<bool> isWaiting = false;
 	// Create Rendering Thread
-	// TODO: Fix wierd rendering error that occurs when repushing old states
+	// TODO: Fix weird rendering error that occurs when re-pushing old states
 	std::thread RenderThread([&window, &ModeStack, &isRunning, &showStats, &isPaused, &isWaiting] {
 		// Window Settings
 		window.setActive(true);
@@ -60,7 +66,7 @@ int main() {
 				}
 			}
 		}
-		std::cout << "Yeh" << std::endl;
+		std::cout << "Rendering thread closed!" << std::endl;
 	});
 	// Begin Game
 	sf::Clock GameClock;
@@ -85,7 +91,7 @@ int main() {
 					ModeStack.push(std::make_unique<SettingsMode>(&mu));
 					break;
 				case ModeOption::Game:
-					ModeStack.push(std::make_unique<GameMode>(&mu));
+					ModeStack.push(std::make_unique<GameMode>(&mu, gameSettings.getGameSpeed()));
 					break;
 				case ModeOption::Paused:
 				case ModeOption::Lose:
@@ -132,7 +138,8 @@ int main() {
 			}
 		}
 	}
-	std::cout << "All done" << std::endl;
+	gameSettings.saveToFile();
+	std::cout << "Application closing" << std::endl;
 	//std::cin.ignore(1);
 }
 
