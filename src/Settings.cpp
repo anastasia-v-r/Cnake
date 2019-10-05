@@ -3,32 +3,42 @@
 #include <iostream>
 #include <string>
 
-Settings::Settings() {
+Settings::Settings(sf::RenderWindow* win) : window{ win } {
 	std::fstream file;
 	file.open("assets/settings.txt", std::ios::in);
 	std::string line;
-	if (!file.fail()) {
+	if (!file.fail()) { // Load from existing file
 		std::getline(file, line, '\n');
 		std::cout << line << std::endl;
 		std::getline(file, line, '\n');
 		std::cout << line << std::endl;
 		if (line == "true") {
 			fpsLock = true;
+			win->setFramerateLimit(60);
 		} else {
 			fpsLock = false;
+			win->setFramerateLimit(0);
 		}
 		std::getline(file, line, '\n');
 		std::cout << line << std::endl;
 		std::getline(file, line, '\n');
 		std::cout << line << std::endl;
 		gameSpeed = std::stof(line);
-	} else {
+	} else { // Create file if one does not exist
 		file.open("assets/settings.txt", std::ios::out);
 		file << "# fpslock\n" << "false\n" << "# gamespeed\n" << ".10f\n";
 		fpsLock = false;
 		gameSpeed = .10f; //
 	}
 	file.close();
+}
+
+void Settings::setFpsLock(bool temp) {
+	fpsLock = temp;
+	if (fpsLock)
+		window->setFramerateLimit(60);
+	else
+		window->setFramerateLimit(0);
 }
 
 void Settings::saveToFile() {

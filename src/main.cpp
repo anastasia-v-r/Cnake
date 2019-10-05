@@ -20,10 +20,7 @@ int main() {
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
 	window.setActive(false);
 	// Load Settings
-	Settings gameSettings;
-	if (gameSettings.getFpsLock()) {
-		window.setFramerateLimit(60);
-	}
+	Settings gameSettings(&window);
 	// Prepare Stack
 	std::stack<std::unique_ptr<Mode>> ModeStack;
 	ModeStack.push(std::make_unique<IntroMode>(&mu));
@@ -88,7 +85,7 @@ int main() {
 					ModeStack.push(std::make_unique<MenuMode>(&mu));
 					break;
 				case ModeOption::Settings:
-					ModeStack.push(std::make_unique<SettingsMode>(&mu));
+					ModeStack.push(std::make_unique<SettingsMode>(&mu, &gameSettings));
 					break;
 				case ModeOption::Game:
 					ModeStack.push(std::make_unique<GameMode>(&mu, gameSettings.getGameSpeed()));
