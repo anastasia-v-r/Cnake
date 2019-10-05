@@ -3,13 +3,13 @@
 #include <time.h>
 
 Player::Player(const std::map<std::string, sf::Texture>& textures, std::mutex* mut)
-	: snakeBody(5, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
+	: snakeBody(4, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
 	, m_dir{ Direction::Left }
 	, m_lastDir{ Direction::Left }
 	, mu{ mut }
 {
 	for (int i = 0; i < snakeBody.size(); i++) {
-		snakeBody[i].setPosition((float)(800 + (i * 100)), 500.0f);
+		snakeBody[i].setPosition((float)(960 + (i * 50)), 540.0f);
 		snakeBody[i].setTexture(&(textures.at("snakebody")));
 	}
 	snakeBody[0].setTexture(&(textures.at("snakehead")));
@@ -91,12 +91,12 @@ bool Player::safeCheck(sf::RectangleShape& fruit) {
 	auto head = snakeBody[0];
 	sf::Vector2f headPos(head.getPosition().x + (head.getSize().x / 2), head.getPosition().y + (head.getSize().y / 2));
 	sf::Vector2f fruitPos(fruit.getPosition().x + (fruit.getSize().x / 2), fruit.getPosition().y + (fruit.getSize().y / 2));
-	for (int i = 1; i < snakeBody.size(); i++) {
+	for (int i = 1; i < snakeBody.size(); i++) { // Check if snake has eaten itself
 		if (snakeBody[i].getGlobalBounds().contains(headPos)) {
 			return true;
 		}
 	}
-	if (head.getGlobalBounds().contains(fruitPos)) {
+	if (head.getGlobalBounds().contains(fruitPos)) { // Check if snake ate fruit and is so replace it
 		std::srand((unsigned int)std::time(NULL));
 		Player::addPart();
 		float x = (float)((rand() % (1920 / 50)) * 50);
@@ -117,7 +117,7 @@ bool Player::safeCheck(sf::RectangleShape& fruit) {
 				done = true;
 			}
 		} while (!done);
-	} else if (headPos.x < 0 || headPos.x > 1920 || headPos.y < 0 || headPos.y > 1080) {
+	} else if (headPos.x < 310 || headPos.x > 1610 || headPos.y < 40 || headPos.y > 1040) {
 		return true;
 	}
 	return false;
