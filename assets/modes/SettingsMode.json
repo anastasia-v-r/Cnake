@@ -3,7 +3,7 @@
   "textures": [
     {
       "textureName": "background",
-      "textureLoc": "MenuBg.png"
+      "textureLoc": "SettingsSplash.png"
     }
   ],
   "objectCount": 2,
@@ -14,9 +14,45 @@
       "textureName": "background"
     },
     {
-      "name": "placeHolder",
+      "name": "fps60",
+      "size": [ 230, 130 ],
+      "position": [ 1010, 180 ],
+      "textureName": "blue"
+    },
+    {
+      "name": "fpsUnlimited",
+      "size": [ 400, 130 ],
+      "position": [ 1250, 180 ],
+      "textureName": "green"
+    },
+    {
+      "name": "speedSlow",
+      "size": [ 230, 130 ],
+      "position": [ 870, 490 ],
+      "textureName": "blue"
+    },
+    {
+      "name": "speedMed",
+      "size": [ 330, 130 ],
+      "position": [ 1100, 490 ],
+      "textureName": "green"
+    },
+    {
+      "name": "speedFast",
+      "size": [ 200, 130 ],
+      "position": [ 1440, 490 ],
+      "textureName": "blue"
+    },
+    {
+      "name": "SaveButton",
       "size": [ 400, 200 ],
-      "position": [ 760, 430 ],
+      "position": [ 400, 770 ],
+      "textureName": "blue"
+    },
+    {
+      "name": "ExitButton",
+      "size": [ 400, 200 ],
+      "position": [ 1110, 770 ],
       "textureName": "green"
     }
   ]
