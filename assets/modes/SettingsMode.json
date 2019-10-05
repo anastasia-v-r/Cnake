@@ -28,19 +28,19 @@
     {
       "name": "speedSlow",
       "size": [ 230, 130 ],
-      "position": [ 870, 490 ],
+      "position": [ 870, 475 ],
       "textureName": "blue"
     },
     {
       "name": "speedMed",
       "size": [ 330, 130 ],
-      "position": [ 1100, 490 ],
+      "position": [ 1105, 475 ],
       "textureName": "green"
     },
     {
       "name": "speedFast",
       "size": [ 200, 130 ],
-      "position": [ 1440, 490 ],
+      "position": [ 1440, 475 ],
       "textureName": "blue"
     },
     {
