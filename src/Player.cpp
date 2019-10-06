@@ -1,12 +1,14 @@
 #include "Player.hpp"
 #include <iostream>
 #include <time.h>
+#include <string>
 
 Player::Player(const std::map<std::string, sf::Texture>& textures, std::mutex* mut)
 	: snakeBody(4, sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)))
 	, m_dir{ Direction::Left }
 	, m_lastDir{ Direction::Left }
 	, mu{ mut }
+	, playerScore{ 0 }
 {
 	for (int i = 0; i < snakeBody.size(); i++) {
 		snakeBody[i].setPosition((float)(960 + (i * 50)), 540.0f);
@@ -87,7 +89,7 @@ void Player::addPart() {
 	mu->unlock();
 }
  
-bool Player::safeCheck(sf::RectangleShape& fruit) {
+bool Player::safeCheck(sf::RectangleShape& fruit, sf::Text& text) {
 	auto head = snakeBody[0];
 	sf::Vector2f headPos(head.getPosition().x + (head.getSize().x / 2), head.getPosition().y + (head.getSize().y / 2));
 	sf::Vector2f fruitPos(fruit.getPosition().x + (fruit.getSize().x / 2), fruit.getPosition().y + (fruit.getSize().y / 2));
@@ -99,16 +101,26 @@ bool Player::safeCheck(sf::RectangleShape& fruit) {
 	if (head.getGlobalBounds().contains(fruitPos)) { // Check if snake ate fruit and is so replace it
 		std::srand((unsigned int)std::time(NULL));
 		Player::addPart();
-		float x = (float)((rand() % (1920 / 50)) * 50);
-		float y = (float)((rand() % (1080 / 50)) * 50);
+//		++playerScore;
+		text.setString("Score : " + std::to_string(++playerScore));
+		float x = (float)((rand() % (1920 / 50)) * 50) + 10.0f;
+		float y = (float)((rand() % (1080 / 50)) * 50) - 10.0f;
+		while (x < 310 || x >= 1610 || y < 40 || y >= 1040) {
+			x = (float)((rand() % (1920 / 50)) * 50) + 10.0f;
+			y = (float)((rand() % (1080 / 50)) * 50) - 10.0f;
+		}
 		bool done = true;
 		fruit.setPosition(x, y);
 		fruitPos = sf::Vector2f(fruit.getPosition().x + (fruit.getSize().x / 2), fruit.getPosition().y + (fruit.getSize().y / 2));
 		do {
 			for (int i = 1; i < snakeBody.size(); i++) {
 				if (snakeBody[i].getGlobalBounds().contains(fruitPos)) {
-					x = (float)((rand() % (1920 / 50)) * 50);
-					y = (float)((rand() % (1080 / 50)) * 50);
+					x = (float)((rand() % (1920 / 50)) * 50) + 10.0f;
+					y = (float)((rand() % (1080 / 50)) * 50) - 10.0f;
+					while (x < 310 || x >= 1610 || y < 40 || y >= 1040) {
+						x = (float)((rand() % (1920 / 50)) * 50) + 10.0f;
+						y = (float)((rand() % (1080 / 50)) * 50) - 10.0f;
+					}
 					fruit.setPosition(x, y);
 					fruitPos = sf::Vector2f(fruit.getPosition().x + (fruit.getSize().x / 2), fruit.getPosition().y + (fruit.getSize().y / 2));
 					done = false;

@@ -23,7 +23,7 @@ public:
 	// Processors
 	void movePlayer();
 	void addPart();
-	bool safeCheck(sf::RectangleShape&);
+	bool safeCheck(sf::RectangleShape&, sf::Text&);
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
@@ -31,4 +31,5 @@ private:
 	Direction m_dir;
 	Direction m_lastDir;
 	std::mutex* mu;
+	int playerScore;
 };

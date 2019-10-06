@@ -12,5 +12,7 @@ private:
 	void processKeys(sf::Keyboard::Key, bool);
 private:
 	Player mPlayer;
+	sf::Text score;
+	sf::Font font;
 	float gameSpeed;
 };
