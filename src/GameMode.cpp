@@ -17,7 +17,7 @@ GameMode::GameMode(std::mutex* mutex, float speed)
 	screenObjects.emplace_back(&mPlayer);
 	sf::RectangleShape food(sf::Vector2f(50, 50));
 	food.setPosition(510, 490);
-	Mode::pushObject("food", food, "Blue");
+	Mode::pushObject("food", food, "fruit");
 }
 
 std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow& window) {

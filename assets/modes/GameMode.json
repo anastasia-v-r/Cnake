@@ -12,6 +12,10 @@
     {
       "textureName": "snakebody",
       "textureLoc": "SnakeBody.png"
+    },
+    {
+      "textureName": "fruit",
+      "textureLoc": "Fruit.png"
     }
   ],
   "objectCount": 1,
