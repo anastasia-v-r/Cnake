@@ -48,6 +48,8 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 		if (mPlayer.safeCheck(screenObjectsMap["food"], score)) {
 			return std::make_pair(ModeAction::Add, ModeOption::Lose);
 		}
+		auto [x, y] = mPlayer.getHeadPos();
+		std::cout << "[" << x << "," << y << "]" << std::endl;
 		timeBank -= (sf::seconds)(gameSpeed);
 	} else {
 		timeBank += time;

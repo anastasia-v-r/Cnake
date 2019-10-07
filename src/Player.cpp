@@ -11,8 +11,9 @@ Player::Player(const std::map<std::string, sf::Texture>& textures, std::mutex* m
 	, playerScore{ 0 }
 {
 	for (int i = 0; i < snakeBody.size(); i++) {
-		snakeBody[i].setPosition((float)(960 + (i * 50)), 540.0f);
+		snakeBody[i].setPosition((float)(985 + (i * 50)), 565.0f);
 		snakeBody[i].setTexture(&(textures.at("snakebody")));
+		snakeBody[i].setOrigin(snakeBody[i].getSize().x / 2, snakeBody[i].getSize().y / 2);
 	}
 	snakeBody[0].setTexture(&(textures.at("snakehead")));
 }
@@ -54,20 +55,25 @@ void Player::processKeys(sf::Keyboard::Key key) {
 void Player::movePlayer() {
 	sf::Vector2f vel;
 	auto scale = snakeBody[0].getSize().x;
+	auto* head = &snakeBody[0];
 	std::cout << scale;
 	switch (m_dir)
 	{
 	case Up:
 		vel = sf::Vector2f(0, -scale);
+		head->setRotation(90);
 		break;
 	case Right:
 		vel = sf::Vector2f(scale, 0);
+		head->setRotation(180);
 		break;
 	case Down:
 		vel = sf::Vector2f(0, scale);
+		head->setRotation(270);
 		break;
 	case Left:
 		vel = sf::Vector2f(-scale, 0);
+		head->setRotation(0);
 		break;
 	default:
 		break;
@@ -91,10 +97,10 @@ void Player::addPart() {
  
 bool Player::safeCheck(sf::RectangleShape& fruit, sf::Text& text) {
 	auto head = snakeBody[0];
-	sf::Vector2f headPos(head.getPosition().x + (head.getSize().x / 2), head.getPosition().y + (head.getSize().y / 2));
+	sf::Vector2f headPos(head.getPosition().x, head.getPosition().y);
 	sf::Vector2f fruitPos(fruit.getPosition().x + (fruit.getSize().x / 2), fruit.getPosition().y + (fruit.getSize().y / 2));
 	for (int i = 1; i < snakeBody.size(); i++) { // Check if snake has eaten itself
-		if (snakeBody[i].getGlobalBounds().contains(headPos)) {
+		if (snakeBody[i].getGlobalBounds().intersects(snakeBody[0].getGlobalBounds())) {
 			return true;
 		}
 	}
@@ -133,6 +139,11 @@ bool Player::safeCheck(sf::RectangleShape& fruit, sf::Text& text) {
 		return true;
 	}
 	return false;
+}
+
+
+sf::Vector2f Player::getHeadPos() {
+	return snakeBody[0].getPosition();
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {

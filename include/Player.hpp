@@ -20,6 +20,7 @@ public:
 	// Setters
 	void processKeys(sf::Keyboard::Key);
 	// Getters
+	sf::Vector2f getHeadPos();
 	// Processors
 	void movePlayer();
 	void addPart();
