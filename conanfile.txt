@@ -5,3 +5,4 @@ jsonformoderncpp/3.7.0@vthiery/stable
 [options]
 sfml:window=True
 sfml:graphics=True
+sfml:audio=True
