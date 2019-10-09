@@ -158,4 +158,4 @@ deploy:
   file: *.zip
   skip_cleanup: true
   on:
-    tags: false
+    tags: true
