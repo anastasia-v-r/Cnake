@@ -12,6 +12,10 @@ matrix:
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Release
       - BIN=""
+    cache:
+      directories:
+        - $HOME/.conan/data
+
   # Windows msvc Debug
   - name: "Windows Debug"
     os: windows
@@ -19,6 +23,10 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Debug -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Debug
+    cache:
+      directories:
+        - $HOME/.conan/data
+
   # MacOS clang Release
   - name: "MacOS Release"
     os: osx
@@ -30,6 +38,10 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Release
+    cache:
+      directories:
+        - $HOME/.conan/data
+
   # MacOS clang Debug
   - name: "MacOS Debug"
     os: osx
@@ -41,6 +53,10 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -b missing"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Debug
+    cache:
+      directories:
+        - $HOME/.conan/data
+
   # Linux gcc Release
   - name: "Linux Release"
     os: linux
@@ -52,10 +68,14 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -s compiler.libcxx=libstdc++11 -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Release
+    cache:
+      directories:
+        - $HOME/.conan/data
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']
         packages: ['gcc-8', 'g++-8' ]
+
   # Linux gcc Debug
   - name: "Linux Debug"
     os: linux
@@ -67,6 +87,9 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -s compiler.libcxx=libstdc++11 -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Debug
+    cache:
+      directories:
+        - $HOME/.conan/data
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']
@@ -131,4 +154,4 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-	condition: "$BUILD_CONFIG = Release"
+    condition: "$BUILD_CONFIG = Release"
