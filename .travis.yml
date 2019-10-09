@@ -11,6 +11,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Release
+	  - BIN=""
   # Windows msvc Debug
   - name: "Windows Debug"
     os: windows
@@ -109,4 +110,14 @@ script:
   # Cmake Build
   - mkdir build && cd build
   - eval cmake .. ${CMAKE_GENERATOR_FLAG}
-  - eval cmake --build . --config "${BUILD_CONFIG}"
+  - eval cmake --build . --config "${BUILD_CONFIG}""
+
+# Deploy to github
+deploy:
+  script:
+    - cd
+  provider: releases
+  api_key: ${GITHUB_TOKEN}
+  file_glob: true
+  file: ${BIN}/**/*
+  skip_cleanup: true
