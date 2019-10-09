@@ -27,7 +27,7 @@ matrix:
       - compiler=clang
       - COMPILER_CC=clang
       - COMPILER_CXX=clang++
-      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release"
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Release
   # MacOS clang Debug
@@ -38,7 +38,7 @@ matrix:
       - compiler=clang
       - COMPILER_CC=clang
       - COMPILER_CXX=clang++
-      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug"
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -b missing"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Debug
   # Linux gcc Release
@@ -49,7 +49,7 @@ matrix:
       - COMPILER=g++-8
       - COMPILER_CC=gcc-8
       - COMPILER_CXX=g++-8
-      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -s compiler.libcxx=libstdc++11"
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -s compiler.libcxx=libstdc++11 -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Release
     addons:
@@ -64,7 +64,7 @@ matrix:
       - COMPILER=g++-8
       - COMPILER_CC=gcc-8
       - COMPILER_CXX=g++-8
-      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -s compiler.libcxx=libstdc++11"
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -s compiler.libcxx=libstdc++11 -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Debug
     addons:
@@ -127,7 +127,7 @@ deploy:
   provider: releases
   api_key: ${GITHUB_TOKEN}
   file_glob: true
-  file: ${BIN}/**/*
+  file: bin/**/*
   skip_cleanup: true
   on:
     tags: true
