@@ -8,7 +8,7 @@
       "workingDirectory": "conan/",
       "command": "${env.COMSPEC}",
       "args": [
-        "conan install .. -g cmake_multi -s build_type=Release"
+        "conan install .. -g cmake_multi -s build_type=Release -b missing"
       ]
     },
     {
@@ -18,7 +18,7 @@
       "workingDirectory": "conan/",
       "command": "${env.COMSPEC}",
       "args": [
-        "conan install .. -g cmake_multi -s build_type=Debug"
+        "conan install .. -g cmake_multi -s build_type=Debug -b missing"
       ]
     },
     {

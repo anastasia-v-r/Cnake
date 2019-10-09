@@ -141,16 +141,21 @@ before_deploy:
     if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then
       echo %cd%
       ls
+      powershell Compress-Archive -Path .\bin\ -DestinationPath Win.zip
+    else if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+      pwd
+      ls
+      zip -r macBin.zip bin/
     else
       pwd
       ls
-    fi  
+      zip -r linuxBin.zip bin/
+    fi
 # Deploy to github
 deploy:
   provider: releases
   api_key: ${GITHUB_TOKEN}
-  file_glob: true
-  file: bin/**/*
+  file: *.zip
   skip_cleanup: true
   on:
     tags: false
