@@ -1,5 +1,6 @@
 // Preprocessor
 #include <SFML/Graphics.hpp> 
+#include <SFML/Audio.hpp>
 #include <iostream> 
 #include <string>
 #include <vector>
@@ -65,6 +66,14 @@ int main() {
 		}
 		std::cout << "Rendering thread closed!" << std::endl;
 	});
+	// Create Music Thread
+	std::thread MusicThread([&isRunning] {
+		sf::Music music;
+		music.openFromFile("assets/audio/bgm.wav");
+		music.play();
+		while (isRunning);
+		music.stop();
+	});
 	// Begin Game
 	sf::Clock GameClock;
 	while (!ModeStack.empty()) {
@@ -111,6 +120,7 @@ int main() {
 				// Safely Kill Render Thread 
 				if ((result.second == ModeOption::None) || (result.second == ModeOption::One && ModeStack.size() == 1)) {
 					isRunning = false;
+					MusicThread.join();
 					RenderThread.join();
 				} 
 				mu.lock();
