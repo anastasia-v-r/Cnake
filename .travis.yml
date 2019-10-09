@@ -154,4 +154,3 @@ deploy:
   skip_cleanup: true
   on:
     tags: false
-    condition: "$BUILD_CONFIG = Release"
