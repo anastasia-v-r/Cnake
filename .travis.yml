@@ -131,4 +131,4 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-	condition: ${BUILD_CONFIG} == "Release"
+	condition: ${BUILD_CONFIG} == Release
