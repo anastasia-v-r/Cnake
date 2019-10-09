@@ -153,5 +153,5 @@ deploy:
   file: bin/**/*
   skip_cleanup: true
   on:
-    tags: true
+    tags: false
     condition: "$BUILD_CONFIG = Release"
