@@ -11,7 +11,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Release
-      - BIN=""
+      - DEPLOY_EXE=winBin.zip
     cache:
       directories:
         - $HOME/.conan/data
@@ -23,6 +23,18 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Debug -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Debug
+      - DEPLOY_EXE=winBin.zip
+    cache:
+      directories:
+        - $HOME/.conan/data
+  # Windows msvc Test
+  - name: "Windows Test"
+    os: windows
+    env:
+      - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=16 -s arch=x86_64 -s build_type=Debug -b missing"
+      - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 16 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
+      - BUILD_CONFIG=Debug
+      - DEPLOY_EXE=winBin.zip
     cache:
       directories:
         - $HOME/.conan/data
@@ -38,6 +50,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Release
+      - DEPLOY_EXE=macBin.zip
     cache:
       directories:
         - $HOME/.conan/data
@@ -53,6 +66,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -b missing"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Debug
+      - DEPLOY_EXE=macBin.zip
     cache:
       directories:
         - $HOME/.conan/data
@@ -68,6 +82,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -s compiler.libcxx=libstdc++11 -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Release
+      - DEPLOY_EXE=linuxBin.zip
     cache:
       directories:
         - $HOME/.conan/data
@@ -87,6 +102,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -s compiler.libcxx=libstdc++11 -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Debug
+      - DEPLOY_EXE=linuxBin.zip
     cache:
       directories:
         - $HOME/.conan/data
@@ -99,14 +115,21 @@ matrix:
   fast_finish: true
 
 # The pre-install script. On windows it will install conan via chocolatey
-install:
+before_install:
   - |
      if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then
-       choco install conan
-     else
-       pip install --user --upgrade pip
-       pip install --user conan --upgrade
+       choco install python3
+       export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
+       python -m pip install --upgrade pip
      fi
+install:
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then
+      pip install conan
+    else 
+      pip install --user --upgrade pip
+      pip install --user conan --upgrade
+    fi
 # Setup Build
 before_script:
   # The path to conan does not get set properly because travis does not restart the shell
@@ -155,10 +178,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key: ${GITHUB_TOKEN}
-  file:
-    - "winBin.zip"
-    - "macBin.zip"
-    - "linuxBin.zip"
+  file: ${DEPLOY_EXE}
   skip_cleanup: true
   on:
     tags: true

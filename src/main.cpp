@@ -8,6 +8,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <math.h>
 #include <Player.hpp>
 #include <ModeList.hpp>
 #include <RuntimeStats.hpp>
@@ -70,6 +71,7 @@ int main() {
 	std::thread MusicThread([&isRunning] {
 		sf::Music music;
 		music.openFromFile("assets/audio/bgm.wav");
+		music.setVolume(50);
 		music.play();
 		while (isRunning);
 		music.stop();
