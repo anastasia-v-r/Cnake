@@ -58,7 +58,10 @@ This is a clone of the famous "Snake" game coded in [C++](http://cplusplus.com) 
 ## Dependencies && Resource
 SFML v2.5.1
 - All the static libraries
-- All includes
+- All includes  
+
+Conan v1.11.1  
+Cmake v3.1+
 
 ## Contributions
 If you wish to contribute to my little project here for some odd reason,  
