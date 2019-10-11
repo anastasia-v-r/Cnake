@@ -67,13 +67,23 @@ int main() {
 		}
 		std::cout << "Rendering thread closed!" << std::endl;
 	});
+	// Variables for manipulation music thread
+	std::atomic<bool> killSong = false;
+	std::atomic<bool> playSong = false;
 	// Create Music Thread
-	std::thread MusicThread([&isRunning] {
+	std::thread MusicThread([&isRunning, &killSong, &playSong] {
 		sf::Music music;
 		music.openFromFile("assets/audio/bgm.wav");
 		music.setVolume(50);
-		music.play();
-		while (isRunning);
+		while (isRunning) {
+			if (killSong) {
+				music.pause();
+				killSong = false;
+			} else if (playSong) {
+				music.play();
+				playSong = false;
+			}
+		}
 		music.stop();
 	});
 	// Begin Game
@@ -99,6 +109,7 @@ int main() {
 					ModeStack.push(std::make_unique<SettingsMode>(&mu, &gameSettings));
 					break;
 				case ModeOption::Game:
+					playSong = true;
 					ModeStack.push(std::make_unique<GameMode>(&mu, gameSettings.getGameSpeed()));
 					break;
 				case ModeOption::Paused:
@@ -124,7 +135,9 @@ int main() {
 					isRunning = false;
 					MusicThread.join();
 					RenderThread.join();
-				} 
+				} else if (ModeStack.top()->type() == ModeOption::Game) {
+					killSong = false;
+				}
 				mu.lock();
 				if (ModeStack.top()->type() == ModeOption::Paused) {
 					showStats = true;
