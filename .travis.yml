@@ -27,17 +27,6 @@ matrix:
     cache:
       directories:
         - $HOME/.conan/data
-  # Windows msvc Test
-  - name: "Windows Test"
-    os: windows
-    env:
-      - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=16 -s arch=x86_64 -s build_type=Debug -b missing"
-      - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 16 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
-      - BUILD_CONFIG=Debug
-      - DEPLOY_EXE=winBin.zip
-    cache:
-      directories:
-        - $HOME/.conan/data
 
   # MacOS clang Release
   - name: "MacOS Release"
