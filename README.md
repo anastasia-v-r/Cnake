@@ -75,4 +75,5 @@ you are welcome to do so but just follow a few things.
 This project is under the [MIT License](https://choosealicense.com/licenses/mit/)
 
 ## Credits
-[Bite Sound](http://soundbible.com/950-Bite.html) by [Mike Koenig](http://koenigmediallc.com/mike-koenig-nc.php) under the [Attribution 3.0 License](https://creativecommons.org/licenses/by/3.0/us/legalcode)
+[Bite Sound](http://soundbible.com/950-Bite.html)"eat sound" by [Mike Koenig](http://koenigmediallc.com/mike-koenig-nc.php) under the [Attribution 3.0 License](https://creativecommons.org/licenses/by/3.0/us/legalcode)
+[Jab](http://soundbible.com/995-Jab.html)"die sound" by [Mike Koenig](http://koenigmediallc.com/mike-koenig-nc.php) under the [Attribution 3.0 License](https://creativecommons.org/licenses/by/3.0/us/legalcode)
