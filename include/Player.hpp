@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include <mutex>
 
@@ -24,7 +25,7 @@ public:
 	// Processors
 	void movePlayer();
 	void addPart();
-	bool safeCheck(sf::RectangleShape&, sf::Text&);
+	bool safeCheck(sf::RectangleShape&, sf::Text&, sf::Sound&, sf::Sound&);
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:

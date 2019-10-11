@@ -95,18 +95,21 @@ void Player::addPart() {
 	mu->unlock();
 }
  
-bool Player::safeCheck(sf::RectangleShape& fruit, sf::Text& text) {
+bool Player::safeCheck(sf::RectangleShape& fruit, sf::Text& text, sf::Sound& eat, sf::Sound& die) {
 	auto head = snakeBody[0];
 	sf::Vector2f headPos(head.getPosition().x, head.getPosition().y);
 	sf::Vector2f fruitPos(fruit.getPosition().x + (fruit.getSize().x / 2), fruit.getPosition().y + (fruit.getSize().y / 2));
 	for (int i = 1; i < snakeBody.size(); i++) { // Check if snake has eaten itself
 		if (snakeBody[i].getGlobalBounds().intersects(snakeBody[0].getGlobalBounds())) {
+			die.play();
 			return true;
 		}
 	}
 	if (head.getGlobalBounds().contains(fruitPos)) { // Check if snake ate fruit and is so replace it
-		std::srand((unsigned int)std::time(NULL));
 		Player::addPart();
+		float z = ((float)(rand() % 100) + 50.0f) / 100.0f;
+		eat.setPitch(z);
+		eat.play();
 //		++playerScore;
 		text.setString("Score : " + std::to_string(++playerScore));
 		float x = (float)((rand() % (1920 / 50)) * 50) + 10.0f;
@@ -136,6 +139,7 @@ bool Player::safeCheck(sf::RectangleShape& fruit, sf::Text& text) {
 			}
 		} while (!done);
 	} else if (headPos.x < 310 || headPos.x > 1610 || headPos.y < 40 || headPos.y > 1040) {
+		die.play();
 		return true;
 	}
 	return false;

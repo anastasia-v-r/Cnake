@@ -8,6 +8,12 @@ GameMode::GameMode(std::mutex* mutex, float speed)
 	: Mode("GameMode.json", mutex, ModeOption::Game)
 	, mPlayer(objectTextures, mutex)
 	, gameSpeed{ speed } {
+	eatSound.loadFromFile("assets/audio/eat.wav");
+	eat.setBuffer(eatSound);
+	eat.setVolume(50);
+	dieSound.loadFromFile("assets/audio/die.wav");
+	die.setBuffer(dieSound);
+	eat.setVolume(50);
 	font.loadFromFile("assets/fonts/bauh.ttf");
 	score.setFont(font);
 	score.setCharacterSize(30);
@@ -45,7 +51,7 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 	// Update Game Logic
 	if (timeBank.asSeconds() > gameSpeed) {
 		mPlayer.movePlayer();
-		if (mPlayer.safeCheck(screenObjectsMap["food"], score)) {
+		if (mPlayer.safeCheck(screenObjectsMap["food"], score, eat, die)) {
 			return std::make_pair(ModeAction::Add, ModeOption::Lose);
 		}
 		auto [x, y] = mPlayer.getHeadPos();
