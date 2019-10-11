@@ -9,6 +9,7 @@
 #include <mutex>
 #include <atomic>
 #include <math.h>
+#include <time.h>
 #include <Player.hpp>
 #include <ModeList.hpp>
 #include <RuntimeStats.hpp>
@@ -117,6 +118,7 @@ int main() {
 					break;
 				case ModeOption::Paused:
 				case ModeOption::Lose:
+					killSong = true;
 					isPaused = true;
 					while (!isWaiting) {
 					}
@@ -143,6 +145,7 @@ int main() {
 				}
 				mu.lock();
 				if (ModeStack.top()->type() == ModeOption::Paused) {
+					playSong = true;
 					showStats = true;
 				}
 				if (result.second == ModeOption::One) {
