@@ -111,9 +111,8 @@ before_install:
        choco install python3
        export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
        python -m pip install --upgrade pip
-     else
-       sudo apt-get libxrandr-dev
      fi
+  - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then sudo apt-get install libxrandr-dev; fi
 install:
   - |
     if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then
