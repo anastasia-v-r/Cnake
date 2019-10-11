@@ -75,5 +75,5 @@ you are welcome to do so but just follow a few things.
 This project is under the [MIT License](https://choosealicense.com/licenses/mit/)
 
 ## Credits
-[Bite Sound](http://soundbible.com/950-Bite.html)"eat sound" by [Mike Koenig](http://koenigmediallc.com/mike-koenig-nc.php) under the [Attribution 3.0 License](https://creativecommons.org/licenses/by/3.0/us/legalcode)
-[Jab](http://soundbible.com/995-Jab.html)"die sound" by [Mike Koenig](http://koenigmediallc.com/mike-koenig-nc.php) under the [Attribution 3.0 License](https://creativecommons.org/licenses/by/3.0/us/legalcode)
+[Pickup_03](https://freesound.org/people/LittleRobotSoundFactory/sounds/270342/)"eat.wav" by [Little Robot Sound Factory](https://freesound.org/people/LittleRobotSoundFactory/) under the [Attribution 3.0 Unported License](https://creativecommons.org/licenses/by/3.0/legalcode)
+[Hit_03](https://freesound.org/people/LittleRobotSoundFactory/sounds/270332/)"die.wav" by [Little Robot Sound Factory](https://freesound.org/people/LittleRobotSoundFactory/) under the [Attribution 3.0 Unported License](https://creativecommons.org/licenses/by/3.0/legalcode)
