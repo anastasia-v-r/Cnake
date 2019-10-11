@@ -15,6 +15,9 @@
 #include <Settings.hpp>
 // Entry Point
 int main() {
+	// Seed rand
+	std::srand((unsigned int)std::time(NULL));
+	// Create mutex for synccing threads
 	static std::mutex mu;
 	// Setup Window
 	auto desktop = sf::VideoMode::getDesktopMode();
