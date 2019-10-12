@@ -7,6 +7,11 @@ else()
     cmake_policy(VERSION 3.14)
 endif()
 
+# OS
+if(UNIX AND NOT APPLE)
+        set(LINUX TRUE)
+endif()
+
 # Project Creation
 project (Cnake)
 set (CMAKE_CXX_STANDARD 17)
@@ -36,6 +41,7 @@ else()
     endif()
 endif()
 
+# Find some packaages
 find_package(nlohmann_json 3.2.0 REQUIRED)
 
 # Program Asset Management
@@ -67,4 +73,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 	target_link_libraries(Cnake debug nlohmann_json::nlohmann_json)
 else ()
 	target_link_libraries(Cnake optimized nlohmann_json::nlohmann_json)
+endif()
+if (LINUX)
+	target_link_libraries(Cnake m)
 endif()
