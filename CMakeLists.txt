@@ -44,7 +44,7 @@ endif()
 # Find some packaages
 find_package(nlohmann_json 3.2.0 REQUIRED)
 if( LINUX )
-    find_paclage(OpenGL REQUIRED)
+    find_package(OpenGL REQUIRED)
 endif()
 
 # Program Asset Management
