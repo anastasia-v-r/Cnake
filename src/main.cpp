@@ -141,7 +141,7 @@ int main() {
 					MusicThread.join();
 					RenderThread.join();
 				} else if (ModeStack.top()->type() == ModeOption::Game) {
-					killSong = false;
+					killSong = true;
 				}
 				mu.lock();
 				if (ModeStack.top()->type() == ModeOption::Paused) {
@@ -149,9 +149,15 @@ int main() {
 					showStats = true;
 				}
 				if (result.second == ModeOption::One) {
+					if (ModeStack.top()->type() == ModeOption::Game) {
+						killSong = true;
+					}
 					ModeStack.pop();
 				} else {
 					while (!(ModeStack.empty()) && (ModeStack.top()->type() != result.second)) {
+						if (ModeStack.top()->type() == ModeOption::Game) {
+							killSong = true;
+						}
 						ModeStack.pop();
 					}
 				}
