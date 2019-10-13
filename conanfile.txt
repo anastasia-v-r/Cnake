@@ -1,10 +1,8 @@
 [requires]
-openal/1.19.0@bincrafters/stable
 sfml/2.5.1@bincrafters/stable
 jsonformoderncpp/3.7.0@vthiery/stable
 
 [options]
-openal:shared=True
 sfml:window=True
 sfml:graphics=True
 sfml:audio=True

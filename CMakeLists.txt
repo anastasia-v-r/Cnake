@@ -43,9 +43,6 @@ endif()
 
 # Find some packaages
 find_package(nlohmann_json 3.2.0 REQUIRED)
-if( LINUX )
-    message("linux")
-endif()
 
 # Program Asset Management
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
@@ -76,9 +73,4 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 	target_link_libraries(Cnake debug nlohmann_json::nlohmann_json)
 else ()
 	target_link_libraries(Cnake optimized nlohmann_json::nlohmann_json)
-endif()
-if (LINUX)
-	target_link_libraries(Cnake m)
-	target_link_libraries(Cnake GL)
-	target_link_libraries(Cnake udev)
 endif()
