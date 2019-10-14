@@ -107,8 +107,6 @@ bool Player::safeCheck(sf::RectangleShape& fruit, sf::Text& text, sf::Sound& eat
 	}
 	if (head.getGlobalBounds().contains(fruitPos)) { // Check if snake ate fruit and is so replace it
 		Player::addPart();
-		float z = ((float)(rand() % 100) + 50.0f) / 100.0f;
-		eat.setPitch(z);
 		eat.play();
 		text.setString("Score : " + std::to_string(++playerScore));
 		float x = (float)((rand() % (1920 / 50)) * 50) + 10.0f;
