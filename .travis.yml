@@ -154,15 +154,11 @@ before_deploy:
     if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then
       echo %cd%
       ls
-      powershell.exe Compress-Archive -Path .\bin\ -DestinationPath winBin.zip
-    else if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
-      pwd
-      ls
-      zip -r macBin.zip bin/
+      powershell.exe Compress-Archive -Path .\bin\ -DestinationPath ${DEPLOY_EXE}
     else
       pwd
       ls
-      zip -r linuxBin.zip bin/
+      zip -r ${DEPLOY_EXE} bin/
     fi
 # Deploy to github
 deploy:
