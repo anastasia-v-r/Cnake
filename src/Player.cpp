@@ -110,7 +110,6 @@ bool Player::safeCheck(sf::RectangleShape& fruit, sf::Text& text, sf::Sound& eat
 		float z = ((float)(rand() % 100) + 50.0f) / 100.0f;
 		eat.setPitch(z);
 		eat.play();
-//		++playerScore;
 		text.setString("Score : " + std::to_string(++playerScore));
 		float x = (float)((rand() % (1920 / 50)) * 50) + 10.0f;
 		float y = (float)((rand() % (1080 / 50)) * 50) - 10.0f;
