@@ -8,7 +8,6 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
-#include <math.h>
 #include <time.h>
 #include <Player.hpp>
 #include <ModeList.hpp>
