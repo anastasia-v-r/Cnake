@@ -7,6 +7,11 @@ else()
     cmake_policy(VERSION 3.14)
 endif()
 
+# OS
+if(UNIX AND NOT APPLE)
+        set(LINUX TRUE)
+endif()
+
 # Project Creation
 project (Cnake)
 set (CMAKE_CXX_STANDARD 17)
@@ -36,6 +41,7 @@ else()
     endif()
 endif()
 
+# Find some packaages
 find_package(nlohmann_json 3.2.0 REQUIRED)
 
 # Program Asset Management

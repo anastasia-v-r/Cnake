@@ -1,5 +1,6 @@
 // Preprocessor
 #include <SFML/Graphics.hpp> 
+#include <SFML/Audio.hpp>
 #include <iostream> 
 #include <string>
 #include <vector>
@@ -7,12 +8,16 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <time.h>
 #include <Player.hpp>
 #include <ModeList.hpp>
 #include <RuntimeStats.hpp>
 #include <Settings.hpp>
 // Entry Point
 int main() {
+	// Seed rand
+	std::srand((unsigned int)std::time(NULL));
+	// Create mutex for synccing threads
 	static std::mutex mu;
 	// Setup Window
 	auto desktop = sf::VideoMode::getDesktopMode();
@@ -20,10 +25,7 @@ int main() {
 	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
 	window.setActive(false);
 	// Load Settings
-	Settings gameSettings;
-	if (gameSettings.getFpsLock()) {
-		window.setFramerateLimit(60);
-	}
+	Settings gameSettings(&window);
 	// Prepare Stack
 	std::stack<std::unique_ptr<Mode>> ModeStack;
 	ModeStack.push(std::make_unique<IntroMode>(&mu));
@@ -68,6 +70,26 @@ int main() {
 		}
 		std::cout << "Rendering thread closed!" << std::endl;
 	});
+	// Variables for manipulation music thread
+	std::atomic<bool> killSong = false;
+	std::atomic<bool> playSong = false;
+	// Create Music Thread
+	std::thread MusicThread([&isRunning, &killSong, &playSong] {
+		sf::Music music;
+		music.openFromFile("assets/audio/bgm.wav");
+		music.setVolume(70);
+		music.setLoop(true);
+		while (isRunning) {
+			if (killSong) {
+				music.pause();
+				killSong = false;
+			} else if (playSong) {
+				music.play();
+				playSong = false;
+			}
+		}
+		music.stop();
+	});
 	// Begin Game
 	sf::Clock GameClock;
 	while (!ModeStack.empty()) {
@@ -88,13 +110,15 @@ int main() {
 					ModeStack.push(std::make_unique<MenuMode>(&mu));
 					break;
 				case ModeOption::Settings:
-					ModeStack.push(std::make_unique<SettingsMode>(&mu));
+					ModeStack.push(std::make_unique<SettingsMode>(&mu, &gameSettings));
 					break;
 				case ModeOption::Game:
+					playSong = true;
 					ModeStack.push(std::make_unique<GameMode>(&mu, gameSettings.getGameSpeed()));
 					break;
 				case ModeOption::Paused:
 				case ModeOption::Lose:
+					killSong = true;
 					isPaused = true;
 					while (!isWaiting) {
 					}
@@ -114,16 +138,26 @@ int main() {
 				// Safely Kill Render Thread 
 				if ((result.second == ModeOption::None) || (result.second == ModeOption::One && ModeStack.size() == 1)) {
 					isRunning = false;
+					MusicThread.join();
 					RenderThread.join();
-				} 
+				} else if (ModeStack.top()->type() == ModeOption::Game) {
+					killSong = true;
+				}
 				mu.lock();
 				if (ModeStack.top()->type() == ModeOption::Paused) {
+					playSong = true;
 					showStats = true;
 				}
 				if (result.second == ModeOption::One) {
+					if (ModeStack.top()->type() == ModeOption::Game) {
+						killSong = true;
+					}
 					ModeStack.pop();
 				} else {
 					while (!(ModeStack.empty()) && (ModeStack.top()->type() != result.second)) {
+						if (ModeStack.top()->type() == ModeOption::Game) {
+							killSong = true;
+						}
 						ModeStack.pop();
 					}
 				}

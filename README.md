@@ -58,7 +58,10 @@ This is a clone of the famous "Snake" game coded in [C++](http://cplusplus.com) 
 ## Dependencies && Resource
 SFML v2.5.1
 - All the static libraries
-- All includes
+- All includes  
+
+Conan v1.11.1  
+Cmake v3.1+
 
 ## Contributions
 If you wish to contribute to my little project here for some odd reason,  
@@ -70,3 +73,7 @@ you are welcome to do so but just follow a few things.
 
 ## License
 This project is under the [MIT License](https://choosealicense.com/licenses/mit/)
+
+## Credits
+[Pickup_03](https://freesound.org/people/LittleRobotSoundFactory/sounds/270342/)"eat.wav" by [Little Robot Sound Factory](https://freesound.org/people/LittleRobotSoundFactory/) under the [Attribution 3.0 Unported License](https://creativecommons.org/licenses/by/3.0/legalcode)
+[Hit_03](https://freesound.org/people/LittleRobotSoundFactory/sounds/270332/)"die.wav" by [Little Robot Sound Factory](https://freesound.org/people/LittleRobotSoundFactory/) under the [Attribution 3.0 Unported License](https://creativecommons.org/licenses/by/3.0/legalcode)
