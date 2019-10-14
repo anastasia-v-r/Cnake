@@ -1,6 +1,6 @@
 <div align="center">
-    <img src="ghAssets/cpp_logo.png" alt="Cpp" height="75" align="bottom" />
-    <font size="20">nake</font> <br>
+    <img src="ghAssets/cpp_logo.png" alt="Cpp" height="60" align="bottom" />
+    <font size="15">nake</font> <br>
     <font size="6">A snake Clone using SFML</font>
     <hr />
 </div>
@@ -11,9 +11,17 @@
 [![License](https://img.shields.io/github/license/faunsce/Cnake.svg?label=License)](https://choosealicense.com/licenses/mit/)
 [![my server](https://discordapp.com/api/guilds/487130552613339137/widget.png?)](https://discord.gg/bxb5fbV)
 ## What is this?
-This is a clone of the famous "Snake" game coded in [C++](http://cplusplus.com) with the aid of [SFML](http://sfml-dev.org).  
+This is a clone of the famous "Snake" game coded in [C++](http://cplusplus.com) with the aid of [SFML](http://sfml-dev.org) and other libraries.  
 
 ## Table of contents
+[Game Showcase](#game-showcase)
+  * [Intro](#-intro-screen)
+  * [Menu](#-menu-screen)
+  * [Settings](#-settings-screen)
+  * [Game](#-gameplay-screen)
+  * [Pause](#-pause-screen)
+  * [Game Over](#-game-over-screen)
+
 [Self Build Instructions](#how-to-build-yourself)
   * [Windows](#Windows-(In-Progress-))
   * [Linux](#Linux-(In-Progress-))
@@ -24,8 +32,22 @@ This is a clone of the famous "Snake" game coded in [C++](http://cplusplus.com) 
 [License](#license)  
 [Credits](#credits)
 
+## Game Showcase
+  * ### Intro Screen
+  ![](https://i.imgur.com/ltp5awi.png)
+  * ### Menu Screen
+  ![](https://i.imgur.com/okBqpmP.png)
+  * ### Settings Screen
+  ![](https://i.imgur.com/3d24weM.png)
+  * ### Gameplay Screen
+  ![](https://i.imgur.com/ARgy7qC.png)
+  * ### Pause Screen
+  ![](https://i.imgur.com/3mBBr6k.png)
+  * ### Game Over Screen
+  ![](https://i.imgur.com/IvkvkuG.png)  
+
 ## How to build yourself
-  #### Windows (In Progress)
+  ### Windows (In Progress)
   1. Install python
       - Install [Python](https://pypi.org/project/pip/)
       - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
@@ -44,7 +66,7 @@ This is a clone of the famous "Snake" game coded in [C++](http://cplusplus.com) 
       - Run `makedir build && cd build`
       - Run `cmake ..`
       - Run `cmake --build .`
-  #### Linux (In Progress)
+  ### Linux (In Progress)
   1. Install Cmake and conan
       - Install [Python](https://pypi.org/project/pip/)
       - pip install --user --upgrade pip
@@ -60,7 +82,7 @@ This is a clone of the famous "Snake" game coded in [C++](http://cplusplus.com) 
       - Run `makedir build && cd build`
       - Run `cmake ..`
       - Run `cmake --build .`
-  #### OSX (In Progress)
+  ### OSX (In Progress)
   1. Install Cmake and conan
       - Install [Python](https://pypi.org/project/pip/)
       - pip install --user --upgrade pip
