@@ -78,7 +78,8 @@ int main() {
 	std::thread MusicThread([&isRunning, &killSong, &playSong] {
 		sf::Music music;
 		music.openFromFile("assets/audio/bgm.wav");
-		music.setVolume(50);
+		music.setVolume(70);
+		music.setLoop(true);
 		while (isRunning) {
 			if (killSong) {
 				music.pause();

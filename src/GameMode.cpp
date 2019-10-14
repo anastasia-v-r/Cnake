@@ -10,10 +10,10 @@ GameMode::GameMode(std::mutex* mutex, float speed)
 	, gameSpeed{ speed } {
 	eatSound.loadFromFile("assets/audio/eat.wav");
 	eat.setBuffer(eatSound);
-	eat.setVolume(50);
+	eat.setVolume(40);
 	dieSound.loadFromFile("assets/audio/die.wav");
 	die.setBuffer(dieSound);
-	eat.setVolume(50);
+	eat.setVolume(60);
 	font.loadFromFile("assets/fonts/bauh.ttf");
 	score.setFont(font);
 	score.setCharacterSize(30);
