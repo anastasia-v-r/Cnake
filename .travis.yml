@@ -72,9 +72,9 @@ matrix:
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Release
       - DEPLOY_EXE=linuxBin.zip
-    cache:
-      directories:
-        - $HOME/.conan/data
+#    cache:
+#      directories:
+#        - $HOME/.conan/data
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']
@@ -92,9 +92,9 @@ matrix:
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Debug
       - DEPLOY_EXE=linuxBin.zip
-    cache:
-      directories:
-        - $HOME/.conan/data
+#    cache:
+#      directories:
+#        - $HOME/.conan/data
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']
@@ -108,7 +108,7 @@ matrix:
 before_install:
   - |
      if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then
-       choco install python3
+       choco install python3 --version 3.7.4
        export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
        python -m pip install --upgrade pip
      fi
@@ -116,7 +116,7 @@ install:
   - |
     if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then
       pip install conan
-    else 
+    else
       pip install --user --upgrade pip
       pip install --user conan --upgrade
     fi
@@ -126,9 +126,9 @@ before_script:
   # so we ahve to manually add the path it on Windows.
   - if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then export PATH=$PATH:/c/Program\ Files/Conan/conan; fi
   - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then export PATH=$PATH:/Users/travis/Library/Python/2.7/bin; fi
-  
+
   - if [ -f conanfile.txt ]; then export USE_CONAN=TRUE; fi
-  
+
   - if [[ "${USE_CONAN}" == "TRUE" ]]; then conan user; fi
   - if [[ "${USE_CONAN}" == "TRUE" ]]; then conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan; fi
 
@@ -154,7 +154,7 @@ before_deploy:
     if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then
       echo %cd%
       ls
-      powershell.exe Compress-Archive -Path .\bin\ -DestinationPath ${DEPLOY_EXE}
+      powershell.exe Compress-Archive -Path bin/ -DestinationPath ${DEPLOY_EXE}
     else
       pwd
       ls

@@ -20,8 +20,8 @@ int main() {
 	// Create mutex for synccing threads
 	static std::mutex mu;
 	// Setup Window
-	auto mode = sf::VideoMode(1920, 1080, 32);
 	auto realmode = sf::VideoMode::getDesktopMode();
+	auto mode = sf::VideoMode(1920, 1080, realmode.bitsPerPixel);
 	sf::RenderWindow window(mode, "Cnake", sf::Style::None);
 	window.setSize(sf::Vector2u(realmode.width, realmode.height));
 	window.setPosition(sf::Vector2i(1, 1));
