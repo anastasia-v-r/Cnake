@@ -1,6 +1,5 @@
 #include "SettingsMode.hpp"
 #include "Settings.hpp"
-#include <iostream>
 
 SettingsMode::SettingsMode(std::mutex* mutex, Settings* settings) : settings{ settings }, Mode("SettingsMode.json", mutex, ModeOption::Intro) {
 	fps = settings->getFpsLock();
@@ -29,6 +28,7 @@ std::pair<ModeAction, ModeOption> SettingsMode::Run(sf::Time time, sf::RenderWin
 		case sf::Event::MouseButtonPressed: {
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+			mousePosF *= ratio;
 			if (screenObjectsMap["fps60"].getGlobalBounds().contains(mousePosF))
 				fps = true;
 			else if (screenObjectsMap["fpsUnlimited"].getGlobalBounds().contains(mousePosF))

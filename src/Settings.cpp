@@ -9,9 +9,7 @@ Settings::Settings(sf::RenderWindow* win) : window{ win } {
 	std::string line;
 	if (!file.fail()) { // Load from existing file
 		std::getline(file, line, '\n');
-		std::cout << line << std::endl;
 		std::getline(file, line, '\n');
-		std::cout << line << std::endl;
 		if (line == "true") {
 			fpsLock = true;
 			win->setFramerateLimit(60);
@@ -20,9 +18,7 @@ Settings::Settings(sf::RenderWindow* win) : window{ win } {
 			win->setFramerateLimit(0);
 		}
 		std::getline(file, line, '\n');
-		std::cout << line << std::endl;
 		std::getline(file, line, '\n');
-		std::cout << line << std::endl;
 		gameSpeed = std::stof(line);
 	} else { // Create file if one does not exist
 		file.open("assets/settings.txt", std::ios::out);
