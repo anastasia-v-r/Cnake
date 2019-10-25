@@ -14,6 +14,7 @@ Mode::Mode(std::string fileName, std::mutex* mutex, ModeOption modeType) : mut{ 
 		sf::Texture texture;
 		texture.loadFromFile("assets/textures/" + textureItem["textureLoc"].get<std::string>());
 		//std::cout << "Texture Loaded!" << std::endl;
+		texture.setSmooth(true);
 		objectTextures.emplace(textureItem["textureName"].get<std::string>(), texture);
 		//std::cout << "Texture emplaced!" << std::endl;
 	}
