@@ -167,5 +167,5 @@ deploy:
   file: ${DEPLOY_EXE}
   skip_cleanup: true
   on:
-    branch: master
+    tags: true
     condition: "$BUILD_CONFIG = Release"
