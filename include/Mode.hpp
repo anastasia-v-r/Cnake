@@ -39,4 +39,5 @@ protected:
 	std::mutex* mut;
 	ModeOption ModeType;
 	sf::Time timeBank;
+	static float ratio;
 };
