@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include <nlohmann/json.hpp>
 #include <fstream>
-#include <iostream>
 
 float Mode::ratio = 1920.0f / (float)sf::VideoMode::getDesktopMode().width;
 
@@ -14,20 +13,20 @@ Mode::Mode(std::string fileName, std::mutex* mutex, ModeOption modeType) : mut{ 
 	for (const auto& textureItem : textures) {
 		sf::Texture texture;
 		texture.loadFromFile("assets/textures/" + textureItem["textureLoc"].get<std::string>());
-		std::cout << "Texture Loaded!" << std::endl;
+		//std::cout << "Texture Loaded!" << std::endl;
 		objectTextures.emplace(textureItem["textureName"].get<std::string>(), texture);
-		std::cout << "Texture emplaced!" << std::endl;
+		//std::cout << "Texture emplaced!" << std::endl;
 	}
 	auto objects = jsonData["objects"];
 	for (const auto& object : objects) {
 		auto size = object["size"];
 		sf::RectangleShape rect(sf::Vector2f((float)size[0], (float)size[1]));
 		if (object.contains("position")) {
-			std::cout << "position exists!" << std::endl;
+			//std::cout << "position exists!" << std::endl;
 			auto pos = object["position"];
 			rect.setPosition((float)pos[0], (float)pos[1]);
 		} else {
-			std::cout << "no position exists!" << std::endl;
+			//std::cout << "no position exists!" << std::endl;
 		}
 		pushObject(object["name"].get<std::string>(), rect, object["textureName"].get<std::string>());
 	}
