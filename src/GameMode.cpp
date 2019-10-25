@@ -2,7 +2,6 @@
 #include "Player.hpp"
 #include <thread>
 #include <chrono>
-#include <iostream>
 
 GameMode::GameMode(std::mutex* mutex, float speed)
 	: Mode("GameMode.json", mutex, ModeOption::Game)
@@ -55,7 +54,7 @@ std::pair<ModeAction, ModeOption> GameMode::Run(sf::Time time, sf::RenderWindow&
 			return std::make_pair(ModeAction::Add, ModeOption::Lose);
 		}
 		auto [x, y] = mPlayer.getHeadPos();
-		std::cout << "[" << x << "," << y << "]" << std::endl;
+		//std::cout << "[" << x << "," << y << "]" << std::endl;
 		timeBank -= (sf::seconds)(gameSpeed);
 	} else {
 		timeBank += time;
