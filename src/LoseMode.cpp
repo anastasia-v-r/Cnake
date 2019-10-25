@@ -2,12 +2,7 @@
 #include <iostream>
 
 LoseMode::LoseMode(std::mutex* mutex, sf::Image ss) : screenShot{ ss }, Mode("LoseMode.json", mutex, ModeOption::Paused) {
-	auto [x, y, z] = sf::VideoMode::getDesktopMode();
-	float diff = 1920 - x;
-	float diffP = 1920 / diff;
-	x = (float)x - ((float)x * diffP);
-	y = (float)y - ((float)y * diffP);
-	gameScreen.loadFromImage(screenShot, sf::IntRect(0, 0, x, y));
+	gameScreen.loadFromImage(screenShot);
 	screenObjectsMap["game"].setTexture(&gameScreen);
 }
 

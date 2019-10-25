@@ -2,16 +2,7 @@
 #include <iostream>
 
 PausedMode::PausedMode(std::mutex* mutex, sf::Image ss) : screenShot{ ss }, Mode("PausedMode.json", mutex, ModeOption::Paused) {
-	auto [x, y, z] = sf::VideoMode::getDesktopMode();
-	float diffp = (std::abs(1920.0f - x) / ((1920.0f + x) / 2.0f));
-	std::cout << "DIFF[" << diffp << "]" << std::endl;
-	std::cout << "x[" << x << "]y[" << y << "]" << std::endl;
-	//x -= (float)x * diffp;
-	x -= 160;
-	//y -= (float)y * diffp;
-	y -= 90;
-	std::cout << "x[" << x << "]y[" << y << "]" << std::endl;
-	gameScreen.loadFromImage(screenShot, sf::IntRect(0, 0, x , y));
+	gameScreen.loadFromImage(screenShot);
 	screenObjectsMap["game"].setTexture(&gameScreen);
 }
 
