@@ -11,7 +11,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Release
-      - DEPLOY_EXE=Windows_x64
+      - DEPLOY_EXE=Windows_x64.zip
     cache:
       directories:
         - $HOME/.conan/data
@@ -23,7 +23,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Debug -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Debug
-      - DEPLOY_EXE=Windows_x64
+      - DEPLOY_EXE=Windows_x64.zip
     cache:
       directories:
         - $HOME/.conan/data
@@ -39,7 +39,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Release
-      - DEPLOY_EXE=OSX_x64
+      - DEPLOY_EXE=OSX_x64.zip
     cache:
       directories:
         - $HOME/.conan/data
@@ -55,7 +55,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -b missing"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Debug
-      - DEPLOY_EXE=OSX_x64
+      - DEPLOY_EXE=OSX_x64.zip
     cache:
       directories:
         - $HOME/.conan/data
@@ -71,7 +71,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -s compiler.libcxx=libstdc++11 -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Release
-      - DEPLOY_EXE=Linux_x64
+      - DEPLOY_EXE=Linux_x64.zip
 #    cache:
 #      directories:
 #        - $HOME/.conan/data
@@ -91,7 +91,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -s compiler.libcxx=libstdc++11 -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Debug
-      - DEPLOY_EXE=Linux_x64
+      - DEPLOY_EXE=Linux_x64.zip
 #    cache:
 #      directories:
 #        - $HOME/.conan/data
