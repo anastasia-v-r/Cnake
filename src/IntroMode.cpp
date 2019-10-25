@@ -1,5 +1,4 @@
 #include "IntroMode.hpp"
-#include <iostream>
 
 IntroMode::IntroMode(std::mutex* mutex) : fading{ fadeStage::In } , Mode("IntroMode.json", mutex, ModeOption::Intro) {
 	auto mode = sf::VideoMode::getDesktopMode();
@@ -48,7 +47,6 @@ std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow
 				sf::Color temp = screenObjectsMap["fadeCover"].getFillColor();
 				temp.a--;
 				screenObjectsMap["fadeCover"].setFillColor(temp);
-				std::cout << "Fading ..." << std::endl;
 				timeBank = (sf::seconds)(timeBank.asSeconds() - .01);
 			} else {
 				fading = fadeStage::Out;
@@ -59,7 +57,6 @@ std::pair<ModeAction, ModeOption> IntroMode::Run(sf::Time time, sf::RenderWindow
 				sf::Color temp = screenObjectsMap["fadeCover"].getFillColor();
 				temp.a++;
 				screenObjectsMap["fadeCover"].setFillColor(temp);
-				std::cout << "Fading ..." << std::endl;
 				timeBank = (sf::seconds)(timeBank.asSeconds() - .01);
 			}
 			else {
