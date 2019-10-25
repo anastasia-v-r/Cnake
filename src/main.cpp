@@ -20,10 +20,13 @@ int main() {
 	// Create mutex for synccing threads
 	static std::mutex mu;
 	// Setup Window
-	auto desktop = sf::VideoMode::getDesktopMode();
-	desktop.width += 1;
-	sf::RenderWindow window(desktop, "Cnake", sf::Style::None);
+	auto mode = sf::VideoMode(1920, 1080, 32);
+	auto realmode = sf::VideoMode::getDesktopMode();
+	sf::RenderWindow window(mode, "Cnake", sf::Style::None);
+	window.setSize(sf::Vector2u(realmode.width, realmode.height));
+	window.setPosition(sf::Vector2i(1, 1));
 	window.setActive(false);
+	window.setKeyRepeatEnabled(false);
 	// Load Settings
 	Settings gameSettings(&window);
 	// Prepare Stack
