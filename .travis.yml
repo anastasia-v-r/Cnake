@@ -156,7 +156,7 @@ before_deploy:
       ls bin
       powershell.exe
       Add-Type -Assembly "system.io.compression.filesystem"
-      [io.compression.zipfile]::CreateFromDirectory("bin","${DEPLOY_EXE}.zip")
+      [io.compression.zipfile]::CreateFromDirectory("bin","Windows_x64.zip")
     else
       pwd
       ls bin/
@@ -169,5 +169,5 @@ deploy:
   file: ${DEPLOY_EXE}
   skip_cleanup: true
   on:
-    tags: true
+    tag: true
     condition: "$BUILD_CONFIG = Release"
