@@ -39,7 +39,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Release
-      - DEPLOY_EXE=OSX_64
+      - DEPLOY_EXE=OSX_x64
     cache:
       directories:
         - $HOME/.conan/data
@@ -55,7 +55,7 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -b missing"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Debug
-      - DEPLOY_EXE=OSX_64
+      - DEPLOY_EXE=OSX_x64
     cache:
       directories:
         - $HOME/.conan/data
@@ -153,14 +153,14 @@ before_deploy:
   - |
     if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then
       echo %cd%
-      cd bin
-      ls
-      powershell.exe Compress-Archive -Path *.* -DestinationPath ${DEPLOY_EXE}
+      ls bin
+      powershell.exe
+      Add-Type -Assembly "system.io.compression.filesystem"
+      [io.compression.zipfile]::CreateFromDirectory("bin","${DEPLOY_EXE}.zip")
     else
       pwd
-      cd bin
-      ls
-      zip -r ${DEPLOY_EXE} *.*
+      ls bin/
+      zip -r ${DEPLOY_EXE} bin/*
     fi
 # Deploy to github
 deploy:
